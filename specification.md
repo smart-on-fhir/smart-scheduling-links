@@ -1,6 +1,6 @@
-## For background and role definitions, see [README.md](./README.md)
+#### For background and role definitions, see [README.md](./README.md)
 
-### APIs hosted by _Provider Slot Server_
+## APIs hosted by _Provider Slot Server_
 
 #### `GET /Schedule` to find relevant services/providers
 Search parameters that a server must support:
@@ -31,7 +31,7 @@ Each `Slot` has at least:
 * an `end` time
 * a "booking extension"
   * `extension.url` is `http://argonautproject.org/smart-scheduling/Extension/booking-deep-link`
-  * `extension.valueUrl` a deep link into  the Provider Booking Portal (see [below](#deep-links))
+  * `extension.valueUrl` a deep link into  the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
 
 For example, it's possible to search for the first available slot by requesting:
 
@@ -53,11 +53,9 @@ Each Location has at least:
 * `name`
 * `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) and lat/long coordinates
 
-### Deep Links hosted by _Provider Booking Portal_
+## Deep Links hosted by _Provider Booking Portal_
 
 The Booking Portal is responsible for handling incoming deep links, according to the details below.
-
-#### Deep Links
 
 Each Slot exposed by the _Provider Slot Server_ includes an extension indicating the "booking-link", a URL that the Appointment Search Client can redirect a user to, along with the following URL parameters:
 
