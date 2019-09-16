@@ -53,18 +53,18 @@ Each Location has at least:
 * `name`
 * `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) and lat/long coordinates
 
-### Formal requirements for _Provider Booking Portal_
+### Deep Links hosted by _Provider Booking Portal_
 
 The Booking Portal is responsible for handling incoming deep links, according to the details below.
 
-## Deep Links
+#### Deep Links
 
 Each Slot exposed by the _Provider Slot Server_ includes an extension indicating the "booking-link", a URL that the Appointment Search Client can redirect a user to, along with the following URL parameters:
 
 * `source`: a correlation handle indicating the identity of the Appointment Search Client, for use by the Provider Booking Portal in tracking the source of incoming referrals.
 * `booking-referral`: a correlation handle for this specific booking referral. This parameter can optionally be retained by the Provider Booking Portal throughout the booking process, which can subsequently help the Appointment Search Client to identify booked slots. (Details for this lookup are out of scope for this specification.)
 
-### Example
+##### Example
 
 For example, if the Appointment Search Client discovers a `Slot` like:
 
