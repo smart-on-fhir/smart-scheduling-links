@@ -4,7 +4,7 @@
 
 The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, servers should be optimzied to support the following client behaviors:
 
-1. Client retrieves an updated list of `Schedule`, `Slot, and `Location` data on a ~daily basis. This allows the client to assemble a databse of clinical services, optimized for location-based lookup.
+1. Client retrieves an updated list of `Schedule`, `Slot`, and `Location` data on a ~daily basis. This allows the client to assemble a databse of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
 2. Client stays updated on `Slot` availability throughout the day by polling for an updated list of `Slot` every ~1-5 minutes, issuing a `?_lastUpdated` query. This allows a Slot Server to maintain cached responses of recently booked slots as a performance optimization (i.e., slots where the status has changed from `free` -> something else). (*Note: Subscriptions could be used in place of polling, as a future enhancement -- but the specification is designed to work even with polling.*)
 
