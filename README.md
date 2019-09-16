@@ -9,7 +9,7 @@ See [specification.md](specification.md) for API requirements and details.
 
 1. **find appointment slots** using an appointment search tool of their choice, searching by geography, specialty, health system, etc
 2. **follow a deep link** into the provider's booking portal, to book a specific slot
-3. **complete a booking**, e.g., by providing details, answering question, or submitting documentation
+3. **complete a booking**, e.g., by providing details, answering questions, or submitting referral documentation
 
 We are parsimonious in our use of standards, so that:
 
