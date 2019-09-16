@@ -15,7 +15,7 @@ We are parsimonious in our use of standards, so that:
 
 * step 1 is standardized with **FHIR Slot search**; then 
 * step 2 is standardized with **HTTPS deep-linking conventions**; meanwhile
-* step 3 **requires no standardization**, enabling flexible and provider-specific rules to take place.
+* step 3 **requires no standardization**, enabling flexible and provider-specific rules to govern the completion of the booking process.
 (To be clear, many standards can facilitate step 3, but they're out of scope for SMART Scheduling Links.)
 
 ## Roles and responsibilities
