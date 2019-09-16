@@ -1,5 +1,5 @@
 # SMART Scheduling Links
-*What if booking a clinical appointment looked more like booking airline tickets?*
+*What if booking clinical appointments looked more like booking airline tickets?*
 
 ## Lightweight, scalable appointment booking API
 
