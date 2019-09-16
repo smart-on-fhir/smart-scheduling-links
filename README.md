@@ -1,6 +1,8 @@
 # SMART Scheduling Links
 *What if booking clinical appointments looked more like booking airline tickets?*
 
+See [specification.md](specification.md) for API requirements and details.
+
 ## Lightweight, scalable appointment booking API
 
 "SMART Scheduling Links" is a standards-based specification enabling patients to:
