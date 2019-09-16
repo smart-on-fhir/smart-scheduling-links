@@ -38,9 +38,9 @@ Each `Slot` has at least:
   * `extension.url` is `http://argonautproject.org/smart-scheduling/Extension/booking-deep-link`
   * `extension.valueUrl` a deep link into  the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
 
-For example, it's possible to search for all available slots over the upcoming month (in the example: June 2020), which an Appointment Search Client might do once at the beginning of the month:
+For example, each morning the client might issue a query for all future slots (to ensure it hasn't gotten out of sync over the course of the past day):
 
-    GET /Slot?start=2020-06
+    GET /Slot?start=gt2020-06-01&status=free
     
 Then, it't possible for to search for all recently updated slots. For example, the client might issue a query every five minutes for changes that have occurred during the past ten minutes (i.e., using overlapping time windows to ensure no data are missed):
 
