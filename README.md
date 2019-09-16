@@ -3,18 +3,18 @@
 
 ## Lightweight, scalable appointment booking API
 
-"SMART Scheduling Links" is a standards-based specifcation enabling patients to:
+"SMART Scheduling Links" is a standards-based specification enabling patients to:
 
 1. **find appointment slots** using an appointment search tool of their choice, searching by geography, specialty, health system, etc
 2. **follow a deep link** into the provider's booking portal, to book a specific slot
-3. **complete a booking**, e.g. by providing details, answering question, or submitting documentation
+3. **complete a booking**, e.g., by providing details, answering question, or submitting documentation
 
 We are parsimonious in our use of standards, so that:
 
 * step 1 is standardized with **FHIR Slot search**; then 
 * step 2 is standardized with **HTTPS deep-linking conventions**; meanwhile
-* step 3 **requires no stanrdization**, enabling flexible and provider-specific rules to take place.
-(To be clear, many standards can facilitate step 3, but they're out of scope for SMART Schedling Links.)
+* step 3 **requires no standardization**, enabling flexible and provider-specific rules to take place.
+(To be clear, many standards can facilitate step 3, but they're out of scope for SMART Scheduling Links.)
 
 ## Roles and responsibilities
 
@@ -24,7 +24,7 @@ This specification defines three functional roles:
 
 * **Provider Slot Server**: the API service offered by a healthcare provider, advertising available slots. Critically, advertising a slot should be low-risk, since the mere fact that a slot is advertised does *not* guarantee that any given patient will be allowed to book the slot; instead, sophisticated rules can be implemented by the...
 
-* **Provider Booking Portal**: the UI service offered by a healthcare provider, enabling a user to book a selected slot. This is the place where provider-specific rules can be implemented, e.g. to ensure that patients booking a specialty appointment are appropriate candidates for that specialists's care. (In many implementations, this UI will be housed within a general-purpose provider-hosted patient portal.)
+* **Provider Booking Portal**: the UI service offered by a healthcare provider, enabling a user to book a selected slot. This is the place where provider-specific rules can be implemented, e.g. to ensure that patients booking a specialty appointment are appropriate candidates for that specialist's care. (In many implementations, this UI will be housed within a general-purpose provider-hosted patient portal.)
 
 ## Is the UX good enough?
 
@@ -39,7 +39,7 @@ provider-specific questions in order to complete a booking.
 * Once an appointment booking is completed, the appointment search tool might not have an easy way to learn about
 the details of the booking (e.g., was it successful; what is the specific location and timing).
 
-In other words, compared with a deeply-integrated scheduling paradigm where a booking tool could guide the user through every step of the process, SMART Scheduling Links provides a more loosely-coupled user experience. But we have strong evidence that this is a viable UX tradeoff, because it works just like a very familiar and highly sucessful booking system...
+In other words, compared with a deeply-integrated scheduling paradigm where a booking tool could guide the user through every step of the process, SMART Scheduling Links provides a more loosely-coupled user experience. But we have strong evidence that this is a viable UX trade-off, because it works just like a very familiar and highly successful booking system...
 
 ## Analogy: airline booking
 
@@ -53,8 +53,8 @@ The [2017 Argonaut Scheduling IG](https://www.fhir.org/guides/argonaut/schedulin
 
 1. A strong degree of trust is required between the third-party app and the EHR system, since the app is allowed to directly manipulate the state of the EHR.
 
-2. Providers have no way to set rules/expectations about which patientes are good candidates for a given slot -- which means that specialists are unwilling to open up scheduling. The issues is that, for examlpe, a neuromuscular specialist needs to ensure that her patients actually have a relevant diagnosis and have been through suitable pre-specialty workup. The relevant questsions and up-front data-gathering are highly specialized, and deep integration of scheduling provides no way to colleect and assess these details before booking a slot.
+2. Providers have no way to set rules/expectations about which patients are good candidates for a given slot -- which means that specialists are unwilling to open up scheduling. The issues is that, for example, a neuromuscular specialist needs to ensure that her patients actually have a relevant diagnosis and have been through suitable pre-specialty workup. The relevant questions and up-front data-gathering are highly specialized, and deep integration of scheduling provides no way to collect and assess these details before booking a slot.
 
 ## Time to try again!
 
-SMART Scheduling Links provides a lightweight complement to the 2017 Argonaut Scheduling IG. It addresses real-world adoption challenges by providing ia simple, familiar user experience -- with a very small standards footprint.
+SMART Scheduling Links provides a lightweight complement to the 2017 Argonaut Scheduling IG. It addresses real-world adoption challenges by providing a simple, familiar user experience -- with a very small standards footprint.
