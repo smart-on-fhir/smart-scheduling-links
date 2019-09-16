@@ -3,6 +3,11 @@
 
 See [specification.md](specification.md) for API requirements and details.
 
+|Status|
+|---|
+|Draft proposal for discussion|
+
+
 ## Lightweight, scalable appointment booking API
 
 "SMART Scheduling Links" is a standards-based specification enabling patients to:
