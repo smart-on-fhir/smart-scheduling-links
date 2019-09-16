@@ -55,7 +55,7 @@ Each Location has at least:
 
 ### Formal requirements for _Provider Booking Portal_
 
-The Booking Portal is responsible for handling incoming deep links, accoring to the details below.
+The Booking Portal is responsible for handling incoming deep links, according to the details below.
 
 ## Deep Links
 
@@ -68,7 +68,7 @@ Each Slot exposed by the _Provider Slot Server_ includes an extension indicating
 
 For example, if the Appointment Search Client discovers a `Slot` like:
 
-```
+```json
 {
   "resourceType": "Slot",
   "id": "182791212",
