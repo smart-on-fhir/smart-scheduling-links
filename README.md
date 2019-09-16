@@ -41,13 +41,13 @@ the details of the booking (e.g., was it successful; what is the specific locati
 
 In other words, compared with a deeply-integrated scheduling paradigm where a booking tool could guide the user through every step of the process, SMART Scheduling Links provides a more loosely-coupled user experience. But we have strong evidence that this is a viable UX tradeoff, because it works just like a very familiar and highly sucessful booking system...
 
-## Analogy to airline booking
+## Analogy: airline booking
 
 Cross-industry standards analogies can sometimes be misleading -- but to build up an intuition, it's worth comparing the SMART Scheduling Links workflow with the consumer airline booking experience. Briefly: the Appointment Search Client plays the same role as a travel booking tool like Kayak or Expedia. These systems help their users search for relevant options across multiple service providers, and help users evaluate trade-offs among these options. Once the user makes a selection, a deep link takes them to a service provider to complete the workflow. The Provider Booking Portal plays the same role as an airline like United or Delta. These systems manage user accounts and enable a booking-completion workflow. They also serve as gatekeepers, e.g. to collect data about a user's background as well as identifiers such as a Known Traveler Number or redress number. They can "call off" the workflow at any point (e.g., if a user is unable to provide the required information, or if a previously-available slot has been booked by another user).
 
 This pattern works well in airline booking, and could dramatically reduce the difficulty of healthcare appointment booking.
 
-## Haven't tried this already? (Argonaut Scheduling 2017)
+## Haven't we tried this before? (Argonaut Scheduling 2017)
 
 The [2017 Argonaut Scheduling IG](https://www.fhir.org/guides/argonaut/scheduling/) provides detailed specifications for scheduling appointments, but has not seen broad adoption. That specification defines a deep integration pattern where a third-party client can create new `Patient` resources within a server and can fully book an appointment slot for its users. There are two key challenges that have limited adoption of this API
 
