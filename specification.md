@@ -2,7 +2,7 @@
 
 ## APIs hosted by _Provider Slot Server_
 
-The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, servers should be optimzied to support the following client behaviors:
+The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, servers should be optimized to support the following client behaviors:
 
 1. Client retrieves an updated list of `Schedule`, `Slot`, and `Location` data on a ~daily basis. This allows the client to assemble a databse of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
