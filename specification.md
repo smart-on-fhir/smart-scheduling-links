@@ -44,7 +44,7 @@ For example, it's possible to search for all available slots over the upcoming m
     
 Then, it't possible for to search for all recently updated slots. For example, the client might issue a query every five minutes for changes that have occurred during the past ten minutes (i.e., using overlapping time windows to ensure no data are missed):
 
-    GET /Slot?_lastUpdate=gt2020-06-03T19:10:00.000Z
+    GET /Slot?_lastUpdated=gt2020-06-03T19:10:00.000Z
 
 
 #### `GET /Location` to retrieve all locations
