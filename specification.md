@@ -2,6 +2,12 @@
 
 ## APIs hosted by _Provider Slot Server_
 
+The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, a server's must-support queries are optimzied to support the following client behaviors:
+
+1. Client retrieves an updated list of `Schedule`, `Slot, and `Location` data on a ~daily basis. This allows the client to assemble a databse of clinical services, optimized for location-based lookup.
+
+2. Client stays updated on `Slot` availability throughout the day by polling for an updated list of `Slot` every ~1-5 minutes, issuing a `?_lastUpdated` query. This allows a Slot Server to maintain cached responses of recently booked slots as a performance optimization (i.e., slots where the status has changed from `free` -> something else).
+
 #### `GET /Schedule` to find relevant services/providers
 Search parameters that a server must support:
 * `serviceCategory`
@@ -17,9 +23,8 @@ Each `Schedule` has at least:
 #### `GET /Slot` to find available slots
 
 Search parameters that a server must support:
-* `schedule=`
 * `status=`
-* `start=`
+* `start=gt{{instant}}`
 * `_sort=start`
 
 Each `Slot` has at least:
@@ -33,17 +38,14 @@ Each `Slot` has at least:
   * `extension.url` is `http://argonautproject.org/smart-scheduling/Extension/booking-deep-link`
   * `extension.valueUrl` a deep link into  the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
 
-For example, it's possible to search for the first available slot by requesting:
+For example, it's possible to search for all available slots over the upcoming month (in the example: June 2020), which an Appointment Search Client might do once at the beginning of the month:
 
-    GET /Slot?schedule=123&_sort=start
+    GET /Slot?start=2020-06
     
-Or it's possible to search for appointments on a specific day by requesting:
+Then, it't possible for to search for all recently updated slots. For example, the client might issue a query every five minutes for changes that have occurred during the past ten minutes of changes (i.e., using overlapping time windows to ensure no data are missed):
 
-    GET /Slot?schedule=123&start=2020-06-01
+    GET /Slot?_lastUpdate=gt2020-06-03T19:10:00.000Z
 
-Finally, to make it easy to identify open slots that don't require an appointment:
-
-    GET /Slot?schedule=123&appointment-type=WALKIN
 
 #### `GET /Location` to retrieve all locations
 #### `GET /Location/:id` to retrieve a specific location
