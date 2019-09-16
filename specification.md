@@ -42,7 +42,7 @@ For example, each morning the client might issue a query for all future slots (t
 
     GET /Slot?start=gt2020-06-01&status=free
     
-Then, it't possible for to search for all recently updated slots. For example, the client might issue a query every five minutes for changes that have occurred during the past ten minutes (i.e., using overlapping time windows to ensure no data are missed):
+Then, it's possible for to search for all recently updated slots. For example, the client might issue a query every five minutes for changes that have occurred during the past ten minutes (i.e., using overlapping time windows to ensure no data are missed):
 
     GET /Slot?_lastUpdated=gt2020-06-03T19:10:00.000Z
 
