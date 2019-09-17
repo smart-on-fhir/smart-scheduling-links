@@ -62,6 +62,6 @@ The [2017 Argonaut Scheduling IG](https://www.fhir.org/guides/argonaut/schedulin
 
 2. Providers have no way to set rules/expectations about which patients are good candidates for a given slot -- which means that specialists are unwilling to open up scheduling. The issues is that, for example, a neuromuscular specialist needs to ensure that her patients actually have a relevant diagnosis and have been through suitable pre-specialty workup. The relevant questions and up-front data-gathering are highly specialized, and deep integration of scheduling provides no way to collect and assess these details before booking a slot.
 
-## Time to try again!
+## Moving ahead!
 
 SMART Scheduling Links provides a lightweight complement to the 2017 Argonaut Scheduling IG. It addresses real-world adoption challenges by providing a simple, familiar user experience -- with a very small standards footprint.
