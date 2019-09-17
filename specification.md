@@ -1,5 +1,6 @@
 #### For background and role definitions, see [README.md](./README.md)
 
+
 ## APIs hosted by _Provider Slot Server_
 
 The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, servers should be optimized to support the following client behaviors:
@@ -8,6 +9,7 @@ The goal of Slot Search APIs is to ensure that a high-volume Appointment Search 
 
 2. Client stays updated on `Slot` availability throughout the day by polling for an updated list of `Slot`s every ~5 minutes, issuing a `?_lastUpdated=gt` ("last updated after...") query. This allows a Slot Server to maintain cached responses of recently booked slots as a performance optimization (i.e., slots where the status has changed from `free` -> something else). (*Note: Subscriptions could be used in place of polling, as a future enhancement -- but the specification is designed to work even with polling.*)
 
+---
 #### `GET /Schedule` to find relevant services/providers
 Search parameters that a server must support:
 * `serviceCategory`
@@ -20,6 +22,7 @@ Each `Schedule` has at least:
 * an `actor` referencing a `HealthcareService` indicating the organization that is providing the services
 * (optionally) an `actor` referencing a `Practitioner` or `PractitionerRole` indicating the individual providing the service
 
+---
 #### `GET /Slot` to find available slots
 
 Search parameters that a server must support:
@@ -46,7 +49,7 @@ Then, it's possible for to search for all recently updated slots. For example, t
 
     GET /Slot?_lastUpdated=gt2020-06-03T19:10:00.000Z
 
-
+---
 #### `GET /HealthcareService` to retrieve all services
 #### `GET /HealthcareService/:id` to retrieve a specific service
 
@@ -59,6 +62,7 @@ Optionally each HealthcareService can have:
 
 * `eligibility` criteria with human-readable `comment`s about any eligibility criteria required for booking appointments with this service
 
+---
 #### `GET /Location` to retrieve all locations
 #### `GET /Location/:id` to retrieve a specific location
 
@@ -67,6 +71,7 @@ Each Location has at least:
 * `name`
 * `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) and lat/long coordinates
 
+---
 ## Deep Links hosted by _Provider Booking Portal_
 
 The Booking Portal is responsible for handling incoming deep links, according to the details below.
