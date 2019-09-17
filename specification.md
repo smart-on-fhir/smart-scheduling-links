@@ -47,6 +47,18 @@ Then, it's possible for to search for all recently updated slots. For example, t
     GET /Slot?_lastUpdated=gt2020-06-03T19:10:00.000Z
 
 
+#### `GET /HealthcareService` to retrieve all services
+#### `GET /HealthcareService/:id` to retrieve a specific service
+
+Each HealthcareService has at least:
+
+* `name` indicating the name of the service
+* `providedBy` indicating the organization offering the service
+
+Optionally each HealthcareService can have:
+
+* `eligibility` criteria with human-readable `comment`s about any eligibility criteria required for booking appointments with this service
+
 #### `GET /Location` to retrieve all locations
 #### `GET /Location/:id` to retrieve a specific location
 
