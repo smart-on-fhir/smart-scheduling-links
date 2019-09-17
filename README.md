@@ -56,7 +56,7 @@ This pattern works well in airline booking, and could dramatically reduce the di
 
 ## Haven't we tried this before? (Argonaut Scheduling 2017)
 
-The [2017 Argonaut Scheduling IG](https://www.fhir.org/guides/argonaut/scheduling/) provides detailed specifications for scheduling appointments, but has not seen broad adoption. That specification defines a deep integration pattern where a third-party client can create new `Patient` resources within a server and can fully book an appointment slot for its users. There are two key challenges that have limited adoption of this API
+The [2017 Argonaut Scheduling IG](https://www.fhir.org/guides/argonaut/scheduling/) provides detailed specifications for scheduling appointments, but has not seen broad adoption. That specification defines a deep integration pattern where a third-party client can create new `Patient` resources within a server and can fully book an appointment slot for its users. There are two key challenges that have limited adoption of this IG:
 
 1. A strong degree of trust is required between the third-party app and the EHR system, since the app is allowed to directly manipulate the state of the EHR.
 
