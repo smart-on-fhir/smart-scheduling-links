@@ -3,15 +3,15 @@
 
 ## APIs hosted by _Provider Slot Server_
 
-The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with slots and availability. To this end, servers should be optimized to support the following client behaviors:
+The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with open appointment slots. To this end, servers should be optimized to support the following client behaviors:
 
-1. Client retrieves an updated list of `Schedule`, `HealthcareService`, and `Location`, and `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
+1. Client retrieves an updated list of `Schedule`, `HealthcareService`, and `Location`, and free appointment `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
-2. Client stays updated on free `Slot` availability throughout the day by checking for updated `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
+2. Client stays updated on free appointment `Slot` changes throughout the day by checking for a list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
 
 The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files.
 
-Servers MAY also make resources available through the FHIR RESTful search API.
+This API allows servers to provide a compliant implementation with static hosting only. Servers MAY also make resources available through the FHIR RESTful search API.
 
 #### Example manifest
 
@@ -69,13 +69,13 @@ The following search parameters must be supported:
 Each `Slot` has at least:
 
 * a `schedule` indicating the Schedule this slot belongs to
-* a `status` (for bookable slots: `free`)
+* a `status` (**only `free` slots** are returned from the Slot Discovery `$bulk-publish` API)
 * an `appointmentType` drawn from the [preferred code system](http://build.fhir.org/v2/0276/index.html)
 * a `start` time
 * an `end` time
 * a "booking extension"
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
-  * `extension.valueUrl` a deep link into  the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
+  * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
 
 ##### If a server supports FHIR RESTful search:
 The following search parameters must be supported:
