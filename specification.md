@@ -42,24 +42,58 @@ The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bul
   "error": []
 }
 ```
+---
+
+#### `Location` conveys a physical location
+
+Each Location has at least:
+
+* `name`
+* `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
+
+Optionally a Location can include:
+* `position` with lat/long coordinates
+
+##### Example `Location`
+
+```json
+{
+  "resourceType": "Location",
+  "id": "123",
+  "name": "Flynn's Pharmacy in Pittsfield, MA",
+  "description": "Located behind old Berkshire Bank building",
+  "telecom": [{
+    "system": "phone",
+    "value": "413-000-0000"
+  }],
+  "address": {
+    "line": ["173 Elm St"],
+    "city": "Pittsfield",
+    "state": "MA",
+    "postalCode": "01201-7223"
+  },
+  "position": {
+    "latitude": 42.444067,
+    "longitude": -73.237613
+  }
+}
+```
 
 ---
 
-#### `Schedule` conveys a list of services/providers
+#### `Schedule` conveys the calendar for a healthcare service at a physical location
 
 Each `Schedule` has at least:
 
-* a `serviceType`, indicating what services are offered
-* an `actor` referencing a `Location` indicating where the service is provided (by street address and lat/lon)
-* (optionally) an `actor` referencing a `Practitioner` or `PractitionerRole` indicating the individual providing the service
+* `serviceType`, indicating what services are offered
+* `actor` referencing a `Location` indicating where the service is provided (by street address and lat/lon)
 
 ##### Example `Schedule`
 
 ```json
 {
   "resourceType": "Schedule",
-  "id": "123",
-  "active": true,
+  "id": "456",
   "serviceType": [
     {
       "coding": [
@@ -78,7 +112,7 @@ Each `Schedule` has at least:
   ],
   "actor": [
     {
-      "reference": "Location/789",
+      "reference": "Location/123",
       "display": "Pharmacy ABC in Pittsfield, MA"
     }
   ]
@@ -86,15 +120,19 @@ Each `Schedule` has at least:
 ```
 
 ---
-#### `Slot` conveys appointment slots
+
+
+---
+
+#### `Slot` conveys an available time window on a schedule
 
 Each `Slot` has at least:
 
-* a `schedule` indicating the Schedule this slot belongs to
-* a `status` (**only `free` slots** are returned from the Slot Discovery `$bulk-publish` API)
-* a `start` time
-* an `end` time
-* a "booking extension"
+* `schedule` indicating the Schedule this slot belongs to
+* `status` (**only `free` slots** are returned from the Slot Discovery `$bulk-publish` API)
+* `start` time
+*  `end` time
+* "booking extension"
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
   * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
 
@@ -102,9 +140,9 @@ Each `Slot` has at least:
 ```json
 {
   "resourceType": "Slot",
-  "id": "456",
+  "id": "789",
   "schedule": {
-    "reference": "Schedule/123"
+    "reference": "Schedule/456"
   },
   "status": "free",
   "start": "2021-03-10T15:00:00-05",
@@ -115,36 +153,6 @@ Each `Slot` has at least:
   }]
 }
 ```
-
----
-#### `Location` conveys a physical location
-
-Each Location has at least:
-
-* `name`
-* `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) and lat/long coordinates
-
-##### Example `Location`
-
-```json
-{
-  "resourceType": "Location",
-  "id": "789",
-  "name": "Pharmacy ABC in Pittsfield, MA",
-  "description": "Located behind the old Eastman Brothers building",
-  "telecom": [{
-    "system": "phone",
-    "value": "413-000-0000"
-  }],
-  "address": {
-    "line": ["123 Main St"],
-    "city": "Pittsfield",
-    "state": "MA",
-    "postalCode": "01201"
-  }
-}
-```
-
 ---
 
 ## Deep Links hosted by _Provider Booking Portal_
