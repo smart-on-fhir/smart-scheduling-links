@@ -20,23 +20,23 @@ The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bul
 
   // note this can be a static value -- time of last update
   "transactionTime": "2021-01-01T00:00:00Z",
-  "request": "http://example.com/pd/$bulk-publish",
+  "request": "https://example.com/pd/$bulk-publish",
   "output": [
     {
       "type": "Schedule",
-      "url": "http://example.com/pd/schedule_file_1.ndjson"
+      "url": "https://example.com/pd/schedule_file_1.ndjson"
     },
     {
       "type": "Location",
-      "url": "http://example.com/pd/location_file_1.ndjson"
+      "url": "https://example.com/pd/location_file_1.ndjson"
     },
     {
       "type": "Slot",
-      "url": "http://example.com/pd/slot_file_MA.ndjson"
+      "url": "https://example.com/pd/slot_file_MA.ndjson"
     },
     {
       "type": "Slot",
-      "url": "http://example.com/pd/slot_file_CT.ndjson"
+      "url": "https://example.com/pd/slot_file_CT.ndjson"
     }
   ],
   "error": []
