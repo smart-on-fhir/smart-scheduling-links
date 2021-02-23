@@ -49,9 +49,41 @@ This API allows servers to provide a compliant implementation with static hostin
 
 Each `Schedule` has at least:
 
-* a `serviceCategory` and `serviceType`, indicating what services are offered
+* a `serviceType`, indicating what services are offered
 * an `actor` referencing a `Location` indicating where the service is provided (by street address and lat/lon)
 * (optionally) an `actor` referencing a `Practitioner` or `PractitionerRole` indicating the individual providing the service
+
+##### Example `Schedule`
+
+```json
+{
+  "resourceType": "Schedule",
+  "id": "123",
+  "active": true,
+  "serviceType": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-type",
+          "code": "57",
+          "display": "Immunization"
+        },
+        {
+          "system": "http://fhir-registry.smarthealthit.org/CodeSystem/appointment-type",
+          "code": "covid19-immunization",
+          "display": "COVID19 Immunization Appointment"
+        },
+      ]
+    }
+  ],
+  "actor": [
+    {
+      "reference": "Location/789",
+      "display": "Pharmacy ABC in Pittsfield, MA"
+    }
+  ]
+}
+```
 
 
 ---
@@ -61,12 +93,29 @@ Each `Slot` has at least:
 
 * a `schedule` indicating the Schedule this slot belongs to
 * a `status` (**only `free` slots** are returned from the Slot Discovery `$bulk-publish` API)
-* an `appointmentType` drawn from the [preferred code system](http://build.fhir.org/v2/0276/index.html)
 * a `start` time
 * an `end` time
 * a "booking extension"
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
   * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
+
+##### Example `Slot`
+```json
+{
+  "resourceType": "Slot",
+  "id": "456",
+  "schedule": {
+    "reference": "Schedule/123"
+  },
+  "status": "free",
+  "start": "2021-03-10T15:00:00-05:00",
+  "start": "2021-03-10T15:20:00-05:00",
+  "extension": [{
+    "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link",
+    "valueUrl": "https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489"
+  }]
+}
+```
 
 ---
 #### `Location` conveys a physical location
@@ -75,6 +124,27 @@ Each Location has at least:
 
 * `name`
 * `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) and lat/long coordinates
+
+##### Example `Location`
+
+```json
+{
+  "resourceType": "Location",
+  "id": "789",
+  "name": "Pharmacy ABC in Pittsfield, MA",
+  "description": "Located behind the old Eastman Brothers building",
+  "telecom": [{
+    "system": "phone",
+    "value": "413-000-0000"
+  }],
+  "address": {
+    "line": ["123 Main St"],
+    "city": "Pittsfield",
+    "state": "MA",
+    "postalCode": "01201"
+  }
+}
+```
 
 ---
 
@@ -89,33 +159,7 @@ Each Slot exposed by the _Provider Slot Server_ includes an extension indicating
 
 ##### Example
 
-For example, if the Slot Discovery Client discovers a `Slot` like:
-
-```json
-{
-  "resourceType": "Slot",
-  "id": "182791212",
-  "schedule": {
-    "reference": "Schedule/123"
-  },
-  "status": "free",
-  "appointmentType": {
-    "coding": [{
-      "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
-      "code": "ROUTINE"
-    }]
-  },
-  "start": "2020-06-10T15:00:00.000Z",
-  "start": "2020-06-10T15:20:00.000Z",
-  "extension": [{
-    "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link",
-    "valueUrl": "https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489"
-  }]
-  
-}
-```
-
-It can construct the following URL to provide a deep link for a user to book a slot:
+For the `Slot` example above, a client can construct the following URL to provide a deep link for a user to book a slot:
 
 1. Parse the "booking-deep-link" `valueUrl`
 2. Append `source` and `booking-referral`
