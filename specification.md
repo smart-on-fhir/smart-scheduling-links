@@ -5,9 +5,9 @@
 
 The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with open appointment slots. To this end, servers should be optimized to support the following client behaviors:
 
-1. Client retrieves an updated list of `Schedule`, and `Location`, and free appointment `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
+1. Client retrieves an updated list of `Schedule`, and `Location`, and appointment `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
-2. Client stays updated on free appointment `Slot` changes throughout the day by checking for a list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
+2. Client stays updated on appointment `Slot` changes throughout the day by checking for a list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
 
 The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files.
 
@@ -122,7 +122,8 @@ Each `Schedule` has at least:
 Each `Slot` has at least:
 
 * `schedule` indicating the Schedule this slot belongs to
-* `status` (**only `free` slots** are returned from the Slot Discovery `$bulk-publish` API)
+* `status` 
+    * should be **`free`** or **`busy`**. Including busy slots ensures clients can be aware of total capacity.)
 * `start` time
 *  `end` time
 * "booking extension"
