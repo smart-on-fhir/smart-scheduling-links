@@ -5,15 +5,51 @@
 
 The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, servers should be optimized to support the following client behaviors:
 
-1. Client retrieves an updated list of `Schedule`, `Slot`, `HealthcareService`, and `Location` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
+1. Client retrieves an updated list of `Schedule`, `Slot`, `HealthcareService`, and `Location`, and `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
-2. Client stays updated on `Slot` availability throughout the day by polling for an updated list of `Slot`s every ~5 minutes, issuing a `?_lastUpdated=gt` ("last updated after...") query. This allows a Slot Server to maintain cached responses of recently booked slots as a performance optimization (i.e., slots where the status has changed from `free` -> something else). (*Note: Subscriptions could be used in place of polling, as a future enhancement -- but the specification is designed to work even with polling.*)
+2. Client stays updated on free `Slot` availability throughout the day by polling for an updated list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
+
+The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files.
+
+Servers MAY also make resources available through the FHIR RESTful search API.
+
+#### Example manifest
+
+```js
+{
+
+  // note this can be a static value -- time of last update
+  "transactionTime": "2021-01-01T00:00:00Z",
+  "request": "http://example.com/pd/$bulk-publish",
+    "output": [
+    {
+      "type": "Schedule",
+      "url": "http://example.com/pd/schedule_file_1.ndjson"
+    },
+    {
+      "type": "HealthcareService",
+      "url": "http://example.com/pd/healthcareservice_file_1.ndjson"
+    },
+    {
+      "type": "Location",
+      "url": "http://example.com/pd/location_file_1.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "http://example.com/pd/slot_file_MA.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "http://example.com/pd/slot_file_CT.ndjson"
+    }
+  ],
+  "error": []
+}
+```
 
 ---
-#### `GET /Schedule` to find relevant services/providers
-Search parameters that a server must support:
-* `serviceCategory`
-* `serviceType`
+
+#### `Schedule` conveys a list of services/providers
 
 Each `Schedule` has at least:
 
@@ -22,24 +58,30 @@ Each `Schedule` has at least:
 * an `actor` referencing a `HealthcareService` indicating the organization that is providing the services
 * (optionally) an `actor` referencing a `Practitioner` or `PractitionerRole` indicating the individual providing the service
 
----
-#### `GET /Slot` to find available slots
+##### If a server supports FHIR RESTful search
+The following search parameters must be supported:
+* `serviceCategory`
+* `serviceType`
 
-Search parameters that a server must support:
-* `status=`
-* `start=gt{{instant}}`
-* `_sort=start`
+---
+#### `Slot` conveys appointment slots
 
 Each `Slot` has at least:
 
-* a `schedule` indicating the Schedule that this slot belongs to
+* a `schedule` indicating the Schedule this slot belongs to
 * a `status` (for bookable slots: `free`)
 * an `appointmentType` drawn from the [preferred code system](http://build.fhir.org/v2/0276/index.html)
 * a `start` time
 * an `end` time
 * a "booking extension"
-  * `extension.url` is `http://argonautproject.org/smart-scheduling/Extension/booking-deep-link`
+  * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
   * `extension.valueUrl` a deep link into  the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
+
+##### If a server supports FHIR RESTful search:
+The following search parameters must be supported:
+* `status=`
+* `start=gt{{instant}}`
+* `_sort=start`
 
 For example, each morning the client might issue a query for all future slots (to ensure it hasn't gotten out of sync over the course of the past day):
 
@@ -50,21 +92,17 @@ Then, it's possible for to search for all recently updated slots. For example, t
     GET /Slot?_lastUpdated=gt2020-06-03T19:10:00.000Z
 
 ---
-#### `GET /HealthcareService` to retrieve all services
-#### `GET /HealthcareService/:id` to retrieve a specific service
+#### `HealthcareService` conveys a healthcare service (e.g., "Vaccination clinic at ABC Pharmacy Location 123")
 
 Each HealthcareService has at least:
-
 * `name` indicating the name of the service
-* `providedBy` indicating the organization offering the service
 
 Optionally each HealthcareService can have:
-
+* `providedBy` indicating the organization offering the service
 * `eligibility` criteria with human-readable `comment`s about any eligibility criteria required for booking appointments with this service
 
 ---
-#### `GET /Location` to retrieve all locations
-#### `GET /Location/:id` to retrieve a specific location
+#### `GET /Location` conveys a physical location
 
 Each Location has at least:
 
@@ -72,6 +110,7 @@ Each Location has at least:
 * `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) and lat/long coordinates
 
 ---
+
 ## Deep Links hosted by _Provider Booking Portal_
 
 The Booking Portal is responsible for handling incoming deep links, according to the details below.
@@ -102,7 +141,7 @@ For example, if the Appointment Search Client discovers a `Slot` like:
   "start": "2020-06-10T15:00:00.000Z",
   "start": "2020-06-10T15:20:00.000Z",
   "extension": [{
-    "url": "http://argonautproject.org/smart-scheduling/Extension/booking-deep-link",
+    "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link",
     "valueUrl": "https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489"
   }]
   
@@ -112,7 +151,7 @@ For example, if the Appointment Search Client discovers a `Slot` like:
 It can construct the following URL to provide a deep link for a user to book a slot:
 
 1. Parse the "booking-deep-link" `valueUrl`
-2. Append `schedule` and `booking-referral`
+2. Append `source` and `booking-referral`
 
 In this case, if the `source` value is `source-abc` and the `booking-referral` is `34d1a803-cd6c-4420-9cf5-c5edcc533538`, then the fully constructed deep link URL would be:
 
