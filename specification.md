@@ -5,7 +5,7 @@
 
 The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with open appointment slots. To this end, servers should be optimized to support the following client behaviors:
 
-1. Client retrieves an updated list of `Schedule`, `HealthcareService`, and `Location`, and free appointment `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
+1. Client retrieves an updated list of `Schedule`, and `Location`, and free appointment `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
 2. Client stays updated on free appointment `Slot` changes throughout the day by checking for a list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
 
@@ -25,10 +25,6 @@ This API allows servers to provide a compliant implementation with static hostin
     {
       "type": "Schedule",
       "url": "http://example.com/pd/schedule_file_1.ndjson"
-    },
-    {
-      "type": "HealthcareService",
-      "url": "http://example.com/pd/healthcareservice_file_1.ndjson"
     },
     {
       "type": "Location",
@@ -55,7 +51,6 @@ Each `Schedule` has at least:
 
 * a `serviceCategory` and `serviceType`, indicating what services are offered
 * an `actor` referencing a `Location` indicating where the service is provided (by street address and lat/lon)
-* an `actor` referencing a `HealthcareService` indicating the organization that is providing the services
 * (optionally) an `actor` referencing a `Practitioner` or `PractitionerRole` indicating the individual providing the service
 
 
@@ -72,16 +67,6 @@ Each `Slot` has at least:
 * a "booking extension"
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
   * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
-
----
-#### `HealthcareService` conveys a healthcare service (e.g., "Vaccination clinic at ABC Pharmacy Location 123")
-
-Each HealthcareService has at least:
-* `name` indicating the name of the service
-
-Optionally each HealthcareService can have:
-* `providedBy` indicating the organization offering the service
-* `eligibility` criteria with human-readable `comment`s about any eligibility criteria required for booking appointments with this service
 
 ---
 #### `Location` conveys a physical location
