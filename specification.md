@@ -1,7 +1,7 @@
 #### For background and role definitions, see [README.md](./README.md)
 
 
-## APIs hosted by _Provider Slot Server_
+# APIs hosted by _Provider Slot Server_
 
 The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with open appointment slots. To this end, servers should be optimized to support the following client behaviors:
 
@@ -42,9 +42,8 @@ The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bul
   "error": []
 }
 ```
----
 
-#### `Location` conveys a physical location
+## `Location` conveys a physical location
 
 Each Location has at least:
 
@@ -79,9 +78,7 @@ Optionally a Location can include:
 }
 ```
 
----
-
-#### `Schedule` conveys the calendar for a healthcare service at a physical location
+## `Schedule` conveys the calendar for a healthcare service at a physical location
 
 Each `Schedule` has at least:
 
@@ -119,12 +116,8 @@ Each `Schedule` has at least:
 }
 ```
 
----
 
-
----
-
-#### `Slot` conveys an available time window on a schedule
+## `Slot` conveys an available time window on a schedule
 
 Each `Slot` has at least:
 
@@ -153,7 +146,6 @@ Each `Slot` has at least:
   }]
 }
 ```
----
 
 ## Deep Links hosted by _Provider Booking Portal_
 
