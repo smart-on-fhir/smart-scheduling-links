@@ -12,13 +12,13 @@ See [specification.md](specification.md) for API requirements and details.
 
 "SMART Scheduling Links" is a standards-based specification enabling patients to:
 
-1. **find appointment slots** using an appointment search tool of their choice, searching by geography, specialty, health system, etc
+1. **find appointment slots** using an appointment booking tool of their choice, searching by geography, specialty, health system, etc
 2. **follow a deep link** into the provider's booking portal, to book a specific slot
 3. **complete a booking**, e.g., by providing details, answering questions, or submitting referral documentation
 
 We are parsimonious in our use of standards, so that:
 
-* step 1 is standardized with **FHIR Slot search**; then 
+* step 1 is standardized with **FHIR Slot Discovery**; then 
 * step 2 is standardized with **HTTPS deep-linking conventions**; meanwhile
 * step 3 **requires no standardization**, enabling flexible and provider-specific rules to govern the completion of the booking process.
 (To be clear, many standards can facilitate step 3, but they're out of scope for SMART Scheduling Links.)
@@ -27,7 +27,7 @@ We are parsimonious in our use of standards, so that:
 
 This specification defines three functional roles:
 
-* **Appointment Search Client**: the search tool of a patient's choice. This system searches for appointment slots on a patient's behalf, and helps the patient choose the best slots to book (e.g., by evaluating trade-offs of travel distance or wait time).
+* **Slot Discovery Client**: the booking tool of a patient's choice. This system discoverys appointment slots on a patient's behalf, and helps the patient choose the best slots to book (e.g., by evaluating trade-offs of travel distance or wait time).
 
 * **Provider Slot Server**: the API service offered by a healthcare provider, advertising available slots. Critically, advertising a slot should be low-risk, since the mere fact that a slot is advertised does *not* guarantee that any given patient will be allowed to book the slot; instead, sophisticated rules can be implemented by the...
 
@@ -37,20 +37,20 @@ This specification defines three functional roles:
 
 Examining the SMART Scheduling Links workflow described above, there are some potential user-experience challenges:
 
-* After the hand-off from an appointment search tool into a healthcare provider's system, the user might have to sign
+* After the hand-off from a Slot Discovery Client into a healthcare provider's system, the user might have to sign
 into the healthcare provider's system, or create a new account; and might have to answer all sorts of
 provider-specific questions in order to complete a booking.
 
 * Appointment slot data might become stale, so that by the time a patient signs into the provider's system, 
    
-* Once an appointment booking is completed, the appointment search tool might not have an easy way to learn about
+* Once an appointment booking is completed, the Slot Discovery Client might not have an easy way to learn about
 the details of the booking (e.g., was it successful; what is the specific location and timing).
 
 In other words, compared with a deeply-integrated scheduling paradigm where a booking tool could guide the user through every step of the process, SMART Scheduling Links provides a more loosely-coupled user experience. But we have strong evidence that this is a viable UX trade-off, because it works just like a very familiar and highly successful booking system...
 
 ## Analogy: airline booking
 
-Cross-industry standards analogies can sometimes be misleading -- but to build up an intuition, it's worth comparing the SMART Scheduling Links workflow with the consumer airline booking experience. Briefly: the Appointment Search Client plays the same role as a travel booking tool like Kayak or hipmunk. These systems help their users search for relevant options across multiple service providers, and help users evaluate trade-offs among these options. Once the user makes a selection, a deep link takes them to a service provider to complete the workflow. The Provider Booking Portal plays the same role as an airline like United or Delta. These systems manage user accounts and enable a booking-completion workflow. They also serve as gatekeepers, e.g. to collect data about a user's background as well as identifiers such as a Known Traveler Number or redress number. They can "call off" the workflow at any point (e.g., if a user is unable to provide the required information, or if a previously-available slot has been booked by another user).
+Cross-industry standards analogies can sometimes be misleading -- but to build up an intuition, it's worth comparing the SMART Scheduling Links workflow with the consumer airline booking experience. Briefly: the Slot Discovery Client plays the same role as a travel booking tool like KAYAK or Hipmunk. These systems help their users search for relevant options across multiple service providers, and help users evaluate trade-offs among these options. Once the user makes a selection, a deep link takes them to a service provider to complete the workflow. The Provider Booking Portal plays the same role as an airline like United or Delta. These systems manage user accounts and enable a booking-completion workflow. They also serve as gatekeepers, e.g. to collect data about a user's background as well as identifiers such as a Known Traveler Number or redress number. They can "call off" the workflow at any point (e.g., if a user is unable to provide the required information, or if a previously-available slot has been booked by another user).
 
 This pattern works well in airline booking, and could dramatically reduce the difficulty of healthcare appointment booking.
 
