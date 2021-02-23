@@ -71,8 +71,8 @@ Each `Schedule` has at least:
         {
           "system": "http://fhir-registry.smarthealthit.org/CodeSystem/appointment-type",
           "code": "covid19-immunization",
-          "display": "COVID19 Immunization Appointment"
-        },
+          "display": "COVID-19 Immunization Appointment"
+        }
       ]
     }
   ],
@@ -84,7 +84,6 @@ Each `Schedule` has at least:
   ]
 }
 ```
-
 
 ---
 #### `Slot` conveys appointment slots
