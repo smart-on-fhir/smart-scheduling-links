@@ -11,7 +11,7 @@ The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery C
 
 The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files.
 
-This API allows servers to provide a compliant implementation with static hosting only. Servers MAY also make resources available through the FHIR RESTful search API.
+This API allows servers to provide a compliant implementation with static hosting only.
 
 #### Example manifest
 
@@ -58,10 +58,6 @@ Each `Schedule` has at least:
 * an `actor` referencing a `HealthcareService` indicating the organization that is providing the services
 * (optionally) an `actor` referencing a `Practitioner` or `PractitionerRole` indicating the individual providing the service
 
-##### If a server supports FHIR RESTful search
-The following search parameters must be supported:
-* `serviceCategory`
-* `serviceType`
 
 ---
 #### `Slot` conveys appointment slots
@@ -76,20 +72,6 @@ Each `Slot` has at least:
 * a "booking extension"
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
   * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
-
-##### If a server supports FHIR RESTful search:
-The following search parameters must be supported:
-* `status=`
-* `start=gt{{instant}}`
-* `_sort=start`
-
-For example, each morning the client might issue a query for all future slots (to ensure it hasn't gotten out of sync over the course of the past day):
-
-    GET /Slot?start=gt2020-06-01&status=free
-    
-Then, it's possible for to search for all recently updated slots. For example, the client might issue a query every five minutes for changes that have occurred during the past ten minutes (i.e., using overlapping time windows to ensure no data are missed):
-
-    GET /Slot?_lastUpdated=gt2020-06-03T19:10:00.000Z
 
 ---
 #### `HealthcareService` conveys a healthcare service (e.g., "Vaccination clinic at ABC Pharmacy Location 123")
