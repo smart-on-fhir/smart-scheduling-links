@@ -3,7 +3,7 @@
 
 ## APIs hosted by _Provider Slot Server_
 
-The goal of Slot Search APIs is to ensure that a high-volume Appointment Search Client can keep up to date with slots and availability. To this end, servers should be optimized to support the following client behaviors:
+The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with slots and availability. To this end, servers should be optimized to support the following client behaviors:
 
 1. Client retrieves an updated list of `Schedule`, `HealthcareService`, and `Location`, and `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
 
@@ -115,14 +115,14 @@ Each Location has at least:
 
 The Booking Portal is responsible for handling incoming deep links, according to the details below.
 
-Each Slot exposed by the _Provider Slot Server_ includes an extension indicating the "booking-link", a URL that the Appointment Search Client can redirect a user to, along with the following URL parameters:
+Each Slot exposed by the _Provider Slot Server_ includes an extension indicating the "booking-link", a URL that the Slot Discovery Client can redirect a user to, along with the following URL parameters:
 
-* `source`: a correlation handle indicating the identity of the Appointment Search Client, for use by the Provider Booking Portal in tracking the source of incoming referrals.
-* `booking-referral`: a correlation handle for this specific booking referral. This parameter can optionally be retained by the Provider Booking Portal throughout the booking process, which can subsequently help the Appointment Search Client to identify booked slots. (Details for this lookup are out of scope for this specification.)
+* `source`: a correlation handle indicating the identity of the Slot Discovery Client, for use by the Provider Booking Portal in tracking the source of incoming referrals.
+* `booking-referral`: a correlation handle for this specific booking referral. This parameter can optionally be retained by the Provider Booking Portal throughout the booking process, which can subsequently help the Slot Discovery Client to identify booked slots. (Details for this lookup are out of scope for this specification.)
 
 ##### Example
 
-For example, if the Appointment Search Client discovers a `Slot` like:
+For example, if the Slot Discovery Client discovers a `Slot` like:
 
 ```json
 {
@@ -157,4 +157,4 @@ In this case, if the `source` value is `source-abc` and the `booking-referral` i
 
     https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489&source=source-abc&booking-referral=34d1a803-cd6c-4420-9cf5-c5edcc533538
 
-(Note: this construction is *not* as simple as just appending `&source=...` to the booking-deep-link, because the booking-deep-link may or may not already include URL parameters. The Appointment Search Client must take care to parse the booking-deep-link and append parameters, e.g., including a `?` prefix if not already present.)
+(Note: this construction is *not* as simple as just appending `&source=...` to the booking-deep-link, because the booking-deep-link may or may not already include URL parameters. The Slot Discovery Client must take care to parse the booking-deep-link and append parameters, e.g., including a `?` prefix if not already present.)
