@@ -84,7 +84,7 @@ Optionally each HealthcareService can have:
 * `eligibility` criteria with human-readable `comment`s about any eligibility criteria required for booking appointments with this service
 
 ---
-#### `GET /Location` conveys a physical location
+#### `Location` conveys a physical location
 
 Each Location has at least:
 
