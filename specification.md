@@ -11,7 +11,7 @@ The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery C
 
 The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files.
 
-This API allows servers to provide a compliant implementation with static hosting only.
+*This API allows servers to provide a compliant implementation with static hosting only.*
 
 #### Example manifest
 
@@ -108,8 +108,8 @@ Each `Slot` has at least:
     "reference": "Schedule/123"
   },
   "status": "free",
-  "start": "2021-03-10T15:00:00-05:00",
-  "start": "2021-03-10T15:20:00-05:00",
+  "start": "2021-03-10T15:00:00-05",
+  "start": "2021-03-10T15:20:00-05",
   "extension": [{
     "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link",
     "valueUrl": "https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489"
