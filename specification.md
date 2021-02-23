@@ -21,7 +21,7 @@ This API allows servers to provide a compliant implementation with static hostin
   // note this can be a static value -- time of last update
   "transactionTime": "2021-01-01T00:00:00Z",
   "request": "http://example.com/pd/$bulk-publish",
-    "output": [
+  "output": [
     {
       "type": "Schedule",
       "url": "http://example.com/pd/schedule_file_1.ndjson"
