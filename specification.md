@@ -143,7 +143,7 @@ Each `Slot` has at least:
   },
   "status": "free",
   "start": "2021-03-10T15:00:00-05",
-  "start": "2021-03-10T15:20:00-05",
+  "end": "2021-03-10T15:20:00-05",
   "extension": [{
     "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link",
     "valueUrl": "https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489"
