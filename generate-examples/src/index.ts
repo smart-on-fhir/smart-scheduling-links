@@ -3,11 +3,26 @@ import { Command } from 'commander';
 import { randomBytes } from 'crypto';
 import fs from 'fs';
 import b64url from 'base64-url';
+import _ from 'lodash';
+
+const BASE_URL = "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/";
+const MAX_LOCATIONS_PER_FILE = 200
+
+const VISIT_MINUTES = 20;
 
 let _resourceId = 0;
 const resourceId = () => "" + _resourceId++
 
 const bookingId = () => b64url.encode(randomBytes(4).toString())
+
+const getWeek = function(d: Date) {
+  var date = new Date(d.getTime());
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  var week1 = new Date(date.getFullYear(), 0, 4);
+  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+   - 3 + (week1.getDay() + 6) % 7) / 7);
+}
 
 const slot = (start: string, end: string, schedule: Resource) => ({
   "resourceType": "Slot",
@@ -24,7 +39,7 @@ const slot = (start: string, end: string, schedule: Resource) => ({
   }]
 })
 
-const schedule = (location: Resource)  => ({
+const schedule = (location: Resource) => ({
   "resourceType": "Schedule",
   "id": resourceId(),
   "serviceType": [
@@ -72,14 +87,13 @@ const locations: Resource[] = [{
   }
 }];
 
-const addMinutes = (date: Date, minutes: number): Date  => {
+const addMinutes = (date: Date, minutes: number): Date => {
   return new Date(new Date(date).setMinutes(date.getMinutes() + minutes));
 }
 
 
-const VISIT_MINUTES = 20;
 const createResources = () => {
-  const startDate = new Date("2021-03-01");
+  const startDate = new Date("2021-03-01T00:00-05:00",);
   const endDate = new Date("2021-03-31");
   const currentDate = new Date(startDate);
 
@@ -87,12 +101,11 @@ const createResources = () => {
   let slots: Resource[] = [];
 
   while (currentDate <= endDate) {
-    console.log("Create", currentDate)
-    const clinicOpenTime = addMinutes(currentDate, 8*60);
+    const clinicOpenTime = addMinutes(currentDate, 8 * 60);
     let slotsForSchedules = schedules.flatMap(schedule => {
       let ret: Resource[] = []
       for (let i = 0; i < 30; i++) {
-        const startTime = addMinutes(clinicOpenTime, i*VISIT_MINUTES);
+        const startTime = addMinutes(clinicOpenTime, i * VISIT_MINUTES);
         const endTime = addMinutes(startTime, VISIT_MINUTES);
         ret.push(slot(startTime.toISOString(), endTime.toISOString(), schedule))
       }
@@ -102,41 +115,51 @@ const createResources = () => {
     currentDate.setDate(currentDate.getDate() + 1)
   }
   const manifest = {
-  "transactionTime": new Date().toISOString(),
-  "request": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
-  "output": [
-    {
-      "type": "Schedule",
-      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedule.ndjson"
-    },
-    {
-      "type": "Location",
-      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/location.ndjson"
-    },
-    {
-      "type": "Slot",
-      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slot.ndjson"
-    }
-  ],
-  "error": []
-}
-  return {
-    manifest, locations, slots, schedules
+    "transactionTime": new Date().toISOString(),
+    "request": "$bulk-publish",
+    "output": [
+      {
+        "type": "Location",
+        "url": `${BASE_URL}locations.ndjson`
+      },
+      {
+        "type": "Schedule",
+        "url": `${BASE_URL}schedules.ndjson`
+      },
+    ],
+    "error": []
   }
-
+  return {
+    manifest, locations: slots, slots, schedules
+  }
 }
 
 
 async function generate(options: { outdir: string }) {
   let resources = createResources();
-    const fileSchedule = `schedule.ndjson`;
-    const fileSlot = `slot.ndjson`;
-    const fileLocation = `location.ndjson`;
-    const fileManifest = `$bulk-publish`;
+  const fileLocation = `locations.ndjson`;
+  const fileSchedule = `schedules.ndjson`;
+  const fileSlot = (i: string) => `slots-${i}.ndjson`;
+  const fileManifest = `$bulk-publish`;
 
-  fs.writeFileSync(`${options.outdir}/${fileSchedule}`, resources.schedules.map(s => JSON.stringify(s)).join("\n"));
-  fs.writeFileSync(`${options.outdir}/${fileSlot}`, resources.slots.map(s => JSON.stringify(s)).join("\n"));
   fs.writeFileSync(`${options.outdir}/${fileLocation}`, resources.locations.map(s => JSON.stringify(s)).join("\n"));
+  fs.writeFileSync(`${options.outdir}/${fileSchedule}`, resources.schedules.map(s => JSON.stringify(s)).join("\n"));
+
+
+  const slotsSplitMap = _.chain(resources.slots as unknown as {start: string}[])
+    .groupBy(s => s.start.slice(0, 4) + "-W" + String(getWeek(new Date(s.start))).padStart(2, "0"))
+    .value();
+
+  Object.entries(slotsSplitMap).forEach(([week, slots], i) => {
+    fs.writeFileSync(`${options.outdir}/${fileSlot(week)}`, slots.map(s => JSON.stringify(s)).join("\n"));
+
+  })
+
+  resources.manifest.output = [...resources.manifest.output, ...(Object.entries(slotsSplitMap).map(([week, _]) => ({
+    type: "Slot",
+    url: `${BASE_URL}${fileSlot(week)}`
+  })))]
+
   fs.writeFileSync(`${options.outdir}/${fileManifest}`, JSON.stringify(resources.manifest, null, 2));
 }
 

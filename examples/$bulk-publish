@@ -1,18 +1,34 @@
 {
-  "transactionTime": "2021-02-24T21:08:55.814Z",
-  "request": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
+  "transactionTime": "2021-02-24T21:56:41.141Z",
+  "request": "$bulk-publish",
   "output": [
     {
-      "type": "Schedule",
-      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedule.ndjson"
+      "type": "Location",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson"
     },
     {
-      "type": "Location",
-      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/location.ndjson"
+      "type": "Schedule",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedules.ndjson"
     },
     {
       "type": "Slot",
-      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slot.ndjson"
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W10.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W11.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W12.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W13.ndjson"
     }
   ],
   "error": []
