@@ -1,0 +1,19 @@
+{
+  "transactionTime": "2021-02-24T21:08:55.814Z",
+  "request": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
+  "output": [
+    {
+      "type": "Schedule",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedule.ndjson"
+    },
+    {
+      "type": "Location",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/location.ndjson"
+    },
+    {
+      "type": "Slot",
+      "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slot.ndjson"
+    }
+  ],
+  "error": []
+}
