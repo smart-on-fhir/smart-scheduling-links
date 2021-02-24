@@ -87,7 +87,7 @@ Optionally a Location can include:
 Each `Schedule` has at least:
 
 * `serviceType`, indicating what services are offered
-* `actor` referencing a `Location` indicating where the service is provided (by street address and lat/lon)
+* `actor` referencing a `Location` indicating where the service is provided
 
 ##### Example `Schedule`
 
