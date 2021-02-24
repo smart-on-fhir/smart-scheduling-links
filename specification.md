@@ -123,7 +123,7 @@ Each `Slot` has at least:
 
 * `schedule` indicating the Schedule this slot belongs to
 * `status` 
-    * should be **`free`** or **`busy`**. Including busy slots ensures clients can be aware of total capacity.)
+    * should be **`free`** or **`busy`**. Including busy slots ensures clients can be aware of total capacity.
 * `start` time
 *  `end` time
 * "booking extension"
