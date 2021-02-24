@@ -130,7 +130,7 @@ const createResources = () => {
     "error": []
   }
   return {
-    manifest, locations: slots, slots, schedules
+    manifest, locations, slots, schedules
   }
 }
 
