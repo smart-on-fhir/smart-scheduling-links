@@ -15,6 +15,10 @@ The client requests data calling [`GET [base]/$bulk-publish`, which returns a FH
 
 *This API allows servers to provide a compliant implementation with static hosting only.*
 
+#### Live Example
+
+https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish shows a live example of how to publish slots for discovery, implemented with static files in the same GitHub repo where this spec lives; examples will be kept up-to-date as the spec evolves.
+
 #### Example manifest
 
 For a service with base URL `https://example.com/covid-vaccines`, the following manifest might be returned:
