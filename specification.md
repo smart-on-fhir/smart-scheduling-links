@@ -104,7 +104,7 @@ Each `Schedule` has at least:
           "display": "Immunization"
         },
         {
-          "system": "http://fhir-registry.smarthealthit.org/CodeSystem/appointment-type",
+          "system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type",
           "code": "covid19-immunization",
           "display": "COVID-19 Immunization Appointment"
         }
@@ -113,8 +113,7 @@ Each `Schedule` has at least:
   ],
   "actor": [
     {
-      "reference": "Location/123",
-      "display": "Pharmacy ABC in Pittsfield, MA"
+      "reference": "Location/123"
     }
   ]
 }
