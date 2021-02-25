@@ -116,7 +116,7 @@ const createResources = () => {
   }
   const manifest = {
     "transactionTime": new Date().toISOString(),
-    "request": "$bulk-publish",
+    "request": `${BASE_URL}$bulk-publish`,
     "output": [
       {
         "type": "Location",
