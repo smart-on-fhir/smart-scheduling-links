@@ -125,15 +125,16 @@ Each `Schedule` has at least:
 ```
 
 
-## `Slot` conveys an available time window on a schedule
+## `Slot` conveys an appointment window on a schedule
 
 Each `Slot` has at least:
 
 * `schedule` indicating the Schedule this slot belongs to
 * `status` 
     * should be **`free`** or **`busy`**. Including busy slots ensures clients can be aware of total capacity.
-* `start` time
-*  `end` time
+* time window.  Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if fine-grained scheduling is not supported
+  * `start` time
+  *  `end` time
 * "booking extension"
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
   * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
