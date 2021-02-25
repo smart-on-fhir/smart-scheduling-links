@@ -57,6 +57,7 @@ Each Location has at least:
 
 * `name`
 * `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
+* `telecom` with a phone number
 
 Optionally a Location can include:
 * `position` with lat/long coordinates
