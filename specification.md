@@ -9,9 +9,9 @@ The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery C
 
 2. Client stays updated on appointment `Slot` changes throughout the day by checking for a list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
 
-**A server supports this specification by exposing a dedicated base URL for slot discovery.** This base URL need not be associated with a full FHIR server; the only requirement is to expose `[base]/$bulk-publish`. For specific services like COVID-19 appointment discovery, a server might host a dedicated endpoint (e.g., with a base URL like `https://example.com/covid-vaccines`).
+**A server supports this specification by exposing a dedicated URL for slot discovery.** This URL need not be associated with a full FHIR server; the only requirement is that the URL ends with `/$bulk-publish`. For specific services like COVID-19 appointment discovery, a server might host a dedicated endpoint (e.g., with a URL like `https://example.com/covid-vaccines/$bulk-publish`).
 
-The client requests data calling [`GET [base]/$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files. When following `output.url` links to retrieve published NDJSON files, clients can include an `If-None-Match` header, passing a previously obtained ETag value, to avoid downloading duplicate content (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match).
+The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files. When following `output.url` links to retrieve published NDJSON files, clients can include an `If-None-Match` header, passing a previously obtained ETag value, to avoid downloading duplicate content (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match).
 
 *This API allows servers to provide a compliant implementation with static hosting only.*
 
@@ -21,7 +21,7 @@ https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/ex
 
 #### Example manifest
 
-For a service with base URL `https://example.com/covid-vaccines`, the following manifest might be returned:
+For a service hosted at `https://example.com/covid-vaccines/$bulk-publish`, the following manifest might be returned:
 
 ```js
 {
