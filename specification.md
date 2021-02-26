@@ -1,32 +1,56 @@
-#### For background and role definitions, see [README.md](./README.md)
+# Slot Publisher API
+
+This guide explains how a _Slot Publisher_ makes vaccination or other appointment information abailable to a _Slot Discovery Client_.  **For background and role definitions, see [README.md](./README.md)**.
+
+## Goals for Slot Discovery
+
+* **Low implementation effort** -- providers can publish available slots with nothing more than static web hosting (e.g., from a cloud storage bucket or off-the-shelf web server)
+* **Scales up and down** -- organizations can publish information about a few vaccination sites and a few slots, or large-scale program like nationwide pharmacies and mass vaccination sites
+* **Progressive enhancement** -- providers can publish coarse-grained data like "20 slots availaable today" or fine-grained data detailing the specific timing for each slot
+* **Build on standards** -- providers publish data according to the FHIR standard, but don't need any deep experience with FHIR to get started
 
 
-# APIs hosted by _Provider Slot Server_
+## Quick Start Guide
 
-The goal of Slot Discovery APIs is to ensure that a high-volume Slot Discovery Client can keep up to date with open appointment slots. To this end, servers should be optimized to support the following client behaviors:
+A Slot Publisher hosts four kinds of files to support this API:
 
-1. Client retrieves an updated list of `Schedule`, and `Location`, and appointment `Slot` data on a ~daily basis. This allows the client to assemble a database of slow-changing details (e.g., clinical services and locations), optimized for client-local database queries.
+* **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing large or small data sets using FHIR).
+  * [Details on JSON structure](#manifest-file)
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish).
+* **Location Files**.  Each line contains a minified JSON object with details about a physical location.
+  * [Details on JSON structure](#location-resource)
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
+* **Schedule Files**.  Each line contains a minified JSON object with details about the schedule for a healthcare service.
+  * [Details on JSON structure](#schedule-resource)
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedules.ndjson) 
+* **Slot Files**.  Each line contains a minified JSON object with details about a bookable appointment slot.
+  * [Details on JSON structure](#slot-resource)
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson) 
 
-2. Client stays updated on appointment `Slot` changes throughout the day by checking for a list of `Slot`s every ~5 minutes (optionally including a `?_since={}`  parameter, which servers are free to ignore).
+A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. The client iterates through the links in the manifest file to retrieve any files it is interested in. 
 
-**A server supports this specification by exposing a dedicated URL for slot discovery.** This URL need not be associated with a full FHIR server; the only requirement is that the URL ends with `/$bulk-publish`. For specific services like COVID-19 appointment discovery, a server might host a dedicated endpoint (e.g., with a URL like `https://example.com/covid-vaccines/$bulk-publish`).
+### Performance Considerations
 
-The client requests data calling [`GET /$bulk-publish`, which returns a FHIR Bulk Data Manifest](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html) with links to NDJSON files. When following `output.url` links to retrieve published NDJSON files, clients can include an `If-None-Match` header, passing a previously obtained ETag value, to avoid downloading duplicate content (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match).
+* For each query, the client can include standard HTTP headers such as  `If-None-Match` or `If-Modified-Since` to prevent retrieving data if nothing has changed.
+* When requesting a manifest file, clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp, to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
 
-*This API allows servers to provide a compliant implementation with static hosting only.*
+## Manifest File
 
-#### Live Example
+The manifest file includes:
 
-https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish shows a live example of how to publish slots for discovery, implemented with static files in the same GitHub repo where this spec lives; examples will be kept up-to-date as the spec evolves.
+* `transactionTime`: string conveying ISO8601 timestamp with the time when this data set was published
+* `request`: string conveying the full URL of the manifest
+* `output`: array of JSON objects where:
+  * `type`: string conveying `"Location"`, `"Schedule"`, or `"Slot"`
+  * `url`: string with the full URL of an NDJSON file for the specified type of data 
 
-#### Example manifest
+(For more information about this manifest file, see the [FHIR bulk data spec](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html).)
 
-For a service hosted at `https://example.com/covid-vaccines/$bulk-publish`, the following manifest might be returned:
+### Example Manifest File
 
 ```js
 {
 
-  // note this can be a static value -- time of last update
   "transactionTime": "2021-01-01T00:00:00Z",
   "request": "https://example.com/covid-vaccines/$bulk-publish",
   "output": [
@@ -51,18 +75,33 @@ For a service hosted at `https://example.com/covid-vaccines/$bulk-publish`, the 
 }
 ```
 
-## `Location` conveys a physical location
+## Location File
 
-Each Location has at least:
+Each line of the Location File is a minified JSON object that conveys a physical location where appointments are available.
 
-* `name`
-* `address` including a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
-* `telecom` with a phone number
+Each Location includes at least:
+
+* `resourceType`: string with a fixed value of `"Location"`
+* `id`: string conveying a unique identifier for this location (up to 64 alphanumeric characters)
+* `name`: string conveying the human-readable name of the location
+* `telecom` array of JSON objects, each conveying a phone number
+  * `system`: string with a fixed value of `"phone"`
+  * `value`: string with a full phone number
+* `address` JSON object conveying a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
+  * `line`: array of strings conveying address lines
+  * `city`: string
+  * `state`: string
+  * `postalCode`:  string
+  * `district`: optional string conveying a county
 
 Optionally a Location can include:
-* `position` with lat/long coordinates
 
-##### Example `Location`
+* `description`: string with additional information about this location (e.g., where to find it)
+* `position` JSON object conveying geocoordinates
+  * `latitude`: number
+  * `longitude`: number
+
+### Example `Location`
 
 ```json
 {
@@ -83,14 +122,44 @@ Optionally a Location can include:
 }
 ```
 
-## `Schedule` conveys the calendar for a healthcare service at a physical location
 
-Each `Schedule` has at least:
+### Example Location File
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
 
-* `serviceType`, indicating what services are offered
-* `actor` referencing a `Location` indicating where the service is provided
 
-##### Example `Schedule`
+## Schedule File
+
+Each line of the Schedule File is a minified JSON object that conveys a information about a Schedule to which slots are attached. The Schedule represents a particular service (e.g., COVID-19 immunizations) offered at a specific location.
+
+Each Schedule includes at least:
+
+* `resourceType`: string with a fixed value of `"Schedule"`
+* `id`: string conveying a unique identifier for this schedule (up to 64 alphanumeric characters)
+* `actor`: array of JSON objects with 
+  * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `Location/123`).
+* `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization appointments, the following value is used:
+
+```
+ "serviceType": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-type",
+          "code": "57",
+          "display": "Immunization"
+        },
+        {
+          "system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type",
+          "code": "covid19-immunization",
+          "display": "COVID-19 Immunization Appointment"
+        }
+      ]
+    }
+  ],
+```
+
+
+### Example `Schedule`
 
 ```json
 {
@@ -121,24 +190,34 @@ Each `Schedule` has at least:
 ```
 
 
-## `Slot` conveys an appointment window on a schedule
+
+### Example Schedule File
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedules.ndjson) 
+
+
+
+## `Slot` File
+
+Each line of the Slot File is a minified JSON object that conveys a information about an appointment slot.
 
 Each `Slot` has at least:
+* `resourceType`: string with a fixed value of `"Slot"`
+* `id`: string conveying a unique identifier for this slot (up to 64 alphanumeric characters)
+* `schedule` JSON object indicating the Schedule this slot belongs to:
+  * `reference`: string conveying the schedule for this slot. Always formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `Schedule/123`).
+* `status`: either `"free"` or `"busy"`. Publishers SHOULD incldue busy slots to help clients monitor total capacity
+* Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
+  * `start`: string conveying ISO8601 timestamp for the start time of this slot
+  * `end`: string conveying ISO8601 timestamp for the end time of this slot
+* `extension` array with optional
+  * "Booking" extension, conveying a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
+     * `extension.url`:  fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`
+     * `extension.valueUrl`: string with is a deep link into the Provider Booking Portal
+  *  "Capacity" extension, which allows for coarse-grained discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate functionally identical slots (same schedule, status, start, and end times) with this extension.
+     * `extension.url`: fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`
+     * `extension.valueInteger` number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
 
-* `schedule` indicating the Schedule this slot belongs to
-* `status` 
-    * should be **`free`** or **`busy`**. Including busy slots ensures clients can be aware of total capacity.
-* time window.  Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if fine-grained scheduling is not supported
-  * `start` time
-  * `end` time
-* optional "booking" extension with a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
-  * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
-  * `extension.valueUrl` is a deep link into th Provider Booking Portal
-* optional "capacity" extension for coarse-grained discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate functionally identical slots (same schedule, status, start, and end times) with this extension.
-  * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity`
-  * `extension.valueInteger` is a number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
-
-##### Example `Slot`
+### Example `Slot`
 ```json
 {
   "resourceType": "Slot",
@@ -156,21 +235,26 @@ Each `Slot` has at least:
 }
 ```
 
+### Example Slot File
+  * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson) 
+
+
 ## Deep Links hosted by _Provider Booking Portal_
 
-The Booking Portal is responsible for handling incoming deep links, according to the details below.
+The Booking Portal is responsible for handling incoming deep links.
 
-Each Slot exposed by the _Provider Slot Server_ includes an extension indicating the "booking-link", a URL that the Slot Discovery Client can redirect a user to, along with the following URL parameters:
+Each Slot exposed by the _Slot Publisher_ includes an extension indicating the Booking Deep Link, a URL that the Slot Discovery Client can redirect a user to. The Slot Discovery Client can attach the following URL parameters to a Booking Deep Link:
 
 * `source`: a correlation handle indicating the identity of the Slot Discovery Client, for use by the Provider Booking Portal in tracking the source of incoming referrals.
 * `booking-referral`: a correlation handle for this specific booking referral. This parameter can optionally be retained by the Provider Booking Portal throughout the booking process, which can subsequently help the Slot Discovery Client to identify booked slots. (Details for this lookup are out of scope for this specification.)
 
-##### Example
+### Example of deep linking into a booking portal
 
 For the `Slot` example above, a client can construct the following URL to provide a deep link for a user to book a slot:
 
-1. Parse the "booking-deep-link" `valueUrl`
-2. Append `source` and `booking-referral`
+1. Parse the Booking Deep Link URL
+2. Optionally append `source`
+3. Optionally append`booking-referral`
 
 In this case, if the `source` value is `source-abc` and the `booking-referral` is `34d1a803-cd6c-4420-9cf5-c5edcc533538`, then the fully constructed deep link URL would be:
 
