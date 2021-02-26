@@ -135,9 +135,12 @@ Each `Slot` has at least:
 * time window.  Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if fine-grained scheduling is not supported
   * `start` time
   *  `end` time
-* "booking extension"
+* optional "booking" extension with a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
   * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link`
-  * `extension.valueUrl` a deep link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal))
+  * `extension.valueUrl` is a deep link into th Provider Booking Portal
+* optional "capacity" extension for coarse-grained discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate functionally identical slots (same schedule, time, and status with this extension.
+  * `extension.url` is `http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity`
+  * `extension.valueInteger` is a number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
 
 ##### Example `Slot`
 ```json
