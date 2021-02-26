@@ -29,7 +29,7 @@ This specification defines three functional roles:
 
 * **Slot Discovery Client**: the booking tool of a patient's choice. This system discoverys appointment slots on a patient's behalf, and helps the patient choose the best slots to book (e.g., by evaluating trade-offs of travel distance or wait time).
 
-* **Provider Slot Server**: the API service offered by a healthcare provider, advertising available slots. Critically, advertising a slot should be low-risk, since the mere fact that a slot is advertised does *not* guarantee that any given patient will be allowed to book the slot; instead, sophisticated rules can be implemented by the...
+* **Slot Publisher**: the API service offered by a healthcare provider, advertising available slots. Critically, advertising a slot should be low-risk, since the mere fact that a slot is advertised does *not* guarantee that any given patient will be allowed to book the slot; instead, sophisticated rules can be implemented by the...
 
 * **Provider Booking Portal**: the UI service offered by a healthcare provider, enabling a user to book a selected slot. This is the place where provider-specific rules can be implemented, e.g. to ensure that patients booking a specialty appointment are appropriate candidates for that specialist's care. (In many implementations, this UI will be housed within a general-purpose provider-hosted patient portal.)
 
