@@ -30,7 +30,7 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
 
 ### Performance Considerations
 
-* _Slot Publishers_ MAY choose to host a separate manifest file for each state or geographical region where they operate, if they want to make data available independently available for clients with limited regions of interest.
+* _Slot Publishers_ MAY choose to host a separate manifest file for each state or geographical region where they operate, if they want to make data independently available for clients with limited regions of interest.
 * For each query, the client can include standard HTTP headers such as  `If-None-Match` or `If-Modified-Since` to prevent retrieving data if nothing has changed.
 * When requesting a manifest file, clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp, to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
 
