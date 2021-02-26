@@ -4,15 +4,14 @@ This guide explains how a _Slot Publisher_ makes vaccination or other appointmen
 
 ## Goals for Slot Discovery
 
-* **Low implementation effort** -- providers can publish available slots with nothing more than static web hosting (e.g., from a cloud storage bucket or off-the-shelf web server)
-* **Scales up and down** -- organizations can publish information about a few vaccination sites and a few slots, or large-scale program like nationwide pharmacies and mass vaccination sites
-* **Progressive enhancement** -- providers can publish coarse-grained data like "20 slots availaable today" or fine-grained data detailing the specific timing for each slot
-* **Build on standards** -- providers publish data according to the FHIR standard, but don't need any deep experience with FHIR to get started
-
+* **Low implementation effort** -- publishers can expose available slots with nothing more than static web hosting (e.g., from a cloud storage bucket or off-the-shelf web server)
+* **Scales up and down** -- publishers can expose information about a few vaccination sites and a few slots, or large-scale programs such as nationwide pharmacies or mass vaccination sites
+* **Progressive enhancement** -- publisher can expose coarse-grained data like "we have 20 slots availaable today" or fine-grained data with specific timing for each slot
+* **Build on standards** -- publisher expose data according to the FHIR standard, but don't need deep experience with FHIR to get started
 
 ## Quick Start Guide
 
-A Slot Publisher hosts four kinds of files to support this API:
+A _Slot Publisher_ hosts four kinds of files to support this API:
 
 * **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing large or small data sets using FHIR).
   * [Details on JSON structure](#manifest-file)
