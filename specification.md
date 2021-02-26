@@ -79,10 +79,6 @@ Optionally a Location can include:
     "city": "Pittsfield",
     "state": "MA",
     "postalCode": "01201-7223"
-  },
-  "position": {
-    "latitude": 42.444067,
-    "longitude": -73.237613
   }
 }
 ```
