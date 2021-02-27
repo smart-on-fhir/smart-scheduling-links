@@ -205,7 +205,7 @@ Each `Slot` has at least:
 * `id`: string conveying a unique identifier for this slot (up to 64 alphanumeric characters)
 * `schedule` JSON object indicating the Schedule this slot belongs to:
   * `reference`: string conveying the schedule for this slot. Always formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `Schedule/123`).
-* `status`: either `"free"` or `"busy"`. Publishers SHOULD incldue busy slots to help clients monitor total capacity
+* `status`: either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity
 * Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
   * `start`: string conveying ISO8601 timestamp for the start time of this slot
   * `end`: string conveying ISO8601 timestamp for the end time of this slot
