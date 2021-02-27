@@ -17,13 +17,13 @@ A _Slot Publisher_ hosts four kinds of files to support this API:
   * [Details on JSON structure](#manifest-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish).
 * **Location Files**.  Each line contains a minified JSON object with details about a physical location.
-  * [Details on JSON structure](#location-resource)
+  * [Details on JSON structure](#location-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
 * **Schedule Files**.  Each line contains a minified JSON object with details about the schedule for a healthcare service.
-  * [Details on JSON structure](#schedule-resource)
+  * [Details on JSON structure](#schedule-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedules.ndjson) 
 * **Slot Files**.  Each line contains a minified JSON object with details about a bookable appointment slot.
-  * [Details on JSON structure](#slot-resource)
+  * [Details on JSON structure](#slot-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson) 
 
 A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. The client iterates through the links in the manifest file to retrieve any files it is interested in. 
