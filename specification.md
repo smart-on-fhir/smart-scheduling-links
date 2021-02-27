@@ -135,7 +135,7 @@ Each Schedule includes at least:
 
 * `resourceType`: string with a fixed value of `"Schedule"`
 * `id`: string conveying a unique identifier for this schedule (up to 64 alphanumeric characters)
-* `actor`: array of JSON objects with 
+* `actor`: array of JSON objects with
   * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `Location/123`).
 * `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization appointments, the following value is used:
 
