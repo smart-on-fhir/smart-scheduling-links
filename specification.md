@@ -41,7 +41,7 @@ The manifest file is the entry point for a client to retrieve scheduling data. T
 * `transactionTime`: string conveying ISO8601 timestamp with the time when this data set was published
 * `request`: string conveying the full URL of the manifest
 * `output`: array of JSON objects where:
-  * `type`: string conveying `"Location"`, `"Schedule"`, or `"Slot"`
+  * `type`: string indicating whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file
   * `url`: string with the full URL of an NDJSON file for the specified type of data 
 
 (For more information about this manifest file, see the [FHIR bulk data spec](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html).)
@@ -127,7 +127,6 @@ Optionally a Location can include:
 ### Example Location File
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
 
-
 ## Schedule File
 
 Each line of the Schedule File is a minified JSON object that conveys a information about a Schedule to which slots are attached. The Schedule represents a particular service (e.g., COVID-19 immunizations) offered at a specific location.
@@ -136,7 +135,7 @@ Each Schedule includes at least:
 
 * `resourceType`: string with a fixed value of `"Schedule"`
 * `id`: string conveying a unique identifier for this schedule (up to 64 alphanumeric characters)
-* `actor`: array of JSON objects with
+* `actor`: array containing one JSON object with
   * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `Location/123`).
 * `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization appointments, the following value is used:
 
@@ -210,11 +209,11 @@ Each `Slot` has at least:
 * Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
   * `start`: string conveying ISO8601 timestamp for the start time of this slot
   * `end`: string conveying ISO8601 timestamp for the end time of this slot
-* `extension` array with optional
-  * "Booking" extension, conveying a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
+* `extension` array of optional JSON objects for
+  * "Booking" extension, used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
      * `extension.url`:  fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`
      * `extension.valueUrl`: string with is a deep link into the Provider Booking Portal
-  *  "Capacity" extension, which allows for coarse-grained discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate functionally identical slots (same schedule, status, start, and end times) with this extension.
+  *  "Capacity" extension, used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
      * `extension.url`: fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`
      * `extension.valueInteger` number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
 
@@ -238,7 +237,6 @@ Each `Slot` has at least:
 
 ### Example Slot File
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson) 
-
 
 ## Deep Links hosted by _Provider Booking Portal_
 
