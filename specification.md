@@ -1,6 +1,6 @@
 # Slot Publisher API
 
-This guide explains how a _Slot Publisher_ makes vaccination or other appointment information abailable to a _Slot Discovery Client_.  **For background and role definitions, see [README.md](./README.md)**.
+This guide explains how a _Slot Publisher_ makes vaccination or other appointment information available to a _Slot Discovery Client_.  **For background and role definitions, see [README.md](./README.md)**.
 
 ## Goals for Slot Discovery
 
