@@ -16,27 +16,27 @@ A _Slot Publisher_ hosts four kinds of files to support this API:
 * **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing static data sets using FHIR).
   * [Details on JSON structure](#manifest-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish).
-* **Location Files**.  Each line contains a minified JSON object with details about a physical location.
+* **Location Files**.  Each line contains a minified JSON object representing a physical location where appointments are available.
   * [Details on JSON structure](#location-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
-* **Schedule Files**.  Each line contains a minified JSON object with details about the schedule for a healthcare service.
+* **Schedule Files**.  Each line contains a minified JSON object representing the calendar for a healthcare service offered at a specific location.
   * [Details on JSON structure](#schedule-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/schedules.ndjson) 
-* **Slot Files**.  Each line contains a minified JSON object with details about a bookable appointment slot.
+* **Slot Files**.  Each line contains a minified JSON object representing an appointment slot (busy or free) for a healthcare service at a specific location.
   * [Details on JSON structure](#slot-file)
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson) 
 
-A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. The client iterates through the links in the manifest file to retrieve any files it is interested in. 
+A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. The client iterates through the links in the manifest file to retrieve any Location, Schedule, or Slot files it is interested in. 
 
 ### Performance Considerations
 
 * _Slot Publishers_ MAY choose to host a separate manifest file for each state or geographical region where they operate, if they want to make data independently available for clients with limited regions of interest.
-* For each query, the client can include standard HTTP headers such as  `If-None-Match` or `If-Modified-Since` to prevent retrieving data if nothing has changed.
-* When requesting a manifest file, clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp, to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
+* Clients MAY include standard HTTP headers such as `If-None-Match` or `If-Modified-Since` with each query to prevent retrieving data when nothing has changed since the last query.
+* Clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp when retrieving a manifest file to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
 
 ## Manifest File
 
-The manifest file includes:
+The manifest file is the entry point for a client to retrieve scheduling data. The manifest JSON file includes:
 
 * `transactionTime`: string conveying ISO8601 timestamp with the time when this data set was published
 * `request`: string conveying the full URL of the manifest
@@ -76,6 +76,7 @@ The manifest file includes:
 ```
 
 ## Location File
+
 
 Each line of the Location File is a minified JSON object that conveys a physical location where appointments are available.
 
@@ -198,7 +199,7 @@ Each Schedule includes at least:
 
 ## `Slot` File
 
-Each line of the Slot File is a minified JSON object that conveys a information about an appointment slot.
+Each line of the Slot File is a minified JSON object that conveys information about an appointment slot. Publishers are encouraged to represent slots with fine-grained timing details (e.g.  representing appointments at specific times of the day), but MAY represent slots with coarse grained timing (e.g., "between 9 a.m. and 5 p.m." or "between noon and five p.m.").
 
 Each `Slot` has at least:
 * `resourceType`: string with a fixed value of `"Slot"`
