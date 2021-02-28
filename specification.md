@@ -200,10 +200,10 @@ Each Schedule includes at least:
 
 Each line of the Slot File is a minified JSON object that conveys information about an appointment slot. Publishers are encouraged to represent slots with fine-grained timing details (e.g.  representing appointments at specific times of the day), but MAY represent slots with coarse grained timing (e.g., "between 9 a.m. and 5 p.m." or "between noon and five p.m.").
 
-Each `Slot` has at least:
+Each `Slot` has:
 * `resourceType`: string with a fixed value of `"Slot"`
 * `id`: string conveying a unique identifier for this slot (up to 64 alphanumeric characters)
-* `schedule` JSON object indicating the Schedule this slot belongs to:
+* `schedule`: JSON object indicating the Schedule this slot belongs to:
   * `reference`: string conveying the schedule for this slot. Always formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `Schedule/123`).
 * `status`: either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity
 * Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
