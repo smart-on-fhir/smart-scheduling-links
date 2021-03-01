@@ -11,7 +11,10 @@ This guide explains how a _Slot Publisher_ makes vaccination or other appointmen
 
 ## Quick Start Guide
 
-A _Slot Publisher_ hosts four kinds of files to support this API:
+A _Slot Publisher_ hosts not only appointment slots, but also details about Locations and Schedules associated with these slots:
+<img src="scheduling-er-diagram.png" alt="Scheduling ER Diagram"/>
+
+Concretely, a _Slot Publisher_ hosts four kinds of files:
 
 * **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing static data sets using FHIR).
   * [Details on JSON structure](#manifest-file)
