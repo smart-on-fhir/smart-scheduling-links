@@ -16,7 +16,7 @@ A _Slot Publisher_ hosts not only appointment slots, but also Locations and Sche
 
 Concretely, a _Slot Publisher_ hosts four kinds of files:
 
-* **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing static data sets using FHIR; this convention applies any time a potentially parge set of data needs to be statically published).
+* **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing data sets using FHIR; this convention applies any time a potentially large data set needs to be statically published).
   * [Details on JSON structure](#manifest-file)
   * [Example file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish) showing a manifest for the fictional "SMART Vaccine Clinic", a regional chain with ten locations in Massachusetts. 
 * **Location Files**.  Each line contains a minified JSON object representing a physical location where appointments are available.
