@@ -8,12 +8,26 @@ import _ from 'lodash';
 const BASE_URL = "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/";
 const MAX_LOCATIONS_PER_FILE = 200
 
+const COARSE_GRAINED_SLOTS = true;
+
 const VISIT_MINUTES = 20;
+
+const OPENING_TIME = "T09:00-05:00";
+const CLOSTING_TIME = "T18:00-05:00";
+const SLOT_CAPACITY = 100;
 
 let _resourceId = 0;
 const resourceId = () => "" + _resourceId++
 
-const bookingId = () => b64url.encode(randomBytes(4).toString())
+const bookingId = () => b64url.encode(randomBytes(4).toString());
+
+const openingTime = (date: string): string => {
+  return (new Date(date.slice(0, 10) + OPENING_TIME)).toISOString()
+};
+
+const closingTime = (date: string): string => {
+  return (new Date(date.slice(0, 10) + CLOSTING_TIME)).toISOString()
+};
 
 const getWeek = function(d: Date) {
   var date = new Date(d.getTime());
@@ -31,12 +45,16 @@ const slot = (start: string, end: string, schedule: Resource) => ({
     "reference": `Schedule/${schedule.id}`
   },
   "status": "free",
-  "start": start,
-  "end": end,
+  "start": COARSE_GRAINED_SLOTS ? openingTime(start) : start,
+  "end": COARSE_GRAINED_SLOTS ? closingTime(end) : end,
+
   "extension": [{
     "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link",
     "valueUrl": `https://ehr-portal.example.org/bookings?slot=${bookingId()}`
-  }]
+  }, ...(COARSE_GRAINED_SLOTS ? [{
+    "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity",
+    "valueInteger": SLOT_CAPACITY
+  }] : [])]
 })
 
 const schedule = (location: Resource) => ({
@@ -73,17 +91,142 @@ interface Resource {
 const locations: Resource[] = [{
   "resourceType": "Location",
   "id": resourceId(),
-  "name": "Example Vaccine Clinic",
-  "description": "Located behind old bank building",
+  "name": "SMART Vaccine Clinic Boston",
   "telecom": [{
     "system": "phone",
     "value": "000-000-0000"
   }],
   "address": {
-    "line": ["000 Elm St"],
-    "city": "Anyfield",
+    "line": ["123 Summer St"],
+    "city": "Boston",
     "state": "MA",
-    "postalCode": "00000-0000"
+    "postalCode": "02114"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Worcester",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 West St"],
+    "city": "Worcester",
+    "state": "MA",
+    "postalCode": "01602"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Springfield",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Ash St"],
+    "city": "Springfield",
+    "state": "MA",
+    "postalCode": "01101"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Cambridge",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Arrow St"],
+    "city": "Cambridge",
+    "state": "MA",
+    "postalCode": "02139"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Lowell",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Peach St"],
+    "city": "Lowell",
+    "state": "MA",
+    "postalCode": "01851"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Brockton",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Oak St"],
+    "city": "Brockton",
+    "state": "MA",
+    "postalCode": "02301"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic New Bedford",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Cyprus St"],
+    "city": "New Bedford",
+    "state": "MA",
+    "postalCode": "02740"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Lynn",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Cherry St"],
+    "city": "Lynn",
+    "state": "MA",
+    "postalCode": "01901"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Quincy",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Cranberry St"],
+    "city": "Quincy",
+    "state": "MA",
+    "postalCode": "02269"
+  }
+}, {
+  "resourceType": "Location",
+  "id": resourceId(),
+  "name": "SMART Vaccine Clinic Pittsfield",
+  "telecom": [{
+    "system": "phone",
+    "value": "000-000-0000"
+  }],
+  "address": {
+    "line": ["123 Elm St"],
+    "city": "Pittsfield",
+    "state": "MA",
+    "postalCode": "01201"
   }
 }];
 
@@ -108,6 +251,7 @@ const createResources = () => {
         const startTime = addMinutes(clinicOpenTime, i * VISIT_MINUTES);
         const endTime = addMinutes(startTime, VISIT_MINUTES);
         ret.push(slot(startTime.toISOString(), endTime.toISOString(), schedule))
+        if (COARSE_GRAINED_SLOTS) break;
       }
       return ret;
     })
@@ -144,7 +288,6 @@ async function generate(options: { outdir: string }) {
 
   fs.writeFileSync(`${options.outdir}/${fileLocation}`, resources.locations.map(s => JSON.stringify(s)).join("\n"));
   fs.writeFileSync(`${options.outdir}/${fileSchedule}`, resources.schedules.map(s => JSON.stringify(s)).join("\n"));
-
 
   const slotsSplitMap = _.chain(resources.slots as unknown as {start: string}[])
     .groupBy(s => s.start.slice(0, 4) + "-W" + String(getWeek(new Date(s.start))).padStart(2, "0"))
