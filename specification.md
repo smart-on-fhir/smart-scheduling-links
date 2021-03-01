@@ -143,7 +143,7 @@ Each Schedule includes at least:
 | `id` | string |  a unique identifier for this schedule (up to 64 alphanumeric characters and may include `_` and `.`)|
 | `actor` | array with one JSON object | |
 | &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | the location where appointments are available formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `"Location/123"`) |
-| `serviceType` | array of JSON objects | each object is a standardized concept indicating what services are offered. For COVID-19 immunization Slots, the example resource below shows a `serviceType` that can be used verbatim. (This value uses two Codings, one to express the fact that the slot is for an immunization service, and another specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.) |
+| `serviceType` | array of JSON objects | each object is a standardized concept indicating what services are offered. For COVID-19 immunization Schedules, the example resource below shows a `serviceType` that can be used verbatim. (This value uses two Codings, one to express the fact that the slot is for an immunization service, and another specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.) |
 
 
 ### Example `Schedule`
