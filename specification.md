@@ -11,7 +11,7 @@ This guide explains how a _Slot Publisher_ makes vaccination or other appointmen
 
 ## Quick Start Guide
 
-A _Slot Publisher_ hosts not only appointment slots, but also details about Locations and Schedules associated with these slots:
+A _Slot Publisher_ hosts not only appointment slots, but also Locations and Schedules associated with these slots:
 <img src="scheduling-er-diagram.png" alt="Scheduling ER Diagram"/>
 
 Concretely, a _Slot Publisher_ hosts four kinds of files:
