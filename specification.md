@@ -85,10 +85,10 @@ Each Location includes at least:
 * `resourceType`: string with a fixed value of `"Location"`
 * `id`: string conveying a unique identifier for this location (up to 64 alphanumeric characters)
 * `name`: string conveying the human-readable name of the location
-* `telecom` array of JSON objects, each conveying a phone number
+* `telecom`: array of JSON objects, each conveying a phone number
   * `system`: string with a fixed value of `"phone"`
   * `value`: string with a full phone number
-* `address` JSON object conveying a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
+* `address`: JSON object conveying a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
   * `line`: array of strings conveying address lines
   * `city`: string
   * `state`: string
@@ -209,7 +209,7 @@ Each `Slot` has:
 * Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
   * `start`: string conveying ISO8601 timestamp for the start time of this slot
   * `end`: string conveying ISO8601 timestamp for the end time of this slot
-* `extension` array of optional JSON objects for
+* `extension`: array of optional JSON objects for
   * "Booking" extension, used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
      * `extension.url`:  fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`
      * `extension.valueUrl`: string with is a deep link into the Provider Booking Portal
