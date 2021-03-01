@@ -16,7 +16,7 @@ A _Slot Publisher_ hosts not only appointment slots, but also Locations and Sche
 
 Concretely, a _Slot Publisher_ hosts four kinds of files:
 
-* **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing static data sets using FHIR).
+* **Bulk Publication Manifest**. The manifest is a JSON file serving as the entry point for slot discovery. It provides links that clients can follow to retrieve all the other files. The manifest is always hosted at a URL that ends with `$bulk-publish` (a convention used when publishing static data sets using FHIR; this convention applies any time a potentially parge set of data needs to be statically published).
   * [Details on JSON structure](#manifest-file)
   * [Example file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish) showing a manifest for the fictional "SMART Vaccine Clinic", a regional chain with ten locations in Massachusetts. 
 * **Location Files**.  Each line contains a minified JSON object representing a physical location where appointments are available.
@@ -34,6 +34,7 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
 ### Performance Considerations
 
 * _Slot Publishers_ MAY choose to host a separate manifest file for each state or geographical region where they operate, if they want to make data independently available for clients with limited regions of interest.
+* Clients SHOULD NOT request a manifest or any individual data file more than once per minute
 * Clients MAY include standard HTTP headers such as `If-None-Match` or `If-Modified-Since` with each query to prevent retrieving data when nothing has changed since the last query.
 * Clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp when retrieving a manifest file to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
 
@@ -242,7 +243,7 @@ Each Slot object may optionally include one or both of the following extension J
 
 The Booking Portal is responsible for handling incoming deep links.
 
-Each Slot exposed by the _Slot Publisher_ includes an extension indicating the Booking Deep Link, a URL that the Slot Discovery Client can redirect a user to. The Slot Discovery Client can attach the following URL parameters to a Booking Deep Link:
+Each Slot exposed by the _Slot Publisher_ can include an extension indicating the Booking Deep Link, a URL that the Slot Discovery Client can redirect a user to. The Slot Discovery Client can attach the following URL parameters to a Booking Deep Link:
 
 * `source`: a correlation handle indicating the identity of the Slot Discovery Client, for use by the Provider Booking Portal in tracking the source of incoming referrals.
 * `booking-referral`: a correlation handle for this specific booking referral. This parameter can optionally be retained by the Provider Booking Portal throughout the booking process, which can subsequently help the Slot Discovery Client to identify booked slots. (Details for this lookup are out of scope for this specification.)
