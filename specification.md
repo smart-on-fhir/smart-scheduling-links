@@ -41,11 +41,13 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
 
 The manifest file is the entry point for a client to retrieve scheduling data. The manifest JSON file includes:
 
-* `transactionTime`: string conveying ISO8601 timestamp with the time when this data set was published
-* `request`: string conveying the full URL of the manifest
-* `output`: array of JSON objects where:
-  * `type`: string indicating whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file
-  * `url`: string with the full URL of an NDJSON file for the specified type of data 
+| field name | type | description |
+|---|---|---|
+| `transactionTime`  | ISO8601 timestamp as string| the time when this data set was published |
+| `request` | url as string |  the full URL of the manifest |
+| `output` | array of JSON objects | each object contains a `type` and a `url` field |
+| &nbsp;&nbsp;&rarr;&nbsp;`type` | string | whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file |
+| &nbsp;&nbsp;&rarr;&nbsp;`url` | url as string | the full URL of an NDJSON file for the specified type of data |
 
 (For more information about this manifest file, see the [FHIR bulk data spec](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html).)
 
@@ -85,25 +87,25 @@ Each line of the Location File is a minified JSON object that conveys a physical
 
 Each Location includes at least:
 
-* `resourceType`: string with a fixed value of `"Location"`
-* `id`: string conveying a unique identifier for this location (up to 64 alphanumeric characters)
-* `name`: string conveying the human-readable name of the location
-* `telecom`: array of JSON objects, each conveying a phone number
-  * `system`: string with a fixed value of `"phone"`
-  * `value`: string with a full phone number
-* `address`: JSON object conveying a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
-  * `line`: array of strings conveying address lines
-  * `city`: string
-  * `state`: string
-  * `postalCode`:  string
-  * `district`: optional string conveying a county
+| field name | type | required | description |
+| --- | --- | :---: | --- |
+| `resourceType` | string | Y | fixed value of `"Location"` |
+| `id` | string | Y | unique identifier for this location (up to 64 alphanumeric characters and may include `_` and `.`) |
+| `name` | string | Y | the human-readable name of the location |
+| `telecom` | array of JSON objects | Y | each object conveys a phone number |
+| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | fixed value of `"phone"` |
+| &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | a full phone number |
+| `address` | JSON object | Y | each object conveys a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) |
+| &nbsp;&nbsp;&rarr;&nbsp;`line` | array of strings | Y | each string is line in the address |
+| &nbsp;&nbsp;&rarr;&nbsp;`city` | string | Y | |  
+| &nbsp;&nbsp;&rarr;&nbsp;`state` |string | Y | |
+| &nbsp;&nbsp;&rarr;&nbsp;`postalCode` | string | Y | |
+| &nbsp;&nbsp;&rarr;&nbsp;`district` | string | N | optional county |
+| `description` | string | N | additional information about this location (e.g., where to find it) |
+| `position` | JSON object | N |  geocoordinates of the location |
+| &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
+| &nbsp;&nbsp;&rarr;&nbsp;`longitude` | number | N | must be populatd if position is included |
 
-Optionally a Location can include:
-
-* `description`: string with additional information about this location (e.g., where to find it)
-* `position`: JSON object conveying geocoordinates
-  * `latitude`: number
-  * `longitude`: number
 
 ### Example `Location`
 
@@ -126,7 +128,6 @@ Optionally a Location can include:
 }
 ```
 
-
 ### Example Location File
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
 
@@ -136,11 +137,13 @@ Each line of the Schedule File is a minified JSON object that conveys a informat
 
 Each Schedule includes at least:
 
-* `resourceType`: string with a fixed value of `"Schedule"`
-* `id`: string conveying a unique identifier for this schedule (up to 64 alphanumeric characters)
-* `actor`: array containing one JSON object with
-  * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `"Location/123"`).
-* `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization Slots, the example resource below shows a `serviceType` that can be used verbatim. (This value uses two Codings, one to express the fact that the slot is for an immunization service, and another specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.)
+| field name | type | description |
+|---|---|---|
+| `resourceType` | string | fixed value of `"Schedule"` |
+| `id` | string |  a unique identifier for this schedule (up to 64 alphanumeric characters and may include `_` and `.`)|
+| `actor` | array with one JSON object | |
+| &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | the location where appointments are available formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `"Location/123"`) |
+| `serviceType` | array of JSON objects | each object is a standardized concept indicating what services are offered. For COVID-19 immunization Slots, the example resource below shows a `serviceType` that can be used verbatim. (This value uses two Codings, one to express the fact that the slot is for an immunization service, and another specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.) |
 
 
 ### Example `Schedule`
@@ -185,21 +188,34 @@ Each Schedule includes at least:
 Each line of the Slot File is a minified JSON object that conveys information about an appointment slot. Publishers are encouraged to represent slots with fine-grained timing details (e.g.  representing appointments at specific times of the day), but MAY represent slots with coarse grained timing (e.g., "between 9 a.m. and 5 p.m." or "between noon and five p.m.").
 
 Each `Slot` has:
-* `resourceType`: string with a fixed value of `"Slot"`
-* `id`: string conveying a unique identifier for this slot (up to 64 alphanumeric characters)
-* `schedule`: JSON object indicating the Schedule this slot belongs to:
-  * `reference`: string conveying the schedule for this slot. Always formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `"Schedule/123"`).
-* `status`: either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity
-* Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
-  * `start`: string conveying ISO8601 timestamp for the start time of this slot
-  * `end`: string conveying ISO8601 timestamp for the end time of this slot
-* `extension`: array of optional JSON objects for
-  * "Booking" extension, used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
-     * `url`:  fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`
-     * `valueUrl`: string with is a deep link into the Provider Booking Portal
-  *  "Capacity" extension, used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
-     * `url`: fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`
-     * `valueInteger` number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
+
+| field name | type | required | description |
+|---|---|:---:|---|
+| `resourceType` | string | Y | fixed value of `"Slot"` |
+| `id` | string | Y | a unique identifier for this slot (up to 64 alphanumeric characters and may include `_` and `.`) |
+| `schedule` | JSON object | Y | has a single field indicating the Schedule this slot belongs to |
+| &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | Y | the schedule for this slot formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `"Schedule/123"`). |
+| `status` | string | Y | either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity |
+| `start` | ISO8601 timestamp as string | Y | the start time of this slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling. |
+| `end` | ISO8601 timestamp as string | Y | the end time of this slot |
+| `extension` | array of JSON objects | N | see details below |
+
+Each Slot object may optionally include one or both of the following extension JSON objects in the Slot's `extension` array.
+
+* "Booking" extension: used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
+
+	| field name | type  | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`|
+	|`valueUrl` | string | URL that's a deep link into the Provider Booking Portal |
+
+
+ * "Capacity" extension: used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
+	| field name | type  | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`|
+	|`valueInteger` | number | indicates capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
+
 
 ### Example `Slot`
 ```json
@@ -237,7 +253,7 @@ For the `Slot` example above, a client can construct the following URL to provid
 
 1. Parse the Booking Deep Link URL
 2. Optionally append `source`
-3. Optionally append`booking-referral`
+3. Optionally append `booking-referral`
 
 In this case, if the `source` value is `source-abc` and the `booking-referral` is `34d1a803-cd6c-4420-9cf5-c5edcc533538`, then the fully constructed deep link URL would be:
 
