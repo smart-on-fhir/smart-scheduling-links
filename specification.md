@@ -101,7 +101,7 @@ Each Location includes at least:
 Optionally a Location can include:
 
 * `description`: string with additional information about this location (e.g., where to find it)
-* `position` JSON object conveying geocoordinates
+* `position`: JSON object conveying geocoordinates
   * `latitude`: number
   * `longitude`: number
 
@@ -140,26 +140,7 @@ Each Schedule includes at least:
 * `id`: string conveying a unique identifier for this schedule (up to 64 alphanumeric characters)
 * `actor`: array containing one JSON object with
   * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `Location/123`).
-* `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization appointments, the following value is used:
-
-```
- "serviceType": [
-    {
-      "coding": [
-        {
-          "system": "http://terminology.hl7.org/CodeSystem/service-type",
-          "code": "57",
-          "display": "Immunization"
-        },
-        {
-          "system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type",
-          "code": "covid19-immunization",
-          "display": "COVID-19 Immunization Appointment"
-        }
-      ]
-    }
-  ],
-```
+* `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization Slots, the example resource below shows a `serviceType` that can be used verbatim. (This value uses two Codings, one to express the fact that the slot is for an immunization service, and another specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.)
 
 
 ### Example `Schedule`
