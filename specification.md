@@ -139,7 +139,7 @@ Each Schedule includes at least:
 * `resourceType`: string with a fixed value of `"Schedule"`
 * `id`: string conveying a unique identifier for this schedule (up to 64 alphanumeric characters)
 * `actor`: array containing one JSON object with
-  * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `Location/123`).
+  * `reference`: string conveying the location where appointments are available. Always formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `"Location/123"`).
 * `serviceType`: array of standardized concepts indicating what services are offered. For COVID-19 immunization Slots, the example resource below shows a `serviceType` that can be used verbatim. (This value uses two Codings, one to express the fact that the slot is for an immunization service, and another specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.)
 
 
@@ -188,7 +188,7 @@ Each `Slot` has:
 * `resourceType`: string with a fixed value of `"Slot"`
 * `id`: string conveying a unique identifier for this slot (up to 64 alphanumeric characters)
 * `schedule`: JSON object indicating the Schedule this slot belongs to:
-  * `reference`: string conveying the schedule for this slot. Always formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `Schedule/123`).
+  * `reference`: string conveying the schedule for this slot. Always formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `"Schedule/123"`).
 * `status`: either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity
 * Timing for the slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling.
   * `start`: string conveying ISO8601 timestamp for the start time of this slot
