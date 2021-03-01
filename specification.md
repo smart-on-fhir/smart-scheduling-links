@@ -41,11 +41,13 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
 
 The manifest file is the entry point for a client to retrieve scheduling data. The manifest JSON file includes:
 
-* `transactionTime`: string conveying ISO8601 timestamp with the time when this data set was published
-* `request`: string conveying the full URL of the manifest
-* `output`: array of JSON objects where:
-  * `type`: string indicating whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file
-  * `url`: string with the full URL of an NDJSON file for the specified type of data 
+| field name | type | description |
+|---|---|---|
+| `transactionTime`  | ISO8601 timestamp as string| the time when this data set was published |
+| `request` | url as string |  the full URL of the manifest |
+| `output` | array of JSON objects | each object contains a `type` and a `url` field |
+| &nbsp;&nbsp;&rarr;&nbsp; `type` | string | whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file |
+| &nbsp;&nbsp;&rarr;&nbsp; `url` | string | the full URL of an NDJSON file for the specified type of data |
 
 (For more information about this manifest file, see the [FHIR bulk data spec](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html).)
 
@@ -85,25 +87,25 @@ Each line of the Location File is a minified JSON object that conveys a physical
 
 Each Location includes at least:
 
-* `resourceType`: string with a fixed value of `"Location"`
-* `id`: string conveying a unique identifier for this location (up to 64 alphanumeric characters)
-* `name`: string conveying the human-readable name of the location
-* `telecom`: array of JSON objects, each conveying a phone number
-  * `system`: string with a fixed value of `"phone"`
-  * `value`: string with a full phone number
-* `address`: JSON object conveying a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm)
-  * `line`: array of strings conveying address lines
-  * `city`: string
-  * `state`: string
-  * `postalCode`:  string
-  * `district`: optional string conveying a county
+| field name | type | required | description |
+| --- | --- | :---: | --- |
+| `resourceType` | string | Y | fixed value of `"Location"` |
+| `id` | string | Y | a unique identifier for this location (up to 64 alphanumeric characters) |
+| `name` | string | Y | the human-readable name of the location |
+| `telecom` | array of JSON objects | Y | each object conveys a phone number |
+| &nbsp;&nbsp;&rarr;&nbsp; `system` | string | Y | fixed value of `"phone"` |
+| &nbsp;&nbsp;&rarr;&nbsp; `value` | string | Y | a full phone number |
+| `address` | JSON object | Y | each object conveys a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) |
+| &nbsp;&nbsp;&rarr;&nbsp; `line` | array of strings | Y | each string is line in the address |
+| &nbsp;&nbsp;&rarr;&nbsp; `city` | string | Y | |  
+| &nbsp;&nbsp;&rarr;&nbsp; `state` |string | Y | |
+| &nbsp;&nbsp;&rarr;&nbsp; `postalCode` | string | Y | |
+| &nbsp;&nbsp;&rarr;&nbsp; `district` | string | N | optional county |
+| `description` | string | N | additional information about this location (e.g., where to find it) |
+|`position` | string | N | JSON object | geocoordinates of the location |
+| &nbsp;&nbsp;&rarr;&nbsp; `latitude` | number | N | must be populated if position is included |
+| &nbsp;&nbsp;&rarr;&nbsp; `longitude` | number | N | must be populatd if position is included |
 
-Optionally a Location can include:
-
-* `description`: string with additional information about this location (e.g., where to find it)
-* `position`: JSON object conveying geocoordinates
-  * `latitude`: number
-  * `longitude`: number
 
 ### Example `Location`
 
@@ -125,7 +127,6 @@ Optionally a Location can include:
   }
 }
 ```
-
 
 ### Example Location File
   * Example [file](https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/locations.ndjson) 
