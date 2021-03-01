@@ -214,11 +214,11 @@ Each `Slot` has:
   * `end`: string conveying ISO8601 timestamp for the end time of this slot
 * `extension`: array of optional JSON objects for
   * "Booking" extension, used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
-     * `extension.url`:  fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`
-     * `extension.valueUrl`: string with is a deep link into the Provider Booking Portal
+     * `url`:  fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`
+     * `valueUrl`: string with is a deep link into the Provider Booking Portal
   *  "Capacity" extension, used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
-     * `extension.url`: fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`
-     * `extension.valueInteger` number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
+     * `url`: fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`
+     * `valueInteger` number indicating capacity (e.g., `"valueInteger": 300` to advertise a capacity of 300)
 
 ### Example `Slot`
 ```json
