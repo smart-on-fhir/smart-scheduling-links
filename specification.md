@@ -102,6 +102,10 @@ Each Location includes at least:
 | &nbsp;&nbsp;&rarr;&nbsp;`state` |string | Y | |
 | &nbsp;&nbsp;&rarr;&nbsp;`postalCode` | string | Y | |
 | &nbsp;&nbsp;&rarr;&nbsp;`district` | string | N | optional county |
+| `managingOrganization` | JSON object | N | Organization responsible for this Location|
+| &nbsp;&nbsp;&rarr;&nbsp;`identifier` |JSON object | Y | Populate this identifier to communicate a VTrckS Provider PIN|
+| &nbsp;&nbsp;&rarr;&nbsp;&nbsp;&nbsp;&rarr;&nbsp;`system` |string | Y | fixed value of `"https://cdc.gov/vaccines/programs/vtrcks"`|
+| &nbsp;&nbsp;&rarr;&nbsp;&nbsp;&nbsp;&rarr;&nbsp;`value` |string | Y | full 9-character Provider PIN for VTrckS |
 | `description` | string | N | additional information about this location (e.g., where to find it) |
 | `position` | JSON object | N |  geocoordinates of the location |
 | &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
@@ -125,6 +129,12 @@ Each Location includes at least:
     "city": "Pittsfield",
     "state": "MA",
     "postalCode": "01201-7223"
+  },
+  "managingOrganization": {
+    "identifier": {
+      "system": "https://cdc.gov/vaccines/programs/vtrcks",
+      "value": "CV1654321"
+    }
   }
 }
 ```
