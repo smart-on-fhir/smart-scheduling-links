@@ -106,6 +106,9 @@ Each Location includes at least:
 | `position` | JSON object | N |  geocoordinates of the location |
 | &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
 | &nbsp;&nbsp;&rarr;&nbsp;`longitude` | number | N | must be populatd if position is included |
+| `identifier` | array of JSON objects | N | VTrckS PIN if applicable|
+| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | fixed value of `"https://cdc.gov/vaccines/programs/vtrcks"` for a VTrckS PIN|
+| &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | VTrcks PIN|
 
 
 ### Example `Location`
@@ -114,6 +117,10 @@ Each Location includes at least:
 {
   "resourceType": "Location",
   "id": "123",
+  "identifier": [{
+    "url": "https://cdc.gov/vaccines/programs/vtrcks",
+    "valueString": "CV1654321"
+  }],
   "name": "Flynn's Pharmacy in Pittsfield, MA",
   "description": "Located behind old Berkshire Bank building",
   "telecom": [{

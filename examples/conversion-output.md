@@ -1,6 +1,6 @@
 
 ## Locations
-    {"resourceType":"Location","id":"48b0071c0624419de50239cf91ef8b06c822685164c91692","name":"Human readable location name (e.g. Alex's Pharmacy Lakeview Location)","telecom":[{"system":"phone","value":"(202) 867-5309"},{"system":"url","value":"https://alexspharmacy.com/covid19/?location=12"}],"address":{"line":["1234 W. Oak St","Suite 400"],"city":"Chicago","state":"IL","postalCode":"60657","district":"Cook"},"managingOrganization":{"identifier":{"system":"https://cdc.gov/vaccines/programs/vtrcks","value":"CDC VTRCKS PIN"}}}
+    {"resourceType":"Location","id":"48b0071c0624419de50239cf91ef8b06c822685164c91692","name":"Human readable location name (e.g. Alex's Pharmacy Lakeview Location)","telecom":[{"system":"phone","value":"(202) 867-5309"},{"system":"url","value":"https://alexspharmacy.com/covid19/?location=12"}],"address":{"line":["1234 W. Oak St","Suite 400"],"city":"Chicago","state":"IL","postalCode":"60657","district":"Cook"},"identifier":[{"system":"https://cdc.gov/vaccines/programs/vtrcks","value":"CDC VTRCKS PIN"}]}
 
 ## Schedules
     {"resourceType":"Schedule","id":"c19-48b0071c0624419de50239cf91ef8b06c822685164c91692","serviceType":[{"coding":[{"system":"http://terminology.hl7.org/CodeSystem/service-type","code":"57","display":"Immunization"},{"system":"http://fhir-registry.smarthealthit.org/CodeSystem/service-type","code":"covid19-immunization","display":"COVID-19 Immunization Appointment"}]}],"actor":[{"reference":"Location/48b0071c0624419de50239cf91ef8b06c822685164c91692"}]}

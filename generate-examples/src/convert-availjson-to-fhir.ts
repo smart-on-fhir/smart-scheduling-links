@@ -51,12 +51,12 @@ const convertLocation = (inputLocation: typeof example): ConversionResult => {
       },
     ],
     address,
-    managingOrganization: {
-      identifier: {
+    identifier: [
+      {
         system: 'https://cdc.gov/vaccines/programs/vtrcks',
         value: inputLocation.id,
       },
-    },
+    ],
   };
 
   const schedule = {
