@@ -210,6 +210,13 @@ Each Slot object may optionally include one or both of the following extension J
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link"`|
 	|`valueUrl` | string | URL that's a deep link into the Provider Booking Portal |
 
+* "Booking phone" extension: used to convey a phone number the user can call to book this slot.
+
+	| field name | type  | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-phone"`|
+	|`valueString` | string | Phone number the user caen call to book this slot.
+
 
  * "Capacity" extension: used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
 	| field name | type  | description |

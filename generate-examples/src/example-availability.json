@@ -1,0 +1,26 @@
+{
+  "id": "CDC VTRCKS PIN",
+  "last_updated": "iso8601 datetime",
+  "name": "Human readable location name (e.g. Alex's Pharmacy Lakeview Location)",
+  "location": {
+    "street": "1234 W. Oak St",
+    "street_line_2": "Suite 400",
+    "city": "Chicago",
+    "state": "IL",
+    "zipcode": "60657",
+    "county": "Cook"
+  },
+  "contact": {
+    "booking_phone": "(202) 867-5309",
+    "booking_url": "https://alexspharmacy.com/covid19/?location=12",
+    "info_phone": "(202) 867-5309",
+    "info_url": "https://alexspharmacy.com/covid19/?location=12"
+  },
+  "availability": [
+    {
+      "date": "2020-03-04",
+      "total_slots": 23,
+      "available_slots": 1
+    }
+  ]
+}

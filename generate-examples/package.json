@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "generate-examples": "rm -rf ../examples/*.ndjson && ts-node src/index.ts --outdir ../examples",
+    "generate-conversion-example": "ts-node src/convert-availjson-to-fhir.ts > ../examples/conversion-output.md",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,6 +23,7 @@
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
     "got": "^11.8.1",
+    "hash.js": "^1.1.7",
     "lodash": "^4.17.21",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
