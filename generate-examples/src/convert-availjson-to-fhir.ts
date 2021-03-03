@@ -99,7 +99,7 @@ const convertLocation = (inputLocation: typeof example): ConversionResult => {
     return [
       {
         ...slotShape,
-        id: `c19-${location.id}-${availDay.date}f`,
+        id: `${slotShape.id}f`,
         status: 'free',
         extension: [
           {
@@ -118,7 +118,7 @@ const convertLocation = (inputLocation: typeof example): ConversionResult => {
       },
       {
         ...slotShape,
-        id: `c19-${location.id}-${availDay.date}b`,
+        id: `${slotShape.id}b`,
         status: 'busy',
         extension: [
           {
