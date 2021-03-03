@@ -16,7 +16,18 @@ interface ConversionResult {
   slots: Resource[];
 }
 
+/* Given a single "Availability Spec" formatted location, create SMART Scheduling Links data
+ * - Location
+ * - Schedule
+ * - Slots
+ */
+
 const convertLocation = (inputLocation: typeof example): ConversionResult => {
+  // In this translation script, we'll take the address as fully representing a location
+  // so we create a synthetic Location.id that's just a hash of the address. This is
+  // stable and easy to work with, but in a real system you'd probably have a
+  // "proper" (managed, stable) id for your locations.
+
   const address = {
     line: [inputLocation.location.street, inputLocation.location.street_line_2].filter((l) => l !== undefined),
     city: inputLocation.location.city,
