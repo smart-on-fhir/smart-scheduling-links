@@ -1,8 +1,8 @@
 import example from './example-availability.json';
 import hash from 'hash.js';
 
-const EXAMPLE_OPEN_TIME = '09:00:00-5';
-const EXAMPLE_CLOSE_TIME = '17:00:00-5';
+const EXAMPLE_OPEN_TIME = '09:00:00-05:00';
+const EXAMPLE_CLOSE_TIME = '17:00:00-05:00';
 
 interface Resource {
   resourceType: string;
