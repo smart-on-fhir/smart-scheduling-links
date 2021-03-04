@@ -1,13 +1,21 @@
 import example from './example-availability.json';
 import hash from 'hash.js';
 
-const EXAMPLE_OPEN_TIME = '09:00:00-05:00';
-const EXAMPLE_CLOSE_TIME = '17:00:00-05:00';
+/* Given a set of "Availability Spec" formatted locations, create SMART Scheduling Links data
+ * - Locations
+ * - Schedules
+ * - Slots
+ */
 
 interface Resource {
   resourceType: string;
   id: string;
   [key: string]: unknown;
+}
+
+interface ConversionContext {
+  openTime: string;
+  closeTime: string;
 }
 
 interface ConversionResult {
@@ -25,17 +33,11 @@ const URLs = {
   vtrcks: 'https://cdc.gov/vaccines/programs/vtrcks',
 };
 
-/* Given a single "Availability Spec" formatted location, create SMART Scheduling Links data
- * - Location
- * - Schedule
- * - Slots
- */
-
-const convertLocation = (inputLocation: typeof example[number]): ConversionResult => {
-  // In this translation script, we'll take the address as fully representing a location
+const convertLocation = (inputLocation: typeof example[number], context: ConversionContext): ConversionResult => {
+  // In this conversion function, we'll take street address as fully representing a location
   // so we create a synthetic Location.id that's just a hash of the address. This is
   // stable and easy to work with, but in a real system you'd probably have a
-  // "proper" (managed, stable) id for your locations.
+  // "proper" (managed, stable, unique) id for your locations.
 
   const address = {
     line: [inputLocation.location.street, inputLocation.location.street_line_2].filter((l) => l !== undefined),
@@ -82,8 +84,8 @@ const convertLocation = (inputLocation: typeof example[number]): ConversionResul
       schedule: {
         reference: `Schedule/${schedule.id}`,
       },
-      start: `${availDay.date}T${EXAMPLE_OPEN_TIME}`,
-      end: `${availDay.date}T${EXAMPLE_CLOSE_TIME}`,
+      start: `${availDay.date}T${context.openTime}`,
+      end: `${availDay.date}T${context.closeTime}`,
     };
 
     return [
@@ -109,7 +111,9 @@ const convertLocation = (inputLocation: typeof example[number]): ConversionResul
   return { locations: [location], schedules: [schedule], slots };
 };
 
-const converted = example.map((e) => convertLocation(e));
+// Run the conversion function on all locations from example file
+const converted = example.map((e) => convertLocation(e, { openTime: '09:00:00-05:00', closeTime: '17:00:00-05:00' }));
+
 (['locations', 'schedules', 'slots'] as const).forEach((f) => {
   console.log(`\n## ${f}`);
   console.log(
