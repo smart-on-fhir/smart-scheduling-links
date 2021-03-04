@@ -329,13 +329,13 @@ async function generate(options: { outdir: string }) {
     .groupBy((s) => s.start.slice(0, 4) + '-W' + String(getWeek(new Date(s.start))).padStart(2, '0'))
     .value();
 
-  Object.entries(slotsSplitMap).forEach(([week, slots], i) => {
+  Object.entries(slotsSplitMap).forEach(([week, slots]) => {
     fs.writeFileSync(`${options.outdir}/${fileSlot(week)}`, slots.map((s) => JSON.stringify(s)).join('\n'));
   });
 
   resources.manifest.output = [
     ...resources.manifest.output,
-    ...Object.entries(slotsSplitMap).map(([week, _]) => ({
+    ...Object.entries(slotsSplitMap).map(([week]) => ({
       type: 'Slot',
       url: `${BASE_URL}${fileSlot(week)}`,
     })),

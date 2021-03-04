@@ -16,6 +16,15 @@ interface ConversionResult {
   slots: Resource[];
 }
 
+const URLs = {
+  bookingLink: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link',
+  bokingPhone: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-phone',
+  slotCapacity: 'http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity',
+  serviceTypeDetailed: 'http://fhir-registry.smarthealthit.org/CodeSystem/service-type',
+  serviceType: 'http://terminology.hl7.org/CodeSystem/service-type',
+  vtrcks: 'https://cdc.gov/vaccines/programs/vtrcks',
+};
+
 /* Given a single "Availability Spec" formatted location, create SMART Scheduling Links data
  * - Location
  * - Schedule
@@ -41,22 +50,11 @@ const convertLocation = (inputLocation: typeof example[number]): ConversionResul
     id: hash.sha256().update(JSON.stringify(address)).digest('hex').slice(16),
     name: inputLocation.name,
     telecom: [
-      {
-        system: 'phone',
-        value: inputLocation.contact.info_phone,
-      },
-      {
-        system: 'url',
-        value: inputLocation.contact.info_url,
-      },
+      { system: 'phone', value: inputLocation.contact.info_phone },
+      { system: 'url', value: inputLocation.contact.info_url },
     ],
     address,
-    identifier: [
-      {
-        system: 'https://cdc.gov/vaccines/programs/vtrcks',
-        value: inputLocation.id,
-      },
-    ],
+    identifier: [{ system: URLs.vtrcks, value: inputLocation.id }],
   };
 
   const schedule = {
@@ -65,24 +63,16 @@ const convertLocation = (inputLocation: typeof example[number]): ConversionResul
     serviceType: [
       {
         coding: [
+          { system: URLs.serviceType, code: '57', display: 'Immunization' },
           {
-            system: 'http://terminology.hl7.org/CodeSystem/service-type',
-            code: '57',
-            display: 'Immunization',
-          },
-          {
-            system: 'http://fhir-registry.smarthealthit.org/CodeSystem/service-type',
+            system: URLs.serviceTypeDetailed,
             code: 'covid19-immunization',
             display: 'COVID-19 Immunization Appointment',
           },
         ],
       },
     ],
-    actor: [
-      {
-        reference: `Location/${location.id}`,
-      },
-    ],
+    actor: [{ reference: `Location/${location.id}` }],
   };
 
   const slots = inputLocation.availability.flatMap((availDay) => {
@@ -102,39 +92,21 @@ const convertLocation = (inputLocation: typeof example[number]): ConversionResul
         id: `${slotShape.id}f`,
         status: 'free',
         extension: [
-          {
-            url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link',
-            valueUrl: inputLocation.contact.booking_url,
-          },
-          {
-            url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-phone',
-            valueUrl: inputLocation.contact.booking_phone,
-          },
-          {
-            url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity',
-            valueInteger: availDay.available_slots,
-          },
+          { url: URLs.bookingLink, valueUrl: inputLocation.contact.booking_url },
+          { url: URLs.bokingPhone, valueUrl: inputLocation.contact.booking_phone },
+          { url: URLs.slotCapacity, valueInteger: availDay.available_slots },
         ],
       },
       {
         ...slotShape,
         id: `${slotShape.id}b`,
         status: 'busy',
-        extension: [
-          {
-            url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity',
-            valueInteger: availDay.total_slots - availDay.available_slots,
-          },
-        ],
+        extension: [{ url: URLs.slotCapacity, valueInteger: availDay.total_slots - availDay.available_slots }],
       },
     ];
   });
 
-  return {
-    locations: [location],
-    schedules: [schedule],
-    slots,
-  };
+  return { locations: [location], schedules: [schedule], slots };
 };
 
 const converted = example.map((e) => convertLocation(e));
