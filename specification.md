@@ -93,9 +93,9 @@ Each Location includes at least:
 | `resourceType` | string | Y | fixed value of `"Location"` |
 | `id` | string | Y | unique identifier for this location (up to 64 alphanumeric characters and may include `_` and `.`) |
 | `name` | string | Y | the human-readable name of the location |
-| `telecom` | array of JSON objects | Y | each object conveys a phone number |
-| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | fixed value of `"phone"` |
-| &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | a full phone number |
+| `telecom` | array of JSON objects | Y | each object conveys a contact point for this location|
+| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | `"phone"` or `"url"`|
+| &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | phone number or URL for this location|
 | `address` | JSON object | Y | each object conveys a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) |
 | &nbsp;&nbsp;&rarr;&nbsp;`line` | array of strings | Y | each string is line in the address |
 | &nbsp;&nbsp;&rarr;&nbsp;`city` | string | Y | |  
@@ -126,6 +126,9 @@ Each Location includes at least:
   "telecom": [{
     "system": "phone",
     "value": "413-000-0000"
+  }, {
+    "system": "url",
+    "value": "https://pharmacy.example.com"
   }],
   "address": {
     "line": ["173 Elm St"],
