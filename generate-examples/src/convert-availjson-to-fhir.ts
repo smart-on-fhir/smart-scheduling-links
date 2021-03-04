@@ -49,7 +49,7 @@ const convertLocation = (inputLocation: typeof example[number], context: Convers
 
   const location = {
     resourceType: 'Location',
-    id: hash.sha256().update(JSON.stringify(address)).digest('hex').slice(16),
+    id: hash.sha256().update(JSON.stringify(address)).digest('hex').slice(0, 32),
     name: inputLocation.name,
     telecom: [
       { system: 'phone', value: inputLocation.contact.info_phone },
