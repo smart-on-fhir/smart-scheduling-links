@@ -93,7 +93,7 @@ Each Location includes at least:
 | `resourceType` | string | Y | fixed value of `"Location"` |
 | `id` | string | Y | unique identifier for this location (up to 64 alphanumeric characters and may include `_` and `.`) |
 | `name` | string | Y | the human-readable name of the location |
-| `telecom` | array of JSON objects | Y | each object conveys a contact point for this location|
+| `telecom` | array of JSON objects | Y | each object conveys a contact point for this location (*Note: this field conveys "general information" contact points, not necessarily for booking appointments; see Slot details for booking URLs and booking phone numbers*)|
 | &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | `"phone"` or `"url"`|
 | &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | phone number or URL for this location|
 | `address` | JSON object | Y | each object conveys a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) |
@@ -213,7 +213,7 @@ Each `Slot` has:
 
 Each Slot object may optionally include one or both of the following extension JSON objects in the Slot's `extension` array.
 
-* "Booking" extension: used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
+* "Booking link" extension: used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
 
 	| field name | type  | description |
 	|---|---|---|
