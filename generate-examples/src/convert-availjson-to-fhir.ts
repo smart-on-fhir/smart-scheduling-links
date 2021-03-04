@@ -22,7 +22,7 @@ interface ConversionResult {
  * - Slots
  */
 
-const convertLocation = (inputLocation: typeof example): ConversionResult => {
+const convertLocation = (inputLocation: typeof example[number]): ConversionResult => {
   // In this translation script, we'll take the address as fully representing a location
   // so we create a synthetic Location.id that's just a hash of the address. This is
   // stable and easy to work with, but in a real system you'd probably have a
@@ -137,10 +137,13 @@ const convertLocation = (inputLocation: typeof example): ConversionResult => {
   };
 };
 
-const converted = convertLocation(example);
-console.log('\n## Locations');
-console.log(converted.locations.map((i) => '    ' + JSON.stringify(i)).join('\n'));
-console.log('\n## Schedules');
-console.log(converted.schedules.map((i) => '    ' + JSON.stringify(i)).join('\n'));
-console.log('\n## Slots');
-console.log(converted.slots.map((i) => '    ' + JSON.stringify(i)).join('\n'));
+const converted = example.map((e) => convertLocation(e));
+(['locations', 'schedules', 'slots'] as const).forEach((f) => {
+  console.log(`\n## ${f}`);
+  console.log(
+    converted
+      .flatMap((r) => r[f])
+      .map((i) => '    ' + JSON.stringify(i))
+      .join('\n'),
+  );
+});

@@ -1,5 +1,5 @@
-{
-  "id": "CDC VTRCKS PIN",
+[{
+  "id": "CDC VTRCKS PIN #1",
   "last_updated": "iso8601 datetime",
   "name": "Human readable location name (e.g. Alex's Pharmacy Lakeview Location)",
   "location": {
@@ -17,10 +17,50 @@
     "info_url": "https://alexspharmacy.com/covid19/?location=12"
   },
   "availability": [
-    {
+   {
       "date": "2020-03-04",
       "total_slots": 23,
-      "available_slots": 1
-    }
+      "available_slots": 2
+    },{
+      "date": "2020-03-05",
+      "total_slots": 20,
+      "available_slots": 11
+    }, {
+      "date": "2020-03-06",
+      "total_slots": 18,
+      "available_slots": 7
+    } 
   ]
-}
+},{
+  "id": "CDC VTRCKS PIN #2",
+  "last_updated": "iso8601 datetime",
+  "name": "Human readable location name (e.g. Alex's Pharmacy Madison Location)",
+  "location": {
+    "street": "1234 W. Main St",
+    "city": "Madison",
+    "state": "WI",
+    "zipcode": "53726",
+    "county": "Dane"
+  },
+  "contact": {
+    "booking_phone": "(202) 867-5309",
+    "booking_url": "https://alexspharmacy.com/covid19/?location=13",
+    "info_phone": "(202) 867-5309",
+    "info_url": "https://alexspharmacy.com/covid19/?location=13"
+  },
+  "availability": [
+   {
+      "date": "2020-03-04",
+      "total_slots": 23,
+      "available_slots": 2
+    },{
+      "date": "2020-03-05",
+      "total_slots": 20,
+      "available_slots": 11
+    }, {
+      "date": "2020-03-06",
+      "total_slots": 18,
+      "available_slots": 7
+    } 
+  ]
+}]
