@@ -95,7 +95,7 @@ const convertLocation = (inputLocation: typeof example[number], context: Convers
         status: 'free',
         extension: [
           { url: URLs.bookingLink, valueUrl: inputLocation.contact.booking_url },
-          { url: URLs.bokingPhone, valueUrl: inputLocation.contact.booking_phone },
+          { url: URLs.bokingPhone, valueString: inputLocation.contact.booking_phone },
           { url: URLs.slotCapacity, valueInteger: availDay.available_slots },
         ],
       },
