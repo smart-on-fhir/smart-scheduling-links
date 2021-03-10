@@ -33,7 +33,7 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
 
 ### Performance Considerations
 
-* _Slot Publishers_ MAY choose to host a separate manifest file for each state or geographical region where they operate, if they want to make data independently available for clients with limited regions of interest.
+* _Slot Publishers_ SHOULD annotate each output with a list of jurisdictions as a hint to clients, allowing clients to focus on fetching data for the specific geographical regions where they operate; this is helpful for clients with limited regions of interest.
 * Clients SHOULD NOT request a manifest or any individual data file more than once per minute
 * Clients MAY include standard HTTP headers such as `If-None-Match` or `If-Modified-Since` with each query to prevent retrieving data when nothing has changed since the last query.
 * Clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp when retrieving a manifest file to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
@@ -46,9 +46,11 @@ The manifest file is the entry point for a client to retrieve scheduling data. T
 |---|---|---|
 | `transactionTime`  | ISO8601 timestamp as string| the time when this data set was published |
 | `request` | url as string |  the full URL of the manifest |
-| `output` | array of JSON objects | each object contains a `type` and a `url` field |
+| `output` | array of JSON objects | each object contains a `type`, `url`, and `extension` field |
 | &nbsp;&nbsp;&rarr;&nbsp;`type` | string | whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file |
 | &nbsp;&nbsp;&rarr;&nbsp;`url` | url as string | the full URL of an NDJSON file for the specified type of data |
+| &nbsp;&nbsp;&rarr;&nbsp;`extension` | JSON object | contains tags to help a client decide which output files to download |
+| &nbsp;&nbsp;&rarr;&nbsp;&nbsp;&nbsp;&rarr;&nbsp;`jurisdiction` | JSON array of strings | state or jurisdiction abbreviations (e.g., `["MA"]` for a file with data pertaining solely to Massachusetts) |
 
 (For more information about this manifest file, see the [FHIR bulk data spec](http://build.fhir.org/ig/HL7/bulk-data/branches/bulk-publish/bulk-publish.html).)
 
@@ -70,11 +72,17 @@ The manifest file is the entry point for a client to retrieve scheduling data. T
     },
     {
       "type": "Slot",
-      "url": "https://example.com/data/slot_file_MA.ndjson"
+      "url": "https://example.com/data/slot_file_MA.ndjson",
+      "extension": {
+        "jurisdiction": ["MA"]
+      }
     },
     {
       "type": "Slot",
-      "url": "https://example.com/data/slot_file_CT.ndjson"
+      "url": "https://example.com/data/slot_file_NEARBY.ndjson",
+      "extension": {
+        "jurisdiction": ["CT", "RI", "NH"]
+      }
     }
   ],
   "error": []
