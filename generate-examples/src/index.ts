@@ -338,6 +338,9 @@ async function generate(options: { outdir: string }) {
     ...Object.entries(slotsSplitMap).map(([week]) => ({
       type: 'Slot',
       url: `${BASE_URL}${fileSlot(week)}`,
+      extension: {
+        jurisdiction: ['MA']
+      }
     })),
   ];
 
