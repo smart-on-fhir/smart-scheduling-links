@@ -339,7 +339,7 @@ async function generate(options: { outdir: string }) {
       type: 'Slot',
       url: `${BASE_URL}${fileSlot(week)}`,
       extension: {
-        jurisdiction: ['MA']
+        state: ['MA']
       }
     })),
   ];

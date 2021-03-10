@@ -1,5 +1,5 @@
 {
-  "transactionTime": "2021-03-10T03:59:58.988Z",
+  "transactionTime": "2021-03-10T18:16:34.535Z",
   "request": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
   "output": [
     {
@@ -14,7 +14,7 @@
       "type": "Slot",
       "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W09.ndjson",
       "extension": {
-        "jurisdiction": [
+        "state": [
           "MA"
         ]
       }
@@ -23,7 +23,7 @@
       "type": "Slot",
       "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W10.ndjson",
       "extension": {
-        "jurisdiction": [
+        "state": [
           "MA"
         ]
       }
@@ -32,7 +32,7 @@
       "type": "Slot",
       "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W11.ndjson",
       "extension": {
-        "jurisdiction": [
+        "state": [
           "MA"
         ]
       }
@@ -41,7 +41,7 @@
       "type": "Slot",
       "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W12.ndjson",
       "extension": {
-        "jurisdiction": [
+        "state": [
           "MA"
         ]
       }
@@ -50,7 +50,7 @@
       "type": "Slot",
       "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/slots-2021-W13.ndjson",
       "extension": {
-        "jurisdiction": [
+        "state": [
           "MA"
         ]
       }
