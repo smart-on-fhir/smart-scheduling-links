@@ -118,7 +118,7 @@ Each Location includes at least:
 
 Each `identifier` object includes a `system` and a `value`. 
 
-* "VTRckS PIN": used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
+* "VTRckS PIN" (see https://cdc.gov/vaccines/programs/vtrcks for VTrckS program details):
 
 	| field name | type  | description |
 	|---|---|---|
