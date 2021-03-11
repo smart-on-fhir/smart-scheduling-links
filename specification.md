@@ -135,7 +135,7 @@ Each `identifier` object includes a `system` and a `value`.
   "id": "123",
   "identifier": [{
     "url": "https://cdc.gov/vaccines/programs/vtrcks",
-    "valueString": "CV1654321"
+    "value": "CV1654321"
   }],
   "name": "Flynn's Pharmacy in Pittsfield, MA",
   "description": "Located behind old Berkshire Bank building",
