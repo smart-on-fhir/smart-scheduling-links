@@ -114,10 +114,18 @@ Each Location includes at least:
 | `position` | JSON object | N |  geocoordinates of the location |
 | &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
 | &nbsp;&nbsp;&rarr;&nbsp;`longitude` | number | N | must be populatd if position is included |
-| `identifier` | array of JSON objects | N | VTrckS PIN if applicable|
-| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | fixed value of `"https://cdc.gov/vaccines/programs/vtrcks"` for a VTrckS PIN|
-| &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | VTrcks PIN|
+| `identifier` | array of JSON objects | N | Identifiers for this location (e.g., VTrckS PIN). See below.|
 
+Each `identifier` object includes a `system` and a `value`. 
+
+* "VTRckS PIN": used to convey a web link into the Provider Booking Portal (see [below](#deep-links-hosted-by-provider-booking-portal)) where the user can begin booking this slot.
+
+	| field name | type  | description |
+	|---|---|---|
+	|`system`| string | fixed value of `"https://cdc.gov/vaccines/programs/vtrcks"`|
+	|`value` | string | VTrckS PIN for this location |
+	
+* Additional identifiers: Any number of additional identifiers MAY be included. Each should populate `system` and `value` as appropriate.
 
 ### Example `Location`
 
