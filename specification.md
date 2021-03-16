@@ -171,7 +171,26 @@ Each Schedule includes at least:
 | `actor` | array with one JSON object | |
 | &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | the location where appointments are available formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `"Location/123"`) |
 | `serviceType` | array of JSON objects | each object is a standardized concept indicating what services are offered. For COVID-19 immunization Schedules, two standardized codings must be included: `"system": "http://terminology.hl7.org/CodeSystem/service-type"` with `"code": "57"` and `"system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type"` with  `"code": "covid19-immunization"`. Additional `serviceType`s may be included if this schedule offers services beyond COVID-19 immunizations; or additional `coding`s may be included to convey more nuanced information about the COVID-19 immunizations offered. The example resource below shows a `serviceType` that can be used verbatim to advertise a COVID-19 immunization schedule. (Why two Codings? One expresses the fact that the slot is for an immunization service, and the other is specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.)|
+| `extension` | array of JSON objects | N | see details below |
 
+Each Schedule object may optionally include the following extension JSON objects in the Schedule's `extension` array.
+
+* "Vaccine Product" extension: used to convey a product code for a vaccine available at appointments on this Schedule. This extension SHOULD NOT repeat; providers SHOULD represent each available vaccine product on a separate schedule to facilitate directed booking.
+
+	| field name | type | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-product"`|
+	|`valueCoding` | string | Coded representation of a vaccine product (CVX code)|
+	| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Fixed value of `"http://hl7.org/fhir/sid/cvx"`|
+	| &nbsp;&nbsp;&rarr;&nbsp;`code` | string |  Any valid CVX code (e.g., `"207"`, `"208"`, `"210"`, `"212"`)|
+        | &nbsp;&nbsp;&rarr;&nbsp;`display` | string | Display name for the code|
+
+* "Dose Number" extension: used to convey a dose sequence number (e.g., "first dose" or "second dose') offered at appointments on this Schdule. This extension MAY repeat, if this Schedule offers both "first dose" and "second dose" appointments.
+
+	| field name | type  | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-dose"`|
+	|`valueInteger` | number | indicates sequence number (should be be `1` or `2` for current vaccines)|
 
 ### Example `Schedule`
 
