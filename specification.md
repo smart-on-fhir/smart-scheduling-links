@@ -134,7 +134,7 @@ Each `identifier` object includes a `system` and a `value`.
   "resourceType": "Location",
   "id": "123",
   "identifier": [{
-    "url": "https://cdc.gov/vaccines/programs/vtrcks",
+    "system": "https://cdc.gov/vaccines/programs/vtrcks",
     "value": "CV1654321"
   }],
   "name": "Flynn's Pharmacy in Pittsfield, MA",
@@ -241,7 +241,7 @@ Each Slot object may optionally include one or both of the following extension J
 	| field name | type  | description |
 	|---|---|---|
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/booking-phone"`|
-	|`valueString` | string | Phone number the user caen call to book this slot.
+	|`valueString` | string | Phone number the user can call to book this slot.
 
 
  * "Capacity" extension: used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
