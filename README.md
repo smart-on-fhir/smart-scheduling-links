@@ -1,7 +1,8 @@
 # SMART Scheduling Links
 *What if booking clinical appointments looked more like booking airline tickets?*
 
-See [specification.md](specification.md) for API requirements and details.
+* See [specification.md](specification.md) for API requirements and details
+* Chat with us at [#smart/scheduling-links on chat.fhir.org](https://chat.fhir.org/#narrow/stream/281612-smart.2Fscheduling-links)
 
 |Status|
 |---|
