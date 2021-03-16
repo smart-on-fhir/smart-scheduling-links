@@ -180,9 +180,9 @@ Each Schedule object may optionally include the following extension JSON objects
 	| field name | type | description |
 	|---|---|---|
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-product"`|
-	|`valueCoding` | string | Coded representation of a vaccine product (CVX code)|
+	|`valueCoding` | JSON object| Coded representation of a vaccine product (CVX code)|
 	| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Fixed value of `"http://hl7.org/fhir/sid/cvx"`|
-	| &nbsp;&nbsp;&rarr;&nbsp;`code` | string |  Any valid CVX code (e.g., `"207"`, `"208"`, `"210"`, `"212"`)|
+	| &nbsp;&nbsp;&rarr;&nbsp;`code` | string | Any valid CVX code (e.g., `"207"`, `"208"`, `"210"`, `"212"`) |
         | &nbsp;&nbsp;&rarr;&nbsp;`display` | string | Display name for the code|
 
 * "Dose Number" extension: used to convey a dose sequence number (e.g., "first dose" or "second dose') offered at appointments on this Schdule. This extension MAY repeat, if this Schedule offers both "first dose" and "second dose" appointments.
