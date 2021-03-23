@@ -115,8 +115,10 @@ Each Location includes at least:
 | &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
 | &nbsp;&nbsp;&rarr;&nbsp;`longitude` | number | N | must be populatd if position is included |
 | `identifier` | array of JSON objects | N | Identifiers for this location (e.g., VTrckS PIN). See below.|
+| `extension` | array of JSON objects | see details below |
 
-Each `identifier` object includes a `system` and a `value`. 
+
+#### Each `identifier` object includes a `system` and a `value`. 
 
 * "VTRckS PIN" (see https://cdc.gov/vaccines/programs/vtrcks for VTrckS program details):
 
@@ -126,6 +128,45 @@ Each `identifier` object includes a `system` and a `value`.
 	|`value` | string | VTrckS PIN for this location |
 	
 * Additional identifiers: Any number of additional identifiers MAY be included. Each should populate `system` and `value` as appropriate.
+
+#### Each Location object may optionally include the following extension JSON objects in the Location's `extension` array.
+
+* "Location Feature" extension: used to convey one or more features or services for this Location (e.g., for accessibility services)
+
+	| field name | type | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/feature"`|
+	|`valueCoding` | JSON object| Coded representation of a location feature or service|
+	| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | See Location Features codings below |
+	| &nbsp;&nbsp;&rarr;&nbsp;`code` | string |  See Location Features codings below |
+	| &nbsp;&nbsp;&rarr;&nbsp;`display` | string | See Location Features codings below |
+	
+  * Location Feature: Wheelchair Access
+  ```
+  {
+    "system": "http://fhir-registry.smarthealthit.org/CodeSystem/feature",
+    "code": "wheelchair-access",
+    "display": "Wheelchair Access"
+  }
+  ```
+  
+  * Location Feature: Drive-through Access
+  ```
+  {
+    "system": "http://fhir-registry.smarthealthit.org/CodeSystem/feature",
+    "code": "drive-through",
+    "display": "Drive-through Access"
+  }
+  ```  
+  
+  * Location Feature: Interpreter Services
+  ```
+  {
+    "system": "http://fhir-registry.smarthealthit.org/CodeSystem/feature",
+    "code": "interpreter",
+    "display": "Interpreter Services"
+  }
+  ```
 
 ### Example `Location`
 
