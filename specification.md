@@ -38,6 +38,13 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
 * Clients MAY include standard HTTP headers such as `If-None-Match` or `If-Modified-Since` with each query to prevent retrieving data when nothing has changed since the last query.
 * Clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp when retrieving a manifest file to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
 
+### Access Control Considerations
+
+* _Slot Publishers_ SHOULD host `$bulk-publish` content at open, publicly accessible endpoints when sharing COVID-19 appointment availability (no required access keys or client credentials). This pattern ensures that data can be used widely and without pre-coordination to meet public health use cases.
+  * These data will be publicly available downstream in consumer-facing apps, so confidentiality is a non-goal.
+  * Public health goals require flexibility in access to non-confidential information.
+  * With the `$bulk-publish` pattern, _Slot Publishers_ host static files, which scale well to open publication
+
 ## Manifest File
 
 The manifest file is the entry point for a client to retrieve scheduling data. The manifest JSON file includes:
