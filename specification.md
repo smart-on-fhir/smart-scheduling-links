@@ -263,7 +263,7 @@ Each Slot object may optionally include one or both of the following extension J
 	|`valueString` | string | Phone number the user can call to book this slot.
 
 
- * "Capacity" extension: used to enable aggregated discovery at mass vaccination sites. Providers SHOULD advertise discrete slots, but MAY for performance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension.
+ * "Capacity" extension: used to enable aggregated discovery at mass vaccination sites. Slot Publishers SHOULD advertise discrete slots, but MAY for p erformance or scalability reasons choose to aggregate otherwise identical slots (same schedule, status, start, and end times) with this extension. Slot Publishers MAY provide estimated capacity if precise capacity cannot be determined.
 	| field name | type  | description |
 	|---|---|---|
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity"`|
