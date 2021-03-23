@@ -198,6 +198,35 @@ Each Schedule object may optionally include the following extension JSON objects
 	|---|---|---|
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-dose"`|
 	|`valueInteger` | number | indicates sequence number (should be be `1` or `2` for current vaccines)|
+	
+* "Eligibility" extension: used to convey eligibility requirements to book appointments on this Schedule. Each eligibility requirement is effectively a tag, and clients should evaluate each eligibility requirement independently. We do not attempt to support expression trees or other complex logic.
+
+	| field name | type | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/eligibility"`|
+	|`valueCoding` | JSON object| Coded representation of an eligibility requirement|
+	| &nbsp;&nbsp;&rarr;&nbsp;`system` | string | See Eligibility codings below |
+	| &nbsp;&nbsp;&rarr;&nbsp;`code` | string |  See Eligibility codings below |
+	| &nbsp;&nbsp;&rarr;&nbsp;`display` | string | See Eligibility codings below |
+	
+  * _Eligibility Requirement: Invitation Required_. Appointments are only available to book after the user has received an invitation (e.g., after making it to the top of  a waiting list).
+  ```
+  {
+    "system": "http://fhir-registry.smarthealthit.org/CodeSystem/eligibility",
+    "code": "invitation-required",
+    "display": "Invitation Required"
+  }
+  ```
+  
+  * _Eligibility Requirement: County Residents Only_. Appointments are only available for county residents.
+  ```
+  {
+    "system": "http://fhir-registry.smarthealthit.org/CodeSystem/eligibility",
+    "code": "country-residents-only",
+    "display": "County residents only"
+  }
+  ```  
+
 
 ### Example `Schedule`
 
