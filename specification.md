@@ -171,15 +171,27 @@ Each line of the Schedule File is a minified JSON object that conveys a informat
 
 Each Schedule includes at least:
 
-| field name | type | description |
-|---|---|---|
-| `resourceType` | string | fixed value of `"Schedule"` |
-| `id` | string |  a unique identifier for this schedule (up to 64 alphanumeric characters and may include `_` and `.`)|
-| `actor` | array with one JSON object | |
-| &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | the location where appointments are available formed as `Location` + `/` + the `id` value of an entry in a Location File (e.g., `"Location/123"`) |
-| `serviceType` | array of JSON objects | each object is a standardized concept indicating what services are offered. For COVID-19 immunization Schedules, two standardized codings must be included: `"system": "http://terminology.hl7.org/CodeSystem/service-type"` with `"code": "57"` and `"system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type"` with  `"code": "covid19-immunization"`. Additional `serviceType`s may be included if this schedule offers services beyond COVID-19 immunizations; or additional `coding`s may be included to convey more nuanced information about the COVID-19 immunizations offered. The example resource below shows a `serviceType` that can be used verbatim to advertise a COVID-19 immunization schedule. (Why two Codings? One expresses the fact that the slot is for an immunization service, and the other is specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see [here](http://hl7.org/fhir/datatypes.html#codeableconcept) for details.)|
-| `extension` | array of JSON objects | see details below |
-
+<table>
+	<tr><th>field name</th><th>type</th><th>description</th></tr>
+	<tr><td><code>resourceType</code></td><td>string</td><td>fixed value of <code>"Schedule"</code></td></tr>
+	<tr><td><code>id</code></td><td>string</td><td>a unique identifier for this schedule (up to 64 alphanumeric characters and may include <code>_</code> and <code>.</code>)</td></tr>
+	<tr><td><code>actor</code></td><td>array with one JSON object</td><td></td></tr>
+	<tr><td>&nbsp;&nbsp;&rarr;&nbsp;<code>reference</code></td><td>string</td><td>the location where appointments are available formed as <code>Location</code> + <code>/</code> + the <code>id</code> value of an entry in a Location File (e.g., <code>"Location/123"</code>) </td></tr>
+	<tr><td><code>serviceType</code></td><td>array of JSON objects</td><td>Each object is a standardized concept indicating what services are offered. For COVID-19 immunization Schedules, two standardized codings must be included:
+		<pre>[{
+  "system": "http://terminology.hl7.org/CodeSystem/service-type",
+  "code": "57",
+  "display": "Immunization"
+}, {
+  "system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type",
+  "code": "covid19-immunization"
+  "display": "COVID-19 Immunization Appointment"
+}]
+</pre>
+		Additional <code>serviceType</code>s may be included if this schedule offers services beyond COVID-19 immunizations; or additional <code>coding</code>s may be included to convey more nuanced information about the COVID-19 immunizations offered. The example resource below shows a <code>serviceType</code> that can be used verbatim to advertise a COVID-19 immunization schedule. (Why two Codings? One expresses the fact that the slot is for an immunization service, and the other is specific to COVID-19. This structure follows a convention in FHIR for expressing "codeable concepts" -- see <a href="http://hl7.org/fhir/datatypes.html#codeableconcept">here</a> for details.)</td></tr>
+	<tr><td><code>extension</code></td><td>array of JSON objects</td><td>see details below</td></tr>
+</table>
+	
 Each Schedule object may optionally include the following extension JSON objects in the Schedule's `extension` array.
 
 * "Vaccine Product" extension: used to convey a product code for a vaccine available at appointments on this Schedule. This extension SHOULD NOT repeat; providers SHOULD represent each available vaccine product on a separate schedule to facilitate directed booking.
