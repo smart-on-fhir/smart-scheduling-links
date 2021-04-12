@@ -28,7 +28,7 @@ We are parsimonious in our use of standards, so that:
 
 This specification defines three functional roles:
 
-* **Slot Discovery Client**: the booking tool of a patient's choice. This system discoverys appointment slots on a patient's behalf, and helps the patient choose the best slots to book (e.g., by evaluating trade-offs of travel distance or wait time).
+* **Slot Discovery Client**: the booking tool of a patient's choice. This system discovers appointment slots on a patient's behalf, and helps the patient choose the best slots to book (e.g., by evaluating trade-offs of travel distance or wait time).
 
 * **Slot Publisher**: the API service offered by a healthcare provider, advertising available slots. Critically, advertising a slot should be low-risk, since the mere fact that a slot is advertised does *not* guarantee that any given patient will be allowed to book the slot; instead, sophisticated rules can be implemented by the...
 
@@ -42,7 +42,7 @@ Examining the SMART Scheduling Links workflow described above, there are some po
 into the healthcare provider's system, or create a new account; and might have to answer all sorts of
 provider-specific questions in order to complete a booking.
 
-* Appointment slot data might become stale, so that by the time a patient signs into the provider's system, 
+* Appointment slot data might become stale, so that by the time a patient signs into the provider's system, the slot is already taken.
    
 * Once an appointment booking is completed, the Slot Discovery Client might not have an easy way to learn about
 the details of the booking (e.g., was it successful; what is the specific location and timing).
