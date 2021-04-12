@@ -6,7 +6,7 @@ This guide explains how a _Slot Publisher_ makes vaccination or other appointmen
 
 * **Low implementation effort** -- publishers can expose available slots with nothing more than static web hosting (e.g., from a cloud storage bucket or off-the-shelf web server)
 * **Scales up and down** -- publishers can expose information about a few vaccination sites and a few slots, or large-scale programs such as nationwide pharmacies or mass vaccination sites
-* **Progressive enhancement** -- publishers can expose coarse-grained data like "we have 20 slots availaable today" or fine-grained data with specific timing for each slot
+* **Progressive enhancement** -- publishers can expose coarse-grained data like "we have 20 slots available today" or fine-grained data with specific timing for each slot
 * **Builds on standards** -- publishers expose data according to the FHIR standard, but don't need specific experience with FHIR to follow this guide
 
 ## Quick Start Guide
