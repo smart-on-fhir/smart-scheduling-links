@@ -50,6 +50,10 @@ const slot = (start: string, end: string, schedule: Resource) => ({
       url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-deep-link',
       valueUrl: `https://ehr-portal.example.org/bookings?slot=${bookingId()}`,
     },
+    {
+      url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-hhone',
+      valueString: `000-000-0000`,
+    },
     ...(COARSE_GRAINED_SLOTS
       ? [
           {
@@ -85,6 +89,20 @@ const schedule = (location: Resource) => ({
       reference: `Location/${location.id}`,
     },
   ],
+  extension: [
+    {
+      url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-dose',
+      valueInteger: 1
+    },
+    {
+      url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-product',
+      valueCoding: {
+        system: 'http://hl7.org/fhir/sid/cvx',
+        code: '207',
+        display: 'Moderna COVID-19 Vaccine',
+      }
+    }
+  ],
 });
 
 interface Resource {
@@ -108,7 +126,14 @@ const locations: Resource[] = [
       city: 'Boston',
       state: 'MA',
       postalCode: '02114',
+      district: 'Suffolk',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-00',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -125,7 +150,14 @@ const locations: Resource[] = [
       city: 'Worcester',
       state: 'MA',
       postalCode: '01602',
+      district: 'Worcester',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-01',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -142,7 +174,14 @@ const locations: Resource[] = [
       city: 'Springfield',
       state: 'MA',
       postalCode: '01101',
+      district: 'Hampden',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-02',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -159,7 +198,14 @@ const locations: Resource[] = [
       city: 'Cambridge',
       state: 'MA',
       postalCode: '02139',
+      district: 'Middlesex',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-03',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -176,7 +222,14 @@ const locations: Resource[] = [
       city: 'Lowell',
       state: 'MA',
       postalCode: '01851',
+      district: 'Middlesex',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-04',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -193,7 +246,14 @@ const locations: Resource[] = [
       city: 'Brockton',
       state: 'MA',
       postalCode: '02301',
+      district: 'Suffolk',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-05',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -210,7 +270,14 @@ const locations: Resource[] = [
       city: 'New Bedford',
       state: 'MA',
       postalCode: '02740',
+      district: 'Bristol',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-06',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -227,7 +294,14 @@ const locations: Resource[] = [
       city: 'Lynn',
       state: 'MA',
       postalCode: '01901',
+      district: 'Essex',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-07',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -244,7 +318,14 @@ const locations: Resource[] = [
       city: 'Quincy',
       state: 'MA',
       postalCode: '02269',
+      district: 'Norfolk',
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-08',
+      },
+    ],
   },
   {
     resourceType: 'Location',
@@ -261,7 +342,14 @@ const locations: Resource[] = [
       city: 'Pittsfield',
       state: 'MA',
       postalCode: '01201',
+      district: 'Berkshire'
     },
+    identifier: [
+      {
+        system: 'https://cdc.gov/vaccines/programs/vtrcks',
+        value: 'fake-vtrcks-pin-09',
+      },
+    ],
   },
 ];
 
@@ -339,8 +427,8 @@ async function generate(options: { outdir: string }) {
       type: 'Slot',
       url: `${BASE_URL}${fileSlot(week)}`,
       extension: {
-        state: ['MA']
-      }
+        state: ['MA'],
+      },
     })),
   ];
 
