@@ -1,5 +1,5 @@
 {
-  "transactionTime": "2021-04-13T18:50:51.388Z",
+  "transactionTime": "2021-04-13T18:59:55.037Z",
   "request": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
   "output": [
     {
