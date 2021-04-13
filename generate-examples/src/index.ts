@@ -51,7 +51,7 @@ const slot = (start: string, end: string, schedule: Resource) => ({
       valueUrl: `https://ehr-portal.example.org/bookings?slot=${bookingId()}`,
     },
     {
-      url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-hhone',
+      url: 'http://fhir-registry.smarthealthit.org/StructureDefinition/booking-phone',
       valueString: `000-000-0000`,
     },
     ...(COARSE_GRAINED_SLOTS
