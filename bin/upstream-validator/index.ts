@@ -1,14 +1,19 @@
 // @ts-ignore
 import validateSchema from "yaml-schema-validator";
 
-console.log("Validating schema");
-
-const fileName = process.argv[2];
-
-if (!fileName) {
-    throw new Error("Missing file to validate");
+if (process.argv.length < 3) {
+    throw new Error("Missing files to validate");
+}
+const files = process.argv.slice(2);
+for (const file of files) {
+    if (!file.endsWith("yml")) {
+        continue;
+    }
+    console.log("Validating: ", file);
+    validateSchema(file, {
+        schemaPath: 'schema.yml'
+    });
 }
 
-validateSchema(fileName, {
-    schemaPath: 'schema.yml'
-});
+
+
