@@ -1,0 +1,20 @@
+---
+name:
+  type: string
+  required: true
+organization:
+  type: string
+  required: true
+synthetic:
+  type: boolean
+  required: true
+baseURL:
+  type: string
+  required: true
+contacts:
+  - name:
+      type: string
+      required: true
+    email:
+      type: string
+      required: true
