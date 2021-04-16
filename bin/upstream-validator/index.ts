@@ -1,19 +1,40 @@
-// @ts-ignore
-import validateSchema from "yaml-schema-validator";
+const Ajv = require("ajv");
+const fs = require("fs").promises;
 
-if (process.argv.length < 3) {
-    throw new Error("Missing files to validate");
-}
-const files = process.argv.slice(2);
-for (const file of files) {
-    if (!file.endsWith("yml")) {
-        continue;
+async function main() {
+    if (process.argv.length < 3) {
+        throw new Error("Missing files to validate");
     }
-    console.log("Validating: ", file);
-    validateSchema(file, {
-        schemaPath: 'schema.yml'
-    });
+
+// Read and compile the schema
+    const ajv = new Ajv();
+
+    const jsonFile = await fs.readFile("./schema.json");
+
+    const validate = ajv.compile(JSON.parse(jsonFile));
+
+    console.log("Done");
+
+    const files = process.argv.slice(2);
+    let allValid = true;
+    for (const file of files) {
+        if (!file.endsWith("json")) {
+            continue;
+        }
+        console.log("Validating: ", file);
+        const upstream = JSON.parse(await fs.readFile(file));
+        const valid = validate(upstream);
+        if (!valid) {
+            console.error("File failed validation: ", validate.errors);
+            allValid = allValid && false;
+        }
+    }
+    if (!allValid) {
+        throw new Error("Files failed validation, see logs for details");
+    }
 }
 
-
+main()
+    .then(() => console.log("Validation completed successfully"))
+    .catch((e) => console.error(e));
 

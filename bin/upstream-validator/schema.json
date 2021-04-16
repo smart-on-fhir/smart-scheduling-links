@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://smarthealthit.org/slot.publisher.schema.json",
+  "title": "Vaccine Slot Publisher Endpoint",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of publisher endpoint (e.g. SMART Clinic, Boston)"
+    },
+    "organization": {
+      "type": "string",
+      "description": "Name of organization publishing information (e.g. SMART Health)"
+    },
+    "synthetic": {
+      "type": "boolean",
+      "description": "Whether or not the endpoint is hosting synthetic data instead of production data"
+    },
+    "baseURL": {
+      "type": "string",
+      "description": "Base URL where clients can find the publish manifest and NDJSON files (should not include `$bulk-publish`)"
+    },
+    "contacts": {
+      "type": "array",
+      "description": "At least one point of contact for addressing questions or issues with the endpoint",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of contact"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of contact"
+          }
+        },
+        "required": [
+          "name",
+          "email"
+        ]
+      },
+      "minItems": 1
+    },
+    "headers": {
+      "type": "array",
+      "description": "An optional list of header key/values that must be included in requests",
+      "items": {
+        "type": "object"
+      }
+    },
+    "params": {
+      "type": "array",
+      "description": "An optional list of query parameter key/values that must be included in requests",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "organization",
+    "synthetic",
+    "baseURL",
+    "contacts"
+  ]
+}

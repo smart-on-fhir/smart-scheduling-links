@@ -2,7 +2,7 @@
 
 This document provides simple guidance as to how _slot publishers_ can advertise their endpoints in order to facilitate discovery by clients.
 In brief, we recommend publisher make use of two specific approaches:
-1. Adding an additional `yaml` description of their endpoint to this repository.
+1. Adding an additional `json` description of their endpoint to this repository.
 1. Including a [schema.org service](https://schema.org/Service) description on their home page.
 
 ## Centralized repository
@@ -35,23 +35,35 @@ Header and Query param information should have the following format:
 
 An example is given below:
 
-```yaml
-name: SMART Slot Publisher Specification Repository
-organization: SMART
-synthetic: true
-baseURL: https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples
-contacts:
-  - name: Nick Robison
-    email: nicholas.a.robison@omb.eop.gov
-  - name: Josh Mandel
-    email: jmandel@gmail.com
-headers:
-  - name: CLIENT_ID
-    value: test-client-id
-params:
-  - name: client_id
-    value: test-client-id
-
+```json
+{
+  "name": "SMART Slot Publisher Specification Repository",
+  "organization": "SMART",
+  "synthetic": true,
+  "baseURL": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples",
+  "contacts": [
+    {
+      "name": "Nick Robison",
+      "email": "nicholas.a.robison@omb.eop.gov"
+    },
+    {
+      "name": "Josh Mandel",
+      "email": "jmandel@gmail.com"
+    }
+  ],
+  "headers": [
+    {
+      "name": "CLIENT_ID",
+      "value": "test-client-id"
+    }
+  ],
+  "params": [
+    {
+      "name": "clientid",
+      "value": "test-client-id"
+    }
+  ]
+}
 ```
 
 ### Submitting an endpoint to the repository
@@ -62,7 +74,9 @@ Each PR will be reviewed by project administrators to ensure upstream data is co
 Users may submit a PR by the following process:
 
 1. Create a [Fork](https://github.com/smart-on-fhir/smart-scheduling-links/fork) of the repository in order to make changes.
-1. Create a new `.yml` file in the [publisher-repository](/publisher-repository) directory.
+1. Create a new `.json` file in the [publisher-repository](/publisher-repository) directory.
+   
+    A JSON schema file is [provided](bin/upstream-validator/schema.json) which can facilitate data creation.
 1. Fill out the required information in the format given above.
 1. Push changes to your fork
 1. Create a [pull request](https://github.com/smart-on-fhir/smart-scheduling-links/compare) against the repository.
@@ -94,5 +108,5 @@ The key fields are as follows:
 - `serviceType` - _MUST_ be `https://github.com/smart-on-fhir/smart-scheduling-links`.
 - `url` - _MUST_ point to the `$bulk-publish` endpoint of the upstream publisher.
 
-Publishers are encouraged to add their endpoint information to the Github repository, in addition to publishing via JSON schema.
+Publishers are encouraged to add their endpoint information to the GitHub repository, in addition to publishing via JSON schema.
 Additional information (such as update frequency) may be communicated via the schema definitions as well.
