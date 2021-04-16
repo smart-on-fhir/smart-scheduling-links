@@ -18,3 +18,17 @@ contacts:
     email:
       type: string
       required: true
+headers:
+  - name:
+      type: string
+      required: true
+    value:
+      type: string
+      required: true
+params:
+  - name:
+      type: string
+      required: true
+    value:
+      type: string
+      required: true

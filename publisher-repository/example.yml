@@ -1,4 +1,4 @@
-name: SMART Slot Publisher Example Repo
+name: SMART Slot Publisher Specification Repository
 organization: SMART
 synthetic: true
 baseURL: https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples
@@ -7,3 +7,9 @@ contacts:
     email: nicholas.a.robison@omb.eop.gov
   - name: Josh Mandel
     email: jmandel@gmail.com
+headers:
+  - name: CLIENT_ID
+    value: test-client-id
+params:
+  - name: clientid
+    value: test-client-id
