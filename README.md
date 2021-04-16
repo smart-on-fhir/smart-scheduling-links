@@ -2,6 +2,7 @@
 *What if booking clinical appointments looked more like booking airline tickets?*
 
 * See [specification.md](specification.md) for API requirements and details
+* See [publisher-advertising.md](publisher-advertising.md) for information on publicising bulk publisher endpoints.
 * Chat with us at [#smart/scheduling-links on chat.fhir.org](https://chat.fhir.org/#narrow/stream/281612-smart.2Fscheduling-links)
 
 |Status|
