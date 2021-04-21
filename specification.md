@@ -262,8 +262,8 @@ Each `Slot` has:
 | `schedule` | JSON object | Y | has a single field indicating the Schedule this slot belongs to |
 | &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | Y | the schedule for this slot formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `"Schedule/123"`). |
 | `status` | string | Y | either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity |
-| `start` | ISO8601 timestamp as string | Y | the start time of this slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling. |
-| `end` | ISO8601 timestamp as string | Y | the end time of this slot |
+| `start` | ISO8601 timestamp as string | Y | the start time of this slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling. Timestamp SHALL be expressed with an accurate offset suffix, which SHOULD reflect the local timezone offset (e.g., `-05:00` suffix for UTC-5) or use UTC (i.e., `Z` suffix)|
+| `end` | ISO8601 timestamp as string | Y | the end time of this slot. See notes about offset suffix for `start`.|
 | `extension` | array of JSON objects | N | see details below |
 
 Each Slot object may optionally include one or both of the following extension JSON objects in the Slot's `extension` array.
