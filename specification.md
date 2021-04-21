@@ -253,6 +253,8 @@ Each Schedule object may optionally include the following extension JSON objects
 
 Each line of the Slot File is a minified JSON object that conveys information about an appointment slot. Publishers are encouraged to represent slots with fine-grained timing details (e.g.  representing appointments at specific times of the day), but MAY represent slots with coarse grained timing (e.g., "between 9 a.m. and 5 p.m." or "between noon and five p.m.").
 
+*Note: When publishing a Slot with `"status": "free"`, Publishers should ensure that the Slot is in fact available for booking, given current business rules. For example, if a pharmacy won't allow a first-dose vaccine slot to be booked because no follow-up second-dose appointments are available, then the pharmacy SHOULD NOT advertise the first-dose slot as available.*
+
 Each `Slot` has:
 
 | field name | type | required | description |
