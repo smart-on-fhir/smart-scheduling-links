@@ -222,7 +222,7 @@ Each Schedule object may optionally include the following extension JSON objects
   ```
   {
     "system": "http://fhir-registry.smarthealthit.org/CodeSystem/eligibility",
-    "code": "country-residents-only",
+    "code": "county-residents-only",
     "display": "County residents only"
   }
   ```  
