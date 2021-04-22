@@ -120,6 +120,10 @@ const locations: Resource[] = [
         system: 'phone',
         value: '000-000-0000',
       },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/00',
+      },
     ],
     address: {
       line: ['123 Summer St'],
@@ -143,6 +147,10 @@ const locations: Resource[] = [
       {
         system: 'phone',
         value: '000-000-0000',
+      },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/01',
       },
     ],
     address: {
@@ -168,6 +176,10 @@ const locations: Resource[] = [
         system: 'phone',
         value: '000-000-0000',
       },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/02',
+      },
     ],
     address: {
       line: ['123 Ash St'],
@@ -191,6 +203,10 @@ const locations: Resource[] = [
       {
         system: 'phone',
         value: '000-000-0000',
+      },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/03',
       },
     ],
     address: {
@@ -216,6 +232,10 @@ const locations: Resource[] = [
         system: 'phone',
         value: '000-000-0000',
       },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/04',
+      },
     ],
     address: {
       line: ['123 Peach St'],
@@ -239,6 +259,10 @@ const locations: Resource[] = [
       {
         system: 'phone',
         value: '000-000-0000',
+      },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/05',
       },
     ],
     address: {
@@ -264,6 +288,10 @@ const locations: Resource[] = [
         system: 'phone',
         value: '000-000-0000',
       },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/06',
+      },
     ],
     address: {
       line: ['123 Cyprus St'],
@@ -287,6 +315,10 @@ const locations: Resource[] = [
       {
         system: 'phone',
         value: '000-000-0000',
+      },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/07',
       },
     ],
     address: {
@@ -312,6 +344,10 @@ const locations: Resource[] = [
         system: 'phone',
         value: '000-000-0000',
       },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/08',
+      },
     ],
     address: {
       line: ['123 Cranberry St'],
@@ -335,6 +371,10 @@ const locations: Resource[] = [
       {
         system: 'phone',
         value: '000-000-0000',
+      },
+      {
+        system: 'url',
+        value: 'https://pharmacy.example.com/location/09',
       },
     ],
     address: {
