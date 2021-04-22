@@ -1,27 +1,31 @@
 {
-  "name": "SMART Slot Publisher Specification Repository",
-  "organization": "SMART",
-  "synthetic": true,
-  "baseURL": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples",
-  "contacts": [
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "name": "SMART Example Slot Publisher",
+  "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
+  "category": "production | testing",
+  "url": "https://api.carbonhealth.com/hib/publicVaccination/$bulk-publish",
+  "provider": {
+    "@type": "Organization",
+    "name": "SMART Health IT",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "Nick Robison",
+        "email": "nicholas.a.robison@omb.eop.gov"
+      },
+      {
+        "@type": "ContactPoint",
+        "name": "Josh Mandel",
+        "email": "jmandel@med.harvard.edu"
+      }
+    ]
+  },
+  "additionalProperty": [
     {
-      "name": "Nick Robison",
-      "email": "nicholas.a.robison@omb.eop.gov"
-    },
-    {
-      "name": "Josh Mandel",
-      "email": "jmandel@gmail.com"
-    }
-  ],
-  "headers": [
-    {
+      "@type": "PropertyValue",
+      "additionalType": "ApiHeader",
       "name": "CLIENT_ID",
-      "value": "test-client-id"
-    }
-  ],
-  "params": [
-    {
-      "name": "clientid",
       "value": "test-client-id"
     }
   ]
