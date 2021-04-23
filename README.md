@@ -54,15 +54,3 @@ In other words, compared with a deeply-integrated scheduling paradigm where a bo
 Cross-industry standards analogies can sometimes be misleading -- but to build up an intuition, it's worth comparing the SMART Scheduling Links workflow with the consumer airline booking experience. Briefly: the Slot Discovery Client plays the same role as a travel booking tool like KAYAK or Hipmunk. These systems help their users search for relevant options across multiple service providers, and help users evaluate trade-offs among these options. Once the user makes a selection, a deep link takes them to a service provider to complete the workflow. The Provider Booking Portal plays the same role as an airline like United or Delta. These systems manage user accounts and enable a booking-completion workflow. They also serve as gatekeepers, e.g. to collect data about a user's background as well as identifiers such as a Known Traveler Number or redress number. They can "call off" the workflow at any point (e.g., if a user is unable to provide the required information, or if a previously-available slot has been booked by another user).
 
 This pattern works well in airline booking, and could dramatically reduce the difficulty of healthcare appointment booking.
-
-## Haven't we tried this before? (Argonaut Scheduling 2017)
-
-The [2017 Argonaut Scheduling IG](https://www.fhir.org/guides/argonaut/scheduling/) provides detailed specifications for scheduling appointments, but has not seen broad adoption. That specification defines a deep integration pattern where a third-party client can create new `Patient` resources within a server and can fully book an appointment slot for its users. There are two key challenges that have limited adoption of this IG:
-
-1. A strong degree of trust is required between the third-party app and the EHR system, since the app is allowed to directly manipulate the state of the EHR.
-
-2. Providers have no way to set rules/expectations about which patients are good candidates for a given slot -- which means that specialists are unwilling to open up scheduling. The issues is that, for example, a neuromuscular specialist needs to ensure that her patients actually have a relevant diagnosis and have been through suitable pre-specialty workup. The relevant questions and up-front data-gathering are highly specialized, and deep integration of scheduling provides no way to collect and assess these details before booking a slot.
-
-## Moving ahead!
-
-SMART Scheduling Links provides a lightweight complement to the 2017 Argonaut Scheduling IG. It addresses real-world adoption challenges by providing a simple, familiar user experience -- with a very small standards footprint.
