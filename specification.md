@@ -122,7 +122,7 @@ Each Location includes at least:
 | `position` | JSON object | N |  geocoordinates of the location |
 | &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
 | &nbsp;&nbsp;&rarr;&nbsp;`longitude` | number | N | must be populatd if position is included |
-| `identifier` | array of JSON objects | Y | Identifiers for this location (e.g., VTrckS PIN, which is useful for COVID-19 immunization sites). See below.|
+| `identifier` | array of JSON objects | Y | Identifiers for this location (e.g., Store Number or VTrckS PIN). See below.|
 
 Each `identifier` object includes a `system` and a `value`. 
 
