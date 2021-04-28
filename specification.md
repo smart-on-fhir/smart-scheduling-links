@@ -122,17 +122,19 @@ Each Location includes at least:
 | `position` | JSON object | N |  geocoordinates of the location |
 | &nbsp;&nbsp;&rarr;&nbsp;`latitude` | number | N | must be populated if position is included |
 | &nbsp;&nbsp;&rarr;&nbsp;`longitude` | number | N | must be populatd if position is included |
-| `identifier` | array of JSON objects | Y | Identifiers for this location (e.g., VTrckS PIN, which is required for COVID-19 immunization sites). See below.|
+| `identifier` | array of JSON objects | Y | Identifiers for this location (e.g., VTrckS PIN, which is useful for COVID-19 immunization sites). See below.|
 
 Each `identifier` object includes a `system` and a `value`. 
 
-* "VTRckS PIN" (see https://cdc.gov/vaccines/programs/vtrcks for VTrckS program details):
+* If a Location is associated with one or more "VTRckS PIN"s (see https://cdc.gov/vaccines/programs/vtrcks for VTrckS program details), publishers SHOULD include these:
 
 	| field name | type  | description |
 	|---|---|---|
 	|`system`| string | fixed value of `"https://cdc.gov/vaccines/programs/vtrcks"`|
 	|`value` | string | VTrckS PIN for this location |
-	
+
+* If a Location is associated with a "Store Number" or other organization-specific Identifiers, publishers SHOULD include these. The `system` should be  a page on the publisher's web site (e.g. `{"system": "https://pharmacy.example.com/store-locator", "value": "123"}`)
+
 * Additional identifiers: Any number of additional identifiers MAY be included. Each should populate `system` and `value` as appropriate.
 
 ### Example `Location`
