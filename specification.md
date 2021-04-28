@@ -214,6 +214,13 @@ Each Schedule object may optionally include the following extension JSON objects
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-dose"`|
 	|`valueInteger` | number | indicates sequence number (should be be `1` or `2` for current vaccines)|
 
+* "Has Availability" extension: optional field to convey that a Schedule has non-zero future availability, without conveying details about when or how much. Slot Publishers SHALL NOT use this capacity in place of publishing granular Slots; it is defined for use by support Slot Aggregators (i.e. systems that re-publish Slot data from other APIs).
+
+	| field name | type  | description |
+	|---|---|---|
+	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability"`|
+	|`valueBoolean` | boolean | `true` if this Schedule has non-zero future availability; `false` otherwise|
+
 ### Example `Schedule`
 
 ```json
