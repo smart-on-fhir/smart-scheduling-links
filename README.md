@@ -26,13 +26,15 @@ We are parsimonious in our use of standards, so that:
 
 ## Roles and responsibilities
 
-This specification defines three functional roles:
+This specification defines four functional roles:
 
 * **Slot Discovery Client**: the booking tool of a patient's choice. This system discovers appointment slots on a patient's behalf, and helps the patient choose the best slots to book (e.g., by evaluating trade-offs of travel distance or wait time).
 
 * **Slot Publisher**: the API service offered by a healthcare provider, advertising available slots. Critically, advertising a slot should be low-risk, since the mere fact that a slot is advertised does *not* guarantee that any given patient will be allowed to book the slot; instead, sophisticated rules can be implemented by the...
 
 * **Provider Booking Portal**: the UI service offered by a healthcare provider, enabling a user to book a selected slot. This is the place where provider-specific rules can be implemented, e.g. to ensure that patients booking a specialty appointment are appropriate candidates for that specialist's care. (In many implementations, this UI will be housed within a general-purpose provider-hosted patient portal.)
+
+*  **Slot Aggregator**: an API service offered by public health authorities or other third parties, aggregating data from multiple _Slot Publishers_ or from other healthcare provider APIs. _Slot Aggregators_ otherwise act in a similar capacity to _Slot Publishers_.
 
 ## Is the UX good enough?
 
