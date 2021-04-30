@@ -438,7 +438,7 @@ Aggregators may request or receive information from publishers at different time
 
 ### Unknown Availability, Capacity, or Slot Times
 
-Because source systems may experience errors or may not conform to the SMART Scheduling Links specification, _Slot Aggregators_ need additional tools to describe unusual situations that are not relevant to first-part _Slot Publishers_. Specifically, _Slot Aggregators_ may describe locations with:
+Because source systems may experience errors or may not conform to the SMART Scheduling Links specification, _Slot Aggregators_ need additional tools to describe unusual situations that are not relevant to first-part _Slot Publishers_. Specifically, _Slot Aggregators_ may describe Schedules with:
 - Unknown slot availability (e.g. because a source system is unreachable),
 - Unknown capacity or times (e.g. slots are known to be free or busy only _at some time_ in the near future).
 
