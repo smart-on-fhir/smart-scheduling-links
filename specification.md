@@ -214,13 +214,6 @@ Each Schedule object may optionally include the following extension JSON objects
 	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/vaccine-dose"`|
 	|`valueInteger` | number | indicates sequence number (should be be `1` or `2` for current vaccines)|
 
-* "Has Availability" extension: optional field to convey that a Schedule has non-zero future availability, without conveying details about when or how much. Slot Publishers SHALL NOT use this capacity in place of publishing granular Slots; it is defined to support Slot Aggregators (i.e. systems that re-publish Slot data from other APIs).
-
-	| field name | type  | description |
-	|---|---|---|
-	|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability"`|
-	|`valueBoolean` | boolean | `true` if this Schedule has non-zero future availability; `false` otherwise|
-
 ### Example `Schedule`
 
 ```json
@@ -344,3 +337,154 @@ In this case, if the `source` value is `source-abc` and the `booking-referral` i
     https://ehr-portal.example.org/bookings?slot=opaque-slot-handle-89172489&source=source-abc&booking-referral=34d1a803-cd6c-4420-9cf5-c5edcc533538
 
 (Note: this construction is *not* as simple as just appending `&source=...` to the booking-deep-link, because the booking-deep-link may or may not already include URL parameters. The Slot Discovery Client must take care to parse the booking-deep-link and append parameters, e.g., including a `?` prefix if not already present.)
+
+
+## Slot Aggregators
+
+Systems that re-publish data from multiple other APIs or from other _Slot Publishers_ are referred to as _Slot Aggregators_. If you are a _Slot Aggregator_, you may wish to use some additional extensions and FHIR features to supply useful provenance information or describe ways that your aggregated data may not exactly match the definitions in the _SMART Scheduling Links_ specification. The practices and approaches in this section are _recommendations_; none are _required_ for a valid implementation.
+
+
+### Preserve Source Identifiers
+
+_Slot Aggregators_ usually need to assign new `id` values to resources in order to make sure they are unique across the aggregated dataset. The `id` of the original resource SHOULD be preserved in the `identifier` list, alongside the identifiers from the original resource. The specific `system` and `value` used for the identifier is left up to the implementer.
+
+For example, given this Location resource from an underlying source:
+
+```js
+{
+  "resourceType": "Location",
+  "id": "123",
+  "identifier": [
+    {
+      "system": "https://cdc.gov/vaccines/programs/vtrcks",
+      "value": "CV1654321"
+    }
+  ],
+  "name": "Flynn's Pharmacy in Pittsfield, MA",
+  // additional Location fields here...
+}
+```
+
+A _Slot Aggregator_ might publish a Location like:
+
+```js
+{
+  "resourceType": "Location",
+  "id": "456",
+  "identifier": [
+    {
+      "system": "https://cdc.gov/vaccines/programs/vtrcks",
+      "value": "CV1654321"
+    },
+    {
+      "system": "https://flynnspharmacy.example.org/",
+      "value": "123"
+    }
+  ],
+  "name": "Flynn's Pharmacy in Pittsfield, MA",
+  // additional Location fields here...
+}
+```
+
+In this example, `https://flynnspharmacy.example.org/` is an arbitrary string that defines “Flynn’s Pharmacy” as the identifier system. _Slot Aggregators_ should only use a URL that is not under their control in cases where the URL is predictable and might reasonably be chosen by other _Slot Aggregators_. When this is not the case, _Slot Aggregators_ SHOULD choose a URL under their control. For example, an aggregator at `usdr.example.org` might choose a URL like `https://usdr.example.org/fhir/identifiers/flynns`.
+
+When the source system is a SMART Scheduling Links implementation, a _Slot Aggregator_ SHOULD use [FHIR’s `Resource.meta.source` field][resource_meta] to describe it. The value is a URI that SHOULD include the URL of the source system, and MAY add the resource `id`.
+
+For example, given the above example resource at `https://api.flynnspharmacy.example.org/fhir/smart-scheduling/$bulk-publish`, a _Slot Aggregator_ might publish a location like:
+
+```js
+{
+  "resourceType": "Location",
+  "id": "456",
+  "meta": {
+    "source": "https://api.flynnspharmacy.example.org/fhir/smart-scheduling/Location/123"
+  },
+  "identifier": [
+    {
+      "system": "https://cdc.gov/vaccines/programs/vtrcks",
+      "value": "CV1654321"
+    },
+    {
+      "system": "https://flynnspharmacy.example.org/",
+      "value": "123"
+    }
+  ],
+  "name": "Flynn's Pharmacy in Pittsfield, MA",
+  // additional Location fields here...
+}
+```
+
+
+### Indicate Data “Freshness”
+
+Aggregators may request or receive information from publishers at different times, and understanding how recently data about a Location, Schedule, or Slot was retrieved can help end users gauge the accuracy of items in an aggregated dataset. _Slot Aggregators_ SHOULD use the `lastSourceSync` extension on the `meta` field of any resource to indicate the last time at which the data was known to be accurate:
+
+```js
+{
+  "resourceType": "Schedule",
+  "id": "123",
+  "meta": {
+    "extension": [{
+      "url": "http://hl7.org/fhir/StructureDefinition/lastSourceSync",
+      "valueDateTime": "2021-04-19T20:35:05.000Z"
+    }]
+  }
+  // additional Schedule fields here...
+}
+```
+
+**Note:** `lastSourceSync` has been tentatively approved, but is not yet finalized as part of FHIR as of April 28, 2021. (You can keep up-to-date on the status of this extension in FHIR’s issue tracker at [FHIR-31567][].)
+
+
+### Describe Unknown Availability, Capacity, or Slot Times
+
+Because source systems may experience errors or may not conform to the SMART Scheduling Links specification, _Slot Aggregators_ need additional tools to describe unusual situations that are not relevant to first-party _Slot Publishers_. Specifically, _Slot Aggregators_ may describe Schedules where:
+- Whether any Slots are associated with the Schedule is unknown (e.g. because a source system is unreachable),
+- The capacity or times of Slots are unknown (e.g. slots are known to be free or busy only _at some time_ in the near future).
+
+Use the **optional "Has Availability" extension** to convey that a Schedule has non-zero or unknown future availability, without conveying details about when or how much. When used on a Schedule, that Schedule MAY have no associated Slots. _Slot Publishers_ SHALL NOT use this capacity in place of publishing granular Slots; it is defined to support Slot Aggregators (i.e. systems that re-publish Slot data from other APIs).
+
+| field name | type  | description |
+|---|---|---|
+|`url`| string | Fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability"` |
+|`valueCode` | string | One of: <ul><li>`"some"`: The Schedule has non-zero future availability.</li><li>`"none"`: The Schedule has no future availability.</li><li>`"unknown"`: The schedule has unknown future availability (e.g. because there is no source of data for this schedule or because the source system had errors or was unparseable).</li></ul> |
+
+Example usage on a Schedule:
+
+```json
+{
+  "resourceType": "Schedule",
+  "id": "456",
+  "serviceType": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/service-type",
+          "code": "57",
+          "display": "Immunization"
+        },
+        {
+          "system": "http://fhir-registry.smarthealthit.org/CodeSystem/service-type",
+          "code": "covid19-immunization",
+          "display": "COVID-19 Immunization Appointment"
+        }
+      ]
+    }
+  ],
+  "extension": [
+    {
+      "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability",
+      "valueCode": "some"
+    }
+  ],
+  "actor": [
+    {
+      "reference": "Location/123"
+    }
+  ]
+}
+```
+
+
+[resource_meta]: http://hl7.org/fhir/resource.html#Meta
+[FHIR-31567]: https://jira.hl7.org/browse/FHIR-31567
