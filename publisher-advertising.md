@@ -9,6 +9,13 @@ In brief, we recommend publisher make use of two specific approaches:
 
 Organizations are encouraged to publish their endpoints by submitting an entry in the [publisher-repository](/publisher-repository) directory of this repo. The data should follow [this JSON Schema](https://github.com/smart-on-fhir/smart-scheduling-links/blob/master/bin/upstream-validator/schema.json).
 
+
+The key fields are as follows:
+- `serviceType` - _MUST_ be `https://github.com/smart-on-fhir/smart-scheduling-links`.
+- `url` - _MUST_ point to the `$bulk-publish` endpoint of the upstream publisher.
+
+Additional information (such as update frequency) may be communicated via the schema definitions as well.
+
 An example is given below:
 
 ```json
@@ -57,8 +64,7 @@ Users may submit a PR by the following process:
 
 ## Schema.org definition
 
-Organizations may choose to publish their endpoints by including an additional _schema.org_ `Service` description to their home page.
-A sample service definition is included below:
+Organizations may choose to publish their endpoints by including an additional _schema.org_ `Service` description to their home page, using the same data format described above.  A sample service definition published within a Slot Publisher's home page HTML might look like:
 
 ```html
 <script type="application/ld+json">
@@ -75,9 +81,4 @@ A sample service definition is included below:
 </script>
 ```
 
-The key fields are as follows:
-- `serviceType` - _MUST_ be `https://github.com/smart-on-fhir/smart-scheduling-links`.
-- `url` - _MUST_ point to the `$bulk-publish` endpoint of the upstream publisher.
-
-Publishers are encouraged to add their endpoint information to the GitHub repository, in addition to publishing via JSON schema.
-Additional information (such as update frequency) may be communicated via the schema definitions as well.
+Slot Publishers are encouraged to add their endpoint information to this GitHub repository, in addition to including them within their home page HTML.
