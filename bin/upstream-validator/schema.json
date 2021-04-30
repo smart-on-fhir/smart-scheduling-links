@@ -52,7 +52,6 @@
     "@context": {
       "$id": "#/properties/%40context",
       "default": "",
-      "description": "An explanation about the purpose of this instance.",
       "examples": [
         "https://schema.org/"
       ],
@@ -62,7 +61,6 @@
     "@type": {
       "$id": "#/properties/%40type",
       "default": "",
-      "description": "An explanation about the purpose of this instance.",
       "examples": [
         "Service"
       ],
@@ -73,7 +71,7 @@
       "$id": "#/properties/name",
       "type": "string",
       "title": "The name schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Name of provided service",
       "default": "",
       "examples": [
         "SMART Example Slot Publisher"
@@ -82,7 +80,7 @@
     "serviceType": {
       "$id": "#/properties/serviceType",
       "default": "",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Type of service provided; must reference `https://github.com/smart-on-fhir/smart-scheduling-links`",
       "examples": [
         "https://github.com/smart-on-fhir/smart-scheduling-links"
       ],
@@ -109,13 +107,13 @@
       "examples": [
         "https://api.carbonhealth.com/hib/publicVaccination/$bulk-publish"
       ],
-      "pattern": "^https:\\/\\/.*\\$bulk-publish$",
+      "pattern": "^https://.*\\$bulk-publish$",
       "type": "string"
     },
     "provider": {
       "$id": "#/properties/provider",
       "default": {},
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Details of the organization providing the service",
       "examples": [
         {
           "@type": "Organization",
@@ -145,7 +143,7 @@
         "@type": {
           "$id": "#/properties/provider/properties/%40type",
           "default": "",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Type of entity providing the service. Must be `Organization`",
           "examples": [
             "Organization"
           ],
@@ -156,7 +154,7 @@
         "name": {
           "$id": "#/properties/provider/properties/name",
           "default": "",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Name of organization providing the service",
           "examples": [
             "SMART Health IT"
           ],
@@ -166,7 +164,7 @@
         "contactPoint": {
           "$id": "#/properties/provider/properties/contactPoint",
           "default": [],
-          "description": "An explanation about the purpose of this instance.",
+          "description": "One or more contacts managing the service",
           "examples": [
             [
               {
@@ -184,12 +182,11 @@
           "title": "The contactPoint schema",
           "minItems": 1,
           "type": "array",
-          "additionalItems": true,
           "items": {
             "$id": "#/properties/provider/properties/contactPoint/items",
             "type": "object",
             "title": "The first anyOf schema",
-            "description": "An explanation about the purpose of this instance.",
+            "description": "Contact information for an individual managing the service",
             "default": {},
             "examples": [
               {
@@ -250,7 +247,6 @@
           }
         ]
       ],
-      "additionalItems": true,
       "items": {
         "$id": "#/properties/additionalProperty/items",
 
