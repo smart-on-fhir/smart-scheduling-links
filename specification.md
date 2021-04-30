@@ -415,7 +415,7 @@ For example, given the above example resource at `https://api.flynnspharmacy.exa
 ```
 
 
-### Data “Freshness”
+### Indicate Data “Freshness”
 
 Aggregators may request or receive information from publishers at different times, and understanding how recently data about a Location, Schedule, or Slot was retrieved can help end users gauge the accuracy of items in an aggregated dataset. _Slot Aggregators_ SHOULD use the `lastSourceSync` extension on the `meta` field of any resource to indicate the last time at which the data was known to be accurate:
 
@@ -436,47 +436,18 @@ Aggregators may request or receive information from publishers at different time
 **Note:** `lastSourceSync` has been tentatively approved, but is not yet finalized as part of FHIR as of April 28, 2021. (You can keep up-to-date on the status of this extension in FHIR’s issue tracker at [FHIR-31567][].)
 
 
-### Unknown Availability, Capacity, or Slot Times
+### Describe Unknown Availability, Capacity, or Slot Times
 
-Because source systems may experience errors or may not conform to the SMART Scheduling Links specification, _Slot Aggregators_ need additional tools to describe unusual situations that are not relevant to first-part _Slot Publishers_. Specifically, _Slot Aggregators_ may describe Schedules with:
-- Unknown slot availability (e.g. because a source system is unreachable),
-- Unknown capacity or times (e.g. slots are known to be free or busy only _at some time_ in the near future).
+Because source systems may experience errors or may not conform to the SMART Scheduling Links specification, _Slot Aggregators_ need additional tools to describe unusual situations that are not relevant to first-party _Slot Publishers_. Specifically, _Slot Aggregators_ may describe Schedules where:
+- Whether any Slots are associated with the Schedule is unknown (e.g. because a source system is unreachable),
+- The capacity or times of Slots are unknown (e.g. slots are known to be free or busy only _at some time_ in the near future).
 
-Features and guidelines for these scenarios SHALL NOT be used by first-party _Slot Publishers_; they are described only for use by _Slot Aggregators_.
-
-
-#### Unknown Availability
-
-If there is no source of appointment data for a Schedule or a source system is unreachable, has errors, or cannot be reliably handled for some reason, a _Slot Aggregator_ should publish a single slot for the Schedule with a `status` value of `"free"` and a “Capacity” extension with a value of `0`. First-party _Slot Publishers_ SHOULD NOT publish a slot with these features; if a slot has no free capacity, the slot should have a `status` value of `"busy"`.
-
-Example usage:
-
-```json
-{
-  "resourceType": "Slot",
-  "id": "789",
-  "schedule": {
-    "reference": "Schedule/456"
-  },
-  "status": "free",
-  "start": "2021-03-10T00:00:00Z",
-  "end": "2021-03-24T00:00:00Z",
-  "extension": [{
-    "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/slot-capacity",
-    "valueInteger": 0
-  }]
-}
-```
-
-
-#### Unknown Capacity or Slot Times
-
-_Slot Aggregators_ should use the **optional "Has Availability" extension** to convey that a Schedule has non-zero future availability, without conveying details about when or how much. When used on a Schedule, that Schedule MAY have no associated Slots. _Slot Publishers_ SHALL NOT use this capacity in place of publishing granular Slots; it is defined to support Slot Aggregators (i.e. systems that re-publish Slot data from other APIs).
+Use the **optional "Has Availability" extension** to convey that a Schedule has non-zero or unknown future availability, without conveying details about when or how much. When used on a Schedule, that Schedule MAY have no associated Slots. _Slot Publishers_ SHALL NOT use this capacity in place of publishing granular Slots; it is defined to support Slot Aggregators (i.e. systems that re-publish Slot data from other APIs).
 
 | field name | type  | description |
 |---|---|---|
-|`url`| string | fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability"`|
-|`valueBoolean` | boolean | `true` if this Schedule has non-zero future availability; `false` otherwise|
+|`url`| string | Fixed value of `"http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability"` |
+|`valueCode` | string | One of: <ul><li>`"some"`: The Schedule has non-zero future availability.</li><li>`"none"`: The Schedule has no future availability.</li><li>`"unknown"`: The schedule has unknown future availability (e.g. because there is no source of data for this schedule or because the source system had errors or was unparseable).</li></ul> |
 
 Example usage on a Schedule:
 
@@ -503,7 +474,7 @@ Example usage on a Schedule:
   "extension": [
     {
       "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/has-availability",
-      "valueBoolean": true
+      "valueCode": "some"
     }
   ],
   "actor": [
