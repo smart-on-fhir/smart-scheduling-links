@@ -1,0 +1,22 @@
+name: Validate upstream publisher
+
+on:
+  workflow_dispatch:
+    pull_request:
+      branches:
+        - '**'
+      paths:
+        - publisher-repository/
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jitterbit/get-changed-files@v1
+        id: files
+      - name: Validate changed publisher schema
+        working-directory: bin/upstream-validator
+        run: |
+          npm run validate ${{ steps.files.outputs.added_modified }}
+

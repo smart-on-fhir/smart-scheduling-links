@@ -1,0 +1,318 @@
+{
+  "$id": "https://github.com/smart-on-fhir/smart-scheduling-links/tree/master/bin/upstream-validator/schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "default": {},
+  "description": "JSON Schema for SMART Scheduling Links slot publishers",
+  "examples": [
+    {
+      "@context": "https://schema.org/",
+      "@type": "Service",
+      "name": "SMART Example Slot Publisher",
+      "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
+      "category": "production | testing",
+      "url": "https://api.carbonhealth.com/hib/publicVaccination/$bulk-publish",
+      "provider": {
+        "@type": "Organization",
+        "name": "SMART Health IT",
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "name": "Nick Robison",
+            "email": "nicholas.a.robison@omb.eop.gov"
+          },
+          {
+            "@type": "ContactPoint",
+            "name": "Josh Mandel",
+            "email": "jmandel@med.harvard.edu"
+          }
+        ]
+      },
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "additionalType": "ApiHeader",
+          "name": "CLIENT_ID",
+          "value": "test-client-id"
+        }
+      ]
+    }
+  ],
+  "required": [
+    "@context",
+    "@type",
+    "name",
+    "serviceType",
+    "category",
+    "url",
+    "provider"
+  ],
+  "title": "SMART Scheduling Links Publisher Data",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "$id": "#/properties/%40context",
+      "default": "",
+      "examples": [
+        "https://schema.org/"
+      ],
+      "const": "https://schema.org/",
+      "type": "string"
+    },
+    "@type": {
+      "$id": "#/properties/%40type",
+      "default": "",
+      "examples": [
+        "Service"
+      ],
+      "const": "Service",
+      "type": "string"
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The name schema",
+      "description": "Name of provided service",
+      "default": "",
+      "examples": [
+        "SMART Example Slot Publisher"
+      ]
+    },
+    "serviceType": {
+      "$id": "#/properties/serviceType",
+      "default": "",
+      "description": "Type of service provided; must reference `https://github.com/smart-on-fhir/smart-scheduling-links`",
+      "examples": [
+        "https://github.com/smart-on-fhir/smart-scheduling-links"
+      ],
+      "const": "https://github.com/smart-on-fhir/smart-scheduling-links",
+      "type": "string"
+    },
+    "category": {
+      "$id": "#/properties/category",
+      "default": "",
+      "description": "Use \"production\" for publishers hosting a production endpoint with real locations, schedules, and slots. Use \"testing\" for publishers hosting a synthetic, pre-production, or other non-production endpoint.",
+      "examples": [
+        "production | testing"
+      ],
+      "enum": [
+        "production",
+        "testing"
+      ],
+      "type": "string"
+    },
+    "url": {
+      "$id": "#/properties/url",
+      "default": "",
+      "description": "URL for the $bulk-publish endpoint. Must start with \"https://\" and end in \"$bulk-publish\".",
+      "examples": [
+        "https://api.carbonhealth.com/hib/publicVaccination/$bulk-publish"
+      ],
+      "pattern": "^https://.*\\$bulk-publish$",
+      "type": "string"
+    },
+    "provider": {
+      "$id": "#/properties/provider",
+      "default": {},
+      "description": "Details of the organization providing the service",
+      "examples": [
+        {
+          "@type": "Organization",
+          "name": "SMART Health IT",
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "name": "Nick Robison",
+              "email": "nicholas.a.robison@omb.eop.gov"
+            },
+            {
+              "@type": "ContactPoint",
+              "name": "Josh Mandel",
+              "email": "jmandel@med.harvard.edu"
+            }
+          ]
+        }
+      ],
+      "required": [
+        "@type",
+        "name",
+        "contactPoint"
+      ],
+      "title": "The provider schema",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "$id": "#/properties/provider/properties/%40type",
+          "default": "",
+          "description": "Type of entity providing the service. Must be `Organization`",
+          "examples": [
+            "Organization"
+          ],
+          "title": "The @type schema",
+          "const": "Organization",
+          "type": "string"
+        },
+        "name": {
+          "$id": "#/properties/provider/properties/name",
+          "default": "",
+          "description": "Name of organization providing the service",
+          "examples": [
+            "SMART Health IT"
+          ],
+          "title": "The name schema",
+          "type": "string"
+        },
+        "contactPoint": {
+          "$id": "#/properties/provider/properties/contactPoint",
+          "default": [],
+          "description": "One or more contacts managing the service",
+          "examples": [
+            [
+              {
+                "@type": "ContactPoint",
+                "name": "Nick Robison",
+                "email": "nicholas.a.robison@omb.eop.gov"
+              },
+              {
+                "@type": "ContactPoint",
+                "name": "Josh Mandel",
+                "email": "jmandel@med.harvard.edu"
+              }
+            ]
+          ],
+          "title": "The contactPoint schema",
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$id": "#/properties/provider/properties/contactPoint/items",
+            "type": "object",
+            "title": "The first anyOf schema",
+            "description": "Contact information for an individual managing the service",
+            "default": {},
+            "examples": [
+              {
+                "@type": "ContactPoint",
+                "name": "Nick Robison",
+                "email": "nicholas.a.robison@omb.eop.gov"
+              }
+            ],
+            "required": [
+              "@type",
+              "name",
+              "email"
+            ],
+            "properties": {
+              "@type": {
+                "type": "string",
+                "default": "",
+                "const": "ContactPoint",
+                "examples": [
+                  "ContactPoint"
+                ]
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the contact",
+                "default": "",
+                "examples": [
+                  "Nick Robison"
+                ]
+              },
+              "email": {
+                "type": "string",
+                "description": "Email for the contact",
+                "default": "",
+                "examples": [
+                  "nicholas.a.robison@omb.eop.gov"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "additionalProperty": {
+      "$id": "#/properties/additionalProperty",
+      "type": "array",
+      "title": "Additional properties for this provider",
+      "description": "Can be used to define required API headers (additionalType=\"ApiHeader\")",
+      "default": [],
+      "examples": [
+        [
+          {
+            "@type": "PropertyValue",
+            "additionalType": "ApiHeader",
+            "name": "CLIENT_ID",
+            "value": "test-client-id"
+          }
+        ]
+      ],
+      "items": {
+        "$id": "#/properties/additionalProperty/items",
+
+        "type": "object",
+        "title": "The first anyOf schema",
+        "description": "An explanation about the purpose of this instance.",
+        "default": {},
+        "examples": [
+          {
+            "@type": "PropertyValue",
+            "additionalType": "ApiHeader",
+            "name": "CLIENT_ID",
+            "value": "test-client-id"
+          }
+        ],
+        "required": [
+          "@type",
+          "additionalType",
+          "name",
+          "value"
+        ],
+        "properties": {
+          "@type": {
+            "$id": "#/properties/additionalProperty/items/anyOf/0/properties/%40type",
+            "type": "string",
+            "title": "The @type schema",
+            "default": "",
+            "const": "PropertyValue",
+            "examples": [
+              "PropertyValue"
+            ]
+          },
+          "additionalType": {
+            "$id": "#/properties/additionalProperty/items/anyOf/0/properties/additionalType",
+            "type": "string",
+            "title": "The additionalType schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "enum": [
+              "ApiHeader", "QueryParam"
+            ],
+            "examples": [
+              "ApiHeader"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Property name to be used (e.g., header name, or query param name)",
+            "default": "",
+            "examples": [
+              "CLIENT_ID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "title": "The value schema",
+            "description": "Property value to be used (e.g., header value, or query param value)",
+            "default": "",
+            "examples": [
+              "test-client-id"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
