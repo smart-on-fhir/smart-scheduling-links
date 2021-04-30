@@ -3,8 +3,8 @@
   "@type": "Service",
   "name": "SMART Example Slot Publisher",
   "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
-  "category": "production | testing",
-  "url": "https://api.carbonhealth.com/hib/publicVaccination/$bulk-publish",
+  "category": "testing",
+  "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
   "provider": {
     "@type": "Organization",
     "name": "SMART Health IT",
@@ -27,6 +27,12 @@
       "additionalType": "ApiHeader",
       "name": "CLIENT_ID",
       "value": "test-client-id"
+    },
+    {
+      "@type": "PropertyValue",
+      "additionalType": "QueryParam",
+      "name": "test-param",
+      "value": "test-client-param"
     }
   ]
 }
