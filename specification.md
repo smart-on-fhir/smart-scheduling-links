@@ -377,7 +377,7 @@ A _Slot Aggregator_ might publish a Location like:
       "value": "CV1654321"
     },
     {
-      "system": "https://flynnspharmacy.org/",
+      "system": "https://flynnspharmacy.example.org/",
       "value": "123"
     }
   ],
@@ -386,18 +386,18 @@ A _Slot Aggregator_ might publish a Location like:
 }
 ```
 
-In this example, `https://flynnspharmacy.org/` is an arbitrary string that defines “Flynn’s Pharmacy” as the identifier system. _Slot Aggregators_ should only use a URL that is not under their control in cases where the URL is predictable and might reasonably be chosen by other _Slot Aggregators_. When this is not the case, _Slot Aggregators_ SHOULD choose a URL under their control. For example, an aggregator at `usdigitalresponse.org` might choose a URL like `https://fhir.usdigitalresponse.org/identifiers/flynns`.
+In this example, `https://flynnspharmacy.example.org/` is an arbitrary string that defines “Flynn’s Pharmacy” as the identifier system. _Slot Aggregators_ should only use a URL that is not under their control in cases where the URL is predictable and might reasonably be chosen by other _Slot Aggregators_. When this is not the case, _Slot Aggregators_ SHOULD choose a URL under their control. For example, an aggregator at `usdr.example.org` might choose a URL like `https://usdr.example.org/fhir/identifiers/flynns`.
 
 When the source system is a SMART Scheduling Links implementation, a _Slot Aggregator_ SHOULD use [FHIR’s `Resource.meta.source` field][resource_meta] to describe it. The value is a URI that SHOULD include the URL of the source system, and MAY add the resource `id`.
 
-For example, given the above example resource at `https://api.flynnspharmacy.org/fhir/smart-scheduling/$bulk-publish`, a _Slot Aggregator_ might publish a location like:
+For example, given the above example resource at `https://api.flynnspharmacy.example.org/fhir/smart-scheduling/$bulk-publish`, a _Slot Aggregator_ might publish a location like:
 
 ```js
 {
   "resourceType": "Location",
   "id": "456",
   "meta": {
-    "source": "https://api.flynnspharmacy.org/fhir/smart-scheduling/Location/123"
+    "source": "https://api.flynnspharmacy.example.org/fhir/smart-scheduling/Location/123"
   },
   "identifier": [
     {
@@ -405,7 +405,7 @@ For example, given the above example resource at `https://api.flynnspharmacy.org
       "value": "CV1654321"
     },
     {
-      "system": "https://flynnspharmacy.org/",
+      "system": "https://flynnspharmacy.example.org/",
       "value": "123"
     }
   ],
