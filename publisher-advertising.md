@@ -7,63 +7,34 @@ In brief, we recommend publisher make use of two specific approaches:
 
 ## Centralized repository
 
-Organizations are encouraged to publish their endpoints by submitting an entry in the [publisher-repository](/publisher-repository) directory of this repo, which includes the following information:
-
-| field name | type | required | description |
-| --- | --- | --- | ---|
-| `name` | string | true | Name of publisher endpoint (e.g. SMART Clinic, Boston) |
-| `organization` | string | true | Name of organization publishing information (e.g. SMART Health) |
-| `synthetic` | boolean | true | Whether or not the endpoint is hosting synthetic data instead of production data |
-| `baseURL` | string | string | Base URL where clients can find the publish manifest and NDJSON files (should not include `$bulk-publish`) |
-| `contacts` | array of JSON objects | true | At least one point of contact for addressing questions or issues with the endpoint |
-| `headers` | array of JSON objects | false | An optional list of header key/values that must be included in requests |
-| `params` | array of JSON objects | false | An optional list of query parameter key/values that must be included in requests |
-
-Contact information should follow the given format:
-
-| field name | type | required | description |
-| --- | --- | --- | ---|
-| `name` | string | true | Name of contact |
-| `email` | string | true | Email address of contact |
-
-Header and Query param information should have the following format:
-
-| field name | type | required | description |
-| --- | --- | --- | ---|
-| `name` | string | true | Name of required header/parameter |
-| `email` | string true | value of required header/parameter |
+Organizations are encouraged to publish their endpoints by submitting an entry in the [publisher-repository](/publisher-repository) directory of this repo. The data should follow [this JSON Schema](https://github.com/smart-on-fhir/smart-scheduling-links/blob/master/bin/upstream-validator/schema.json).
 
 An example is given below:
 
 ```json
 {
-  "name": "SMART Slot Publisher Specification Repository",
-  "organization": "SMART",
-  "synthetic": true,
-  "baseURL": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples",
-  "contacts": [
-    {
-      "name": "Nick Robison",
-      "email": "nicholas.a.robison@omb.eop.gov"
-    },
-    {
-      "name": "Josh Mandel",
-      "email": "jmandel@gmail.com"
-    }
-  ],
-  "headers": [
-    {
-      "name": "CLIENT_ID",
-      "value": "test-client-id"
-    }
-  ],
-  "params": [
-    {
-      "name": "clientid",
-      "value": "test-client-id"
-    }
-  ]
-}
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "name": "SMART Example Slot Publisher",
+  "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
+  "category": "testing",
+  "url": "https://raw.githubusercontent.com/smart-on-fhir/smart-scheduling-links/master/examples/$bulk-publish",
+  "provider": {
+    "@type": "Organization",
+    "name": "SMART Health IT",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "Nick Robison",
+        "email": "nicholas.a.robison@omb.eop.gov"
+      },
+      {
+        "@type": "ContactPoint",
+        "name": "Josh Mandel",
+        "email": "jmandel@med.harvard.edu"
+      }
+    ]
+  }
 ```
 
 ### Submitting an endpoint to the repository
