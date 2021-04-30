@@ -4,7 +4,7 @@
   "description": "Validator for upstream publisher yaml files",
   "main": "index.js",
   "scripts": {
-    "run": "ts-node index.ts"
+    "validate": "ts-node index.ts"
   },
   "author": "Nick Robison",
   "license": "ISC",

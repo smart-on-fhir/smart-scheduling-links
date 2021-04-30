@@ -26,7 +26,7 @@ async function main() {
         const valid = validate(upstream);
         if (!valid) {
             console.error("File failed validation: ", validate.errors);
-            allValid = allValid && false;
+            allValid = false;
         }
     }
     if (!allValid) {
@@ -37,4 +37,3 @@ async function main() {
 main()
     .then(() => console.log("Validation completed successfully"))
     .catch((e) => console.error(e));
-
