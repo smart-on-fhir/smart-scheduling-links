@@ -23,7 +23,7 @@ async function main() {
             continue;
         }
         console.log("Validating: ", file);
-        const pathFromValidator = path.join("..", file);
+        const pathFromValidator = path.join("..", "..", file);
         const upstream = JSON.parse(await fs.readFile(pathFromValidator));
         const valid = validate(upstream);
         if (!valid) {
@@ -38,4 +38,7 @@ async function main() {
 
 main()
     .then(() => console.log("Validation completed successfully"))
-    .catch((e) => console.error(e));
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    });
