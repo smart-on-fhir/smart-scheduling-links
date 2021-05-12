@@ -1,5 +1,6 @@
 const Ajv = require("ajv");
 const fs = require("fs").promises;
+const path = require("path");
 
 async function main() {
     if (process.argv.length < 3) {
@@ -22,7 +23,8 @@ async function main() {
             continue;
         }
         console.log("Validating: ", file);
-        const upstream = JSON.parse(await fs.readFile(file));
+        const pathFromValidator = path.join("..", file);
+        const upstream = JSON.parse(await fs.readFile(pathFromValidator));
         const valid = validate(upstream);
         if (!valid) {
             console.error("File failed validation: ", validate.errors);
