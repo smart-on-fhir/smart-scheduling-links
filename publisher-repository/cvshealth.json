@@ -11,7 +11,7 @@
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "name": "CVS Health",
+        "name": "CVS Health Admin",
         "email": "apigee_dp_devapps_admin_edl@CVSHealth.com"
       }
     ]
