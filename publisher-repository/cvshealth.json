@@ -4,7 +4,7 @@
   "name": "CVS Health",
   "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
   "category": "production",
-  "url": "https://www.cvs.com/immunizations/inventory/data",
+  "url": "https://www.cvs.com/immunizations/inventory/data/$bulk-publish",
   "provider": {
     "@type": "Organization",
     "name": "CVS Health",
