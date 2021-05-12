@@ -1,0 +1,19 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "name": "CVS Health",
+  "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
+  "category": "production",
+  "url": "https://www.cvs.com/immunizations/inventory/data",
+  "provider": {
+    "@type": "Organization",
+    "name": "CVS Health",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "CVS Health",
+        "email": "apigee_dp_devapps_admin_edl@CVSHealth.com"
+      }
+    ]
+  }
+}
