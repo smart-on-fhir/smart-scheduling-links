@@ -1,0 +1,12 @@
+{
+  "name": “CVSHealth”,
+  "organization": “CVSHealth”,
+  "synthetic": false,
+  "baseURL": "https://www.cvs.com/immunizations/inventory/data",
+  "contacts": [
+    {
+      "name": “CVSHealth”,
+      "email": "apigee_dp_devapps_admin_edl@CVSHealth.com"
+    }
+  ]
+}
