@@ -15,5 +15,6 @@ jobs:
       - name: Validate changed publisher schema
         working-directory: bin/upstream-validator
         run: |
+          npm ci
           npm run validate ${{ steps.files.outputs.added_modified }}
 
