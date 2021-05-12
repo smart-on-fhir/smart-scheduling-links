@@ -1,7 +1,7 @@
 {
   "@context": "https://schema.org/",
   "@type": "Service",
-  "_brokenName": "CVS Health",
+  "_brokenName!": "CVS Health",
   "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
   "category": "production",
   "url": "https://www.cvs.com/immunizations/inventory/data",
