@@ -1,0 +1,19 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "name": "Walgreens",
+  "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
+  "category": "production",
+  "url": "https://wbaschedulinglinks.blob.core.windows.net/fhir/$bulk-publish",
+  "provider": {
+    "@type": "Organization",
+    "name": "Walgreens",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "Josh Mandel",
+        "email": "jmandel@microsoft.com"
+      }
+    ]
+  }
+}
