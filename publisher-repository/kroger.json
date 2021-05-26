@@ -1,0 +1,19 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Service",
+  "name": "Kroger Vaccine Appointment Availability Publisher",
+  "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
+  "category": "production",
+  "url": "https://api.kroger.com/v1/health-wellness/schedules/vaccines/$bulk-publish",
+  "provider": {
+    "@type": "Organization",
+    "name": "The Kroger Co. (https://developer.kroger.com/ for access)",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "name": "API Support",
+        "email": "apisupport@kroger.com"
+      }
+    ]
+  }
+}
