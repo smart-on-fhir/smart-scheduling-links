@@ -3,7 +3,7 @@
   "@type": "Service",
   "name": "Rite Aid Slot Publisher",
   "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
-  "category": "testing",
+  "category": "production",
   "url": "https://api.riteaid.com/digital/vaccine-provider/$bulk-publish/",
   "provider": {
     "@type": "Organization",
@@ -16,4 +16,4 @@
       }
     ]
   }
-  }
+}
