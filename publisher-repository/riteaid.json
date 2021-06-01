@@ -4,7 +4,7 @@
   "name": "Rite Aid Slot Publisher",
   "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
   "category": "production",
-  "url": "https://api.riteaid.com/digital/vaccine-provider/$bulk-publish/",
+  "url": "https://api.riteaid.com/digital/vaccine-provider/$bulk-publish",
   "provider": {
     "@type": "Organization",
     "name": "Rite Aid",
