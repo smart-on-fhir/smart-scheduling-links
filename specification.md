@@ -46,6 +46,11 @@ A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. T
   * Public health goals require flexibility in access to non-confidential information.
   * With the `$bulk-publish` pattern, _Slot Publishers_ host static files, which scale well to open publication
 
+### API Testing
+
+You can test your implementation with https://infernotest.healthit.gov/community.
+
+
 ## Manifest File
 
 The manifest file is the entry point for a client to retrieve scheduling data. The manifest JSON file includes:
