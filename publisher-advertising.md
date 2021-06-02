@@ -1,5 +1,7 @@
 # Publisher Advertising
 
+** Prior to advertising support for SMART Scheduling Links, please ensure that you have tested with https://infernotest.healthit.gov/community and are passing all tests.**
+
 This document provides simple guidance as to how _slot publishers_ can advertise their endpoints in order to facilitate discovery by clients.
 In brief, we recommend publisher make use of two specific approaches:
 1. Adding an additional `json` description of their endpoint to this repository.
@@ -51,6 +53,7 @@ Each PR will be reviewed by project administrators to ensure upstream data is co
 
 Users may submit a PR by the following process:
 
+1. Ensure that you have tested your implementation with https://infernotest.healthit.gov/community and are passing all tests.
 1. Create a [Fork](https://github.com/smart-on-fhir/smart-scheduling-links/fork) of the repository in order to make changes.
 1. Create a new `.json` file in the [publisher-repository](/publisher-repository) directory.
    
