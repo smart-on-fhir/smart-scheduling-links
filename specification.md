@@ -31,6 +31,19 @@ Concretely, a _Slot Publisher_ hosts four kinds of files:
 
 A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. The client iterates through the links in the manifest file to retrieve any Location, Schedule, or Slot files it is interested in. (Clients SHOULD ignore any output items with types other than Location, Schedule, or Slot.)
 
+### `Accept` Headers
+For Bulk Publication Manifest requests, servers SHALL support at least the following `Accept` headers from a client, returning the same FHIR JSON payload in all cases:
+
+1. No `Accept` header present
+1. `Accept: application/json`
+1. `Accept: application/fhir+json`
+
+
+For Bulk Output File requests, servers SHALL support at least the following `Accept` headers from a client, returning the same FHIR NDJSON payload in all cases:
+
+1. No `Accept` header present
+1. `Accept: application/fhir+ndjson`
+
 ### Performance Considerations
 
 * _Slot Publishers_ SHOULD annotate each output with a list of states or jurisdictions as a hint to clients, allowing clients to focus on fetching data for the specific states or geographical regions where they operate; this is helpful for clients with limited regions of interest.
