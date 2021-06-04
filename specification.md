@@ -36,8 +36,6 @@ For Bulk Publication Manifest requests, servers SHALL support at least the follo
 
 1. No `Accept` header present
 1. `Accept: application/json`
-1. `Accept: application/fhir+json`
-
 
 For Bulk Output File requests, servers SHALL support at least the following `Accept` headers from a client, returning the same FHIR NDJSON payload in all cases:
 
