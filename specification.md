@@ -123,7 +123,7 @@ Each Location includes at least:
 | field name | type | required | description |
 | --- | --- | :---: | --- |
 | `resourceType` | string | Y | fixed value of `"Location"` |
-| `id` | string | Y | unique identifier for this location (up to 64 alphanumeric characters and may include `_` and `.`) |
+| `id` | string | Y | unique identifier for this location (up to 64 alphanumeric characters and may include `-` and `.`) |
 | `name` | string | Y | the human-readable name of the location. Name SHOULD include consumer-relevant branding (e.g., the brand name of a pharmacy chain that a consumer would be familiar with)|
 | `telecom` | array of JSON objects | Y | each object conveys a contact point for this location. The array should include a phone number and a URL. (*Note: this field conveys "general information" contact points such as a front desk for the location, not necessarily for booking appointments; see Slot details for booking URLs and booking phone numbers*)|
 | &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | `"phone"` or `"url"`|
@@ -193,7 +193,7 @@ Each Schedule includes at least:
 <table>
 	<tr><th>field name</th><th>type</th><th>description</th></tr>
 	<tr><td><code>resourceType</code></td><td>string</td><td>fixed value of <code>"Schedule"</code></td></tr>
-	<tr><td><code>id</code></td><td>string</td><td>a unique identifier for this schedule (up to 64 alphanumeric characters and may include <code>_</code> and <code>.</code>)</td></tr>
+	<tr><td><code>id</code></td><td>string</td><td>a unique identifier for this schedule (up to 64 alphanumeric characters and may include <code>-</code> and <code>.</code>)</td></tr>
 	<tr><td><code>actor</code></td><td>array with one JSON object</td><td></td></tr>
 	<tr><td>&nbsp;&nbsp;&rarr;&nbsp;<code>reference</code></td><td>string</td><td>the location where appointments are available formed as <code>Location</code> + <code>/</code> + the <code>id</code> value of an entry in a Location File (e.g., <code>"Location/123"</code>) </td></tr>
 	<tr><td><code>serviceType</code></td><td>array of JSON objects</td><td>Each object is a standardized concept indicating what services are offered. For COVID-19 immunization Schedules, two standardized codings must be included:
@@ -278,7 +278,7 @@ Each `Slot` has:
 | field name | type | required | description |
 |---|---|:---:|---|
 | `resourceType` | string | Y | fixed value of `"Slot"` |
-| `id` | string | Y | a unique identifier for this slot (up to 64 alphanumeric characters and may include `_` and `.`) |
+| `id` | string | Y | a unique identifier for this slot (up to 64 alphanumeric characters and may include `-` and `.`) |
 | `schedule` | JSON object | Y | has a single field indicating the Schedule this slot belongs to |
 | &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | Y | the schedule for this slot formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `"Schedule/123"`). |
 | `status` | string | Y | either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity |
