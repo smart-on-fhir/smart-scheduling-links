@@ -125,7 +125,7 @@ Each Location includes at least:
 | `resourceType` | string | Y | fixed value of `"Location"` |
 | `id` | string | Y | unique identifier for this location (up to 64 alphanumeric characters and may include `-` and `.`) |
 | `name` | string | Y | the human-readable name of the location. Name SHOULD include consumer-relevant branding (e.g., the brand name of a pharmacy chain that a consumer would be familiar with)|
-| `telecom` | array of JSON objects | Y | each object conveys a contact point for this location. The array should include a phone number and a URL. (*Note: this field conveys "general information" contact points such as a front desk for the location, not necessarily for booking appointments; see Slot details for booking URLs and booking phone numbers*)|
+| `telecom` | array of JSON objects | Y | each object conveys a contact point for this location. The array SHALL include at least one contact point, and SHOULD include both a phone number and a URL. (*Note: this field conveys "general information" contact points such as a front desk for the location, not necessarily for booking appointments; see Slot details for booking URLs and booking phone numbers*)|
 | &nbsp;&nbsp;&rarr;&nbsp;`system` | string | Y | `"phone"` or `"url"`|
 | &nbsp;&nbsp;&rarr;&nbsp;`value` | string | Y | phone number or URL for this location|
 | `address` | JSON object | Y | each object conveys a USPS [complete address](https://pe.usps.com/text/pub28/28c2_001.htm) |
