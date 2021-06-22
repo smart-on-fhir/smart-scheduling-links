@@ -31,6 +31,10 @@ Concretely, a _Slot Publisher_ hosts four kinds of files:
 
 A client queries the manifest on a regular basis, e.g. once every 1-5 minutes. The client iterates through the links in the manifest file to retrieve any Location, Schedule, or Slot files it is interested in. (Clients SHOULD ignore any output items with types other than Location, Schedule, or Slot.)
 
+### Timestamps
+
+Wherever “timestamps” are used in this specification, they SHALL be in the format `YYYY-MM-DDThh:mm:ss.sss+zz:zz` (e.g. `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`). The time SHALL specified at least to the second and SHALL include a time zone offset (for UTC, the offset MAY be `Z`). These timestamp’s match [FHIR’s “instant” format][fhir-instant], and are also valid ISO 8601 timestamps.
+
 ### `Accept` Headers
 For Bulk Publication Manifest requests, servers SHALL support at least the following `Accept` headers from a client, returning the same FHIR JSON payload in all cases:
 
@@ -48,7 +52,7 @@ For Bulk Output File requests, servers SHALL support at least the following `Acc
 * _Slot Publishers_ SHOULD include a [`Cache-Control: max-age=<seconds>` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) as a hint to clients about how long (in seconds) to wait before polling next. For example, `Cache-Control: max-age=300` indicates a preferred polling interval of five minutes.
 * Clients SHOULD NOT request a manifest or any individual data file more than once per minute
 * Clients MAY include standard HTTP headers such as `If-None-Match` or `If-Modified-Since` with each query to prevent retrieving data when nothing has changed since the last query.
-* Clients MAY include a `?_since={}` query parameter with an ISO8601 timestamp when retrieving a manifest file to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
+* Clients MAY include a `?_since={}` query parameter with a [timestamp](#timestamps) when retrieving a manifest file to request only changes since a particular point in time. Servers are free to ignore this parameter, meaning that clients should be prepared to retrieve a full data set.
 
 ### Access Control Considerations
 
@@ -68,7 +72,7 @@ The manifest file is the entry point for a client to retrieve scheduling data. T
 
 | field name | type | description |
 |---|---|---|
-| `transactionTime`  | ISO8601 timestamp as string| the time when this data set was published |
+| `transactionTime`  | [timestamp](#timestamps) as string | the time when this data set was published. See [“timestamps”](#timestamps) for correct formatting. |
 | `request` | url as string |  the full URL of the manifest |
 | `output` | array of JSON objects | each object contains a `type`, `url`, and `extension` field |
 | &nbsp;&nbsp;&rarr;&nbsp;`type` | string | whether this output item represents a `"Location"`, `"Schedule"`, or `"Slot"` file |
@@ -282,8 +286,8 @@ Each `Slot` has:
 | `schedule` | JSON object | Y | has a single field indicating the Schedule this slot belongs to |
 | &nbsp;&nbsp;&rarr;&nbsp;`reference` | string | Y | the schedule for this slot formed as `Schedule` + `/` + the `id` value of an entry in a Schedule File (e.g., `"Schedule/123"`). |
 | `status` | string | Y | either `"free"` or `"busy"`. Publishers SHOULD include busy slots in addition to free slots to help clients monitor total capacity |
-| `start` | ISO8601 timestamp as string | Y | the start time of this slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling. Timestamp SHALL be expressed with an accurate offset suffix, which SHOULD reflect the local timezone offset of the Location this slot belongs to (e.g., `-05:00` suffix for UTC-5) or use UTC (i.e., `Z` suffix). For example, to represent a start time of 10:45AM in America/New_York on 2021-04-21, this could be returned as either `2021-04-21T10:45:00.000-04:00` or `2021-04-21T14:45:00.000Z`.|
-| `end` | ISO8601 timestamp as string | Y | the end time of this slot. See notes about offset suffix for `start`.|
+| `start` | [timestamp](#timestamps) as string | Y | the start time of this slot. Together `start` and `end` SHOULD identify a narrow window of time for the appointment, but MAY be as broad as the clinic's operating hours for the day, if the publisher does not support fine-grained scheduling. Timestamp SHALL be expressed with an accurate offset suffix, which SHOULD reflect the local timezone offset of the Location this slot belongs to (e.g., `-05:00` suffix for UTC-5) or use UTC (i.e., `Z` suffix). For example, to represent a start time of 10:45AM in America/New_York on 2021-04-21, this could be returned as either `2021-04-21T10:45:00.000-04:00` or `2021-04-21T14:45:00.000Z`.|
+| `end` | [timestamp](#timestamps) as string | Y | the end time of this slot. See notes about offset suffix for `start`.|
 | `extension` | array of JSON objects | N | see details below |
 
 Each Slot object may optionally include one or both of the following extension JSON objects in the Slot's `extension` array.
@@ -504,3 +508,4 @@ Example usage on a Schedule:
 
 [resource_meta]: http://hl7.org/fhir/resource.html#Meta
 [FHIR-31567]: https://jira.hl7.org/browse/FHIR-31567
+[fhir-instant]: http://hl7.org/fhir/datatypes.html#instant
