@@ -7,7 +7,7 @@
   "url": "https://api.kroger.com/v1/health-wellness/schedules/vaccines/$bulk-publish",
   "provider": {
     "@type": "Organization",
-    "name": "The Kroger Co. (https://developer.kroger.com/ for access)",
+    "name": "The Kroger Co.",
     "contactPoint": [
       {
         "@type": "ContactPoint",
