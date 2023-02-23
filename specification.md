@@ -63,7 +63,7 @@ For Bulk Output File requests, servers SHALL support at least the following `Acc
 
 ### API Testing
 
-You can test your implementation with https://infernotest.healthit.gov/community.
+You can test your implementation with https://inferno.healthit.gov/suites/smart_scheduling_links
 
 
 ## Manifest File
