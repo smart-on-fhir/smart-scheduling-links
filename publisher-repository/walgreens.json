@@ -4,7 +4,7 @@
   "name": "Walgreens",
   "serviceType": "https://github.com/smart-on-fhir/smart-scheduling-links",
   "category": "production",
-  "url": "https://wbaschedulinglinks.blob.core.windows.net/fhir/$bulk-publish",
+  "url": "https://wbaschedulinglinks.blob.core.windows.net/fhir/$bulk-publish?sv=2022-11-02&ss=b&srt=co&sp=rlf&se=2027-01-01T05:02:56Z&st=2023-06-05T20:02:56Z&spr=https&sig=Yd%2Bguve3J7ZlkNPoT88RqJ%2FhEgbaRiltcpzMSc2OlCk%3D",
   "provider": {
     "@type": "Organization",
     "name": "Walgreens",
